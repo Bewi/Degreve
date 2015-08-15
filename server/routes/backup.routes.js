@@ -4,27 +4,6 @@ var express = require('express'),
   hero = require('../models/hero.js'),
   basePath = process.resourcesPath + '\\app\\server\\datastores\\';
 
-router.post('/', function(req, res, next) {
-  var files = fs.readdirSync(basePath);
-
-  for (var i = 0; i < files.length; i ++) {
-      readFile(files[i]);
-  }
-
-  res.send("Backup completed");
-
-  function readFile(fileName) {
-    fs.readFile(basePath + fileName, 'utf8', function (err, data) {
-      if (err) {
-        console.error(err);
-      }
-      else {
-        hero.save(fileName, data);
-      }
-    });
-  }
-});
-
 router.post('/restore', function(req, res, next) {
   var files = fs.readdirSync(basePath);
   var countSucceeded = 0;

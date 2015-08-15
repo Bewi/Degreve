@@ -3,7 +3,8 @@ var application_root = __dirname,
   path = require('path'),
   bodyParser = require('body-parser'),
   products = require('./routes/products.routes.js'),
-  backup = require('./routes/backup.routes.js');
+  backup = require('./routes/backup.routes.js'),
+  backupSocket = require('./routes/backup.socket.js');
 
 var app = express();
 
@@ -52,6 +53,8 @@ function start() {
 
     started = true;
   });
+
+  backupSocket.start();
 }
 
 function stop(){
