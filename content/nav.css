@@ -3,6 +3,10 @@ header.navbar {
   border-bottom: 0px;
 }
 
+header.navbar ul.navbar-nav.navbar-right {
+  margin-right: 0px;
+}
+
 header.navbar ul.navbar-nav li a {
   color: #fff;
 }
@@ -11,6 +15,12 @@ header.navbar ul.navbar-nav li a:hover,
 header.navbar ul.navbar-nav li a:focus {
   color: #7992BF;
   background-color: #cccdcd;
+}
+
+header.navbar ul.navbar-nav.navbar-right li a:hover,
+header.navbar ul.navbar-nav.navbar-right li a:focus {
+  color: #fff;
+  background-color: #bf7979;
 }
 
 header.navbar ul.navbar-nav li.active a {
