@@ -16,6 +16,7 @@
             <a ui-sref="deliveryNotes"><span class="hidden-xs">Note d'envoi</span>&nbsp;<i class="fa fa-send pull-right"></i></a>
         </li>
     </ul>
-    <button class="btn btn-danger pull-right" ng-click="nav.backup()">Backup</button>
-    <button class="btn btn-danger pull-right" ng-click="nav.restore()">Restore</button>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#"><i class="fa fa-cloud-upload" title="Synchroniser" ng-click="nav.backup()"></i></a></li>
+    </ul>
 </div>
