@@ -1,0 +1,26 @@
+{
+  "name": "DW",
+  "version": "1.0.0",
+  "authors": [
+    "Bewi"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "./libs",
+    "test",
+    "tests",
+    ".bower.json"
+  ],
+  "dependencies": {
+    "angular-ui-notification": "~0.0.11",
+    "angular": "~1.4.0",
+    "angular-ui-router": "~0.2.15",
+    "angular-resource": "~1.4.0",
+    "angular-block-ui": "~0.2.0",
+    "jquery": "~2.1.4",
+    "underscore": "~1.8.3"
+  }
+}

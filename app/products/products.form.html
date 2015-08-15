@@ -1,0 +1,45 @@
+<section>
+  <form name="vm.productForm" class="form-horizontal" novalidate ng-submit="vm.valider()">
+    <fieldset>
+        <legend>Ajout d'un produit</legend>
+        <div class="form-group">
+          <label for="productLabel" class="col-lg-2 control-label">Libellé</label>
+          <div class="col-lg-10">
+            <input type="text" class="form-control" id="productLabel" ng-model="vm.product.label" autofocus required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="productStock" class="col-lg-2 control-label">Stock</label>
+          <div class="col-lg-10">
+            <input type="text" class="form-control" id="productStock" ng-model="vm.product.stock" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="productPriceBuy" class="col-lg-2 control-label">Prix d'achat</label>
+          <div class="col-lg-10">
+            <input type="text" class="form-control" id="productPriceBuy" ng-model="vm.product.priceBuy" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="productPriceSell" class="col-lg-2 control-label">Prix de vente</label>
+          <div class="col-lg-10">
+            <input type="text" class="form-control" id="productPriceSell" ng-model="vm.product.priceSell" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="productVAT" class="col-lg-2 control-label">TVA</label>
+          <div class="col-lg-10">
+            <input type="text" class="form-control" id="productVAT" ng-model="vm.product.vat" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-lg-10 col-lg-offset-2">
+            <div class="pull-right">
+              <button type="submit" class="btn btn-primary">Valider</button>
+              <a type="reset" class="btn btn-default" ui-sref="products">Annuler</a>
+            </div>
+          </div>
+        </div>
+    </fieldset>
+  </form>
+</section>

@@ -1,0 +1,16 @@
+{
+  "name": "DegreveServer",
+  "version": "1.0.0",
+  "description": "Node js local server",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.13.0",
+    "express": "^4.12.4",
+    "nedb": "^1.1.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Me",
+  "license": "ISC"
+}

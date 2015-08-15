@@ -1,0 +1,18 @@
+header.navbar {
+  background-color: #7992BF;
+  border-bottom: 0px;
+}
+
+header.navbar ul.navbar-nav li a {
+  color: #fff;
+}
+
+header.navbar ul.navbar-nav li a:hover,
+header.navbar ul.navbar-nav li a:focus {
+  color: #7992BF;
+  background-color: #cccdcd;
+}
+
+header.navbar ul.navbar-nav li.active a {
+  background-color: #edecec;
+}

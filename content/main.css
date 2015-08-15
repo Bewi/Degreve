@@ -1,0 +1,50 @@
+body {
+    overflow-x: hidden;
+    background-color: #edecec;
+}
+
+[ng-click], [ui-sref] {
+    cursor: pointer;
+}
+
+section {
+  background-color: white;
+  margin-top: 20px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+div.action-bar {
+  padding: 10px;
+}
+
+.search {
+  width: 300px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+section form {
+  padding: 20px 50px;
+}
+
+form.ng-submitted div.ng-invalid > input,
+form.ng-submitted input.ng-invalid,
+input.ng-invalid.ng-dirty, textarea.ng-invalid.ng-dirty {
+    border-color: red;
+}
+
+form.ng-submitted div.ng-invalid > input:focus,
+form.ng-submitted input.ng-invalid:focus,
+input.ng-invalid.ng-dirty:focus, textarea.ng-invalid.ng-dirty:focus {
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(255,0,0,.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(255,0,0,.6);
+}
+
+.ui-notification {
+  z-index: 999;
+}
+
+.print-box {
+  display: none;
+  visibility: hidden;
+}

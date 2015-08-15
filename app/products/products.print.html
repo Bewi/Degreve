@@ -1,0 +1,41 @@
+<div ng-controller="ProductsPrintController as pm">
+  <div class="print-head row">
+    <div class="col-xs-6">
+        <img src="content/logo.png">
+    </div>
+    <div class="col-xs-6">
+        <h2>Inventaire produits</h2>
+        <h1>{{ pm.today | date:'dd-MM-yyyy' }}</h1>
+    </div>
+  </div>
+  <div class="table-container">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th class="small-number text-center">#</th>
+            <th class="text-center">Designation</th>
+            <th class="small-number text-center">Stock</th>
+            <th class="mid-number text-center">Prix d'achat</th>
+            <th class="small-number text-center">TVA</th>
+            <th class="mid-number text-center">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="product in pm.products | orderBy:orderedBy:orderByDesc" ng-if="product.stock > 0">
+           <td class="small-number text-right">{{product._id}}</td>
+           <td>{{product.label}}</td>
+           <td class="small-number text-right">{{product.stock}}</td>
+           <td class="mid-number text-right">{{product.priceBuy | currency: '' }}€</td>
+           <td class="small-number text-right">{{product.vat }}%</td>
+           <td class="mid-number text-right">{{(product.stock * product.priceBuy) | currency: '' }}€</td>
+          </tr>
+          <tr>
+              <td colspan="2"></td>
+              <td class="text-right">{{ pm.totalStock }}</td>
+              <td colspan="2"></td>
+              <td class="text-right">{{ pm.totalPrice | currency: ""}}€</td>
+          </tr>
+        </tbody>
+    </table>
+  </div>
+</div>

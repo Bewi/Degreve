@@ -1,0 +1,9 @@
+@import "bootstrap/bootstrap.css";
+@import "font-awesome/font-awesome.min.css";
+@import "../libs/angular-ui-notification/dist/angular-ui-notification.min.css";
+@import "../libs/angular-block-ui/dist/angular-block-ui.min.css";
+
+@import "loader.css";
+@import "nav.css";
+@import "table.css";
+@import "main.css";
