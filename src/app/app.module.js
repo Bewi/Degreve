@@ -7,6 +7,7 @@
         'ui-notification',
         'ngResource',
         'blockUI',
+        'cfp.hotkeys',
 
         /* Core */
         'app.core',

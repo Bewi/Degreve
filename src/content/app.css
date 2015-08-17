@@ -2,6 +2,7 @@
 @import "font-awesome/font-awesome.min.css";
 @import "../libs/angular-ui-notification/dist/angular-ui-notification.min.css";
 @import "../libs/angular-block-ui/dist/angular-block-ui.min.css";
+@import "../libs/angular-hotkeys/build/hotkeys.min.css";
 
 @import "loader.css";
 @import "nav.css";

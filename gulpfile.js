@@ -75,7 +75,8 @@ gulp.task('bundle-libs-js', function () {
 	libSrc + '/angular-resource/angular-resource.min.js',
 	libSrc + '/angular-ui-router/release/angular-ui-router.min.js',
 	libSrc + '/angular-ui-notification/dist/angular-ui-notification.min.js',
-	libSrc + '/angular-block-ui/dist/angular-block-ui.min.js'
+	libSrc + '/angular-block-ui/dist/angular-block-ui.min.js',
+	libSrc + '/angular-hotkeys/build/hotkeys.min.js'
   ];
 	
   return gulp.src(libs)

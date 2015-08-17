@@ -1,13 +1,13 @@
 <div class="action-bar col-xs-12">
-    <form role="search" class="search">
+    <form role="search" class="search" ng-submit="dm.search({query: dm.query})">
       <div class="input-group">
           <input type="text" ng-model="dm.query.search" placeholder="Rechercher" class="form-control" />
           <span class="input-group-btn">
-             <button ng-click="dm.search({query: dm.query})" class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+             <button type="submit" class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
           </span>
       </div>
     </form>
 
     <a class="btn btn-default" ui-sref="{{dm.addAction}}"><i class="fa fa-plus"></i></a>
-    <a class="btn btn-default" ng-click="dm.print()" ng-if="dm.printTemplateUrl"><i class="fa fa-print"></i></a>
+    <a class="btn btn-default" ng-click="dm.print()" ng-if="dm.printTemplateUrl" hotkey="{'ctrl+p': dm.print}"><i class="fa fa-print"></i></a>
 </div>

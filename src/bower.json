@@ -21,6 +21,7 @@
     "angular-resource": "~1.4.0",
     "angular-block-ui": "~0.2.0",
     "jquery": "~2.1.4",
-    "underscore": "~1.8.3"
+    "underscore": "~1.8.3",
+    "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.5.0"
   }
 }
