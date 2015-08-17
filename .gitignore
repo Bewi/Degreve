@@ -45,3 +45,5 @@ Temporary Items
 # Libs
 libs/
 node_modules/
+dist/
+shell.zip
