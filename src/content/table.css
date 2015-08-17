@@ -31,7 +31,7 @@ td.date, th.date {
     width: 150px;
 }
 
-td:last-child, th:last-child {
+.table td:last-child, .table th:last-child {
     width: 110px;
 }
 
