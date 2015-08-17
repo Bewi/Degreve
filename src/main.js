@@ -2,8 +2,6 @@ var app = require('app');
 var server = require('./server/app.js');
 var BrowserWindow = require('browser-window');
 
-require('crash-reporter').start();
-
 var mainWindow = null;
 
 app.on('window-all-closed', function() {
