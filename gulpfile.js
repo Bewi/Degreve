@@ -79,9 +79,11 @@ gulp.task('bundle-libs-js', function () {
 	libSrc + '/angular-hotkeys/build/hotkeys.min.js'
   ];
 	
-  return gulp.src(libs)
+  gulp.src(libs)
     .pipe(concat('libs.min.js'))
     .pipe(gulp.dest(libsDest))
+	
+  gulp.src(libSrc + '/jquery/dist/jquery.min.js').pipe(gulp.dest(libsDest + '/jquery/dist/'));		
 });
 
 gulp.task('bundle-css', function () {
