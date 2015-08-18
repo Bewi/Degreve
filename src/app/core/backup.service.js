@@ -29,8 +29,6 @@
 
           function onMessage(msg) {
             var status = JSON.parse(msg.data);
-
-            console.log(status.processed / status.total);
             electronWindow.setProgressBar(status.processed / status.total);
           }
 

@@ -1,7 +1,7 @@
 {
-  "name": "DW",
+  "name": "Degreve",
   "version": "0.2.0",
   "main": "main.js",
-  "dependencies": {
-  }
+  "dependencies": {},
+  "devDependencies": {}
 }

@@ -33,7 +33,6 @@
     if ($stateParams.productId)
       return ProductsResource.get({ id: $stateParams.productId });
 
-    console.log(new ProductsResource());
     return new ProductsResource({});
   }
 

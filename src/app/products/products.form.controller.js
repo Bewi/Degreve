@@ -16,8 +16,6 @@
           if (vm.productForm.$invalid)
             return;
 
-          console.log(vm.product);
-
           var editMode = product._id ? true : false;
           if (editMode)
             vm.product.$update(successCallback, errorCallback);
