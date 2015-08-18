@@ -4,7 +4,8 @@ var application_root = __dirname,
   bodyParser = require('body-parser'),
   products = require('./routes/products.routes.js'),
   backup = require('./routes/backup.routes.js'),
-  backupSocket = require('./routes/backup.socket.js');
+  backupSocket = require('./routes/backup.socket.js'),
+  logger = require('./models/logger.js');
 
 var app = express();
 
@@ -31,6 +32,7 @@ var started = false;
 module.exports = { start: start, stop: stop };
 
 function errorHandler(err, req, res, next) {
+  logger.error(err);
   res.status(500);
   res.send({ error: err });
 }

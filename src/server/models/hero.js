@@ -1,4 +1,5 @@
 var https = require('https');
+var logger = require('./logger.js');
 
 var host = 'api-content.dropbox.com';
 var port = 443;
@@ -29,6 +30,10 @@ function save(fileName, data, callback) {
     });
   });
 
+  req.on('error', function(err) {
+    logger.error(err.message);
+  });
+
   req.write(data);
   req.end();
 }
@@ -53,6 +58,10 @@ function release(fileName, callback) {
         if (callback)
          callback(result);
     });
+  });
+
+  req.on('error', function(err) {
+    logger.error(err.message);
   });
 
   req.end();
