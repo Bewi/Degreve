@@ -5,7 +5,7 @@ var application_root = __dirname,
   products = require('./routes/products.routes.js'),
   backup = require('./routes/backup.routes.js'),
   backupSocket = require('./routes/backup.socket.js'),
-  logger = require('./models/logger.js');
+  logger = require('./handlers/logger.handler.js');
 
 var app = express();
 

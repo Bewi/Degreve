@@ -9,7 +9,7 @@
     "nedb": "^1.1.2"
   },
   "scripts": {
-    "test": "jasmine-node --color --verbose --autotest ./spec"
+    "test": "jasmine-node --color --verbose --autotest ./"
   },
   "author": "Me",
   "license": "ISC",
