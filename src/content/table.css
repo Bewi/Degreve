@@ -45,6 +45,7 @@ td.date, th.date {
 
 .pagination {
   display: inline-block;
+  -webkit-user-select: none;
 }
 
 .pagination li {
