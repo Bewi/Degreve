@@ -18,7 +18,6 @@ function query(searchQuery) {
   }
 
   product.count(nedbQuery, function(err, count){
-    console.log(err);
     if (err)
       return deferred.reject(err);
 
@@ -55,7 +54,6 @@ function get(id) {
 
 
 function post(p) {
-  console.log(p);
   var deferred = Q.defer();
   product.insert(p, function(err, newDoc){
     if (err)
