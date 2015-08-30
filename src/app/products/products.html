@@ -1,9 +1,9 @@
 <section>
   <dw-action-bar query="vm.query" add-action="products-add" print-template-url="app/products/products.print.html" search="vm.search(query, true)"></dw-action-bar>
-  <table class="table table-striped table-bordered" table-no-content="products" tnc-message="Aucun produit trouvé.">
+  <table class="table table-striped table-bordered">
       <thead>
       <tr>
-          <th ng-click="vm.orderBy('_id')"># <dw-order-direction order-by="_id" order-direction-query="vm.query" /></th>
+          <th class="text-center small-number" ng-click="vm.orderBy('_id')"># <dw-order-direction order-by="_id" order-direction-query="vm.query" /></th>
           <th ng-click="vm.orderBy('label')">Libellé <dw-order-direction order-by="label" order-direction-query="vm.query" /></th>
           <th class="text-right small-number">Stock</th>
           <th class="text-right mid-number">Prix d'achat</th>
@@ -13,22 +13,23 @@
       </tr>
       </thead>
       <tbody>
-      <tr ng-repeat="product in vm.products">
-          <td>{{product._id}}</td>
-          <td>{{product.label}}</td>
-          <td class="text-right">{{product.stock}}</td>
-          <td class="text-right">{{product.priceBuy | currency:"" }}€</td>
-          <td class="text-right">{{product.priceSell | currency:"" }}€</td>
-          <td class="text-right">{{product.vat }}%</td>
-          <td class="text-center">
-              <div class="actions">
-                  <a ui-sref="products-add({ productId: product._id })"><i class="fa fa-pencil"></i></a>
-                  <a href="" dw-really="Êtes-vous sûr de vouloir supprimer ce produit ?" dw-really-click="vm.remove(product._id)"><i class="fa fa-trash-o"></i></a>
-              </div>
-          </td>
-      </tr>
+        <tr ng-repeat="product in vm.products">
+            <td>{{product._id}}</td>
+            <td>{{product.label}}</td>
+            <td class="text-right">{{product.stock}}</td>
+            <td class="text-right">{{product.priceBuy | currency:"" }}€</td>
+            <td class="text-right">{{product.priceSell | currency:"" }}€</td>
+            <td class="text-right">{{product.vat }}%</td>
+            <td class="text-center">
+                <div class="actions">
+                    <a ui-sref="products-add({ productId: product._id })"><i class="fa fa-pencil"></i></a>
+                    <a href="" dw-really="Êtes-vous sûr de vouloir supprimer ce produit ?" dw-really-click="vm.remove(product._id)"><i class="fa fa-trash-o"></i></a>
+                </div>
+            </td>
+        </tr>
       </tbody>
   </table>
+  <div class='alert alert-info' ng-if='vm.products.length <= 0'>Aucun produit trouvé.</div>
   <div class="data-table-footer container-fluid">
     <div class="row">
       <div class="col-md-6">
