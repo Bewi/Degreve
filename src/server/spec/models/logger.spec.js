@@ -46,7 +46,7 @@ describe("logger handler",function () {
       loggerHandler.error(errorMessage, _callback);
     });
 
-    itShouldLog("error", "error message");    
+    itShouldLog("error", "error message");
   });
 
   it("should be able to log an warning", function () {
@@ -66,7 +66,7 @@ describe("logger handler",function () {
     expect(loggerHandler.notify).toBeDefined();
   });
 
-  ddescribe("notify", function () {
+  describe("notify", function () {
     var infoMessage = "info message";
 
     beforeEach(function () {

@@ -52,7 +52,6 @@ function get(id) {
   return deferred.promise;
 }
 
-
 function post(p) {
   var deferred = Q.defer();
   product.insert(p, function(err, newDoc){

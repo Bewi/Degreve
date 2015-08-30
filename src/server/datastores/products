@@ -1,3 +1,4 @@
+{"_id":1,"label":"bla"}
 {"priceBuy":9.5,"priceSell":16.82,"vat":21,"stock":0,"label":"Carignan St Martin 2011","_id":"100005","lastModification":"2015-07-04T11:21:25.940Z"}
 {"priceBuy":5.17,"priceSell":9.88,"vat":21,"stock":94,"label":"Voyou Klur 2014","_id":"100006","lastModification":"2015-06-30T13:29:21.713Z"}
 {"priceBuy":14.2,"priceSell":25.95,"vat":21,"stock":10,"label":"Impatience magnum 2010","_id":"100029","lastModification":"2015-06-14T15:43:26.292Z"}
@@ -162,3 +163,7 @@
 {"priceBuy":13,"priceSell":24,"vat":21,"stock":0,"label":"Mine de Rien magnum 2014","_id":"100421","lastModification":"2015-07-03T11:21:05.430Z"}
 {"priceBuy":0,"priceSell":0,"vat":0,"stock":0,"label":"COLIS CADEAUX","isExtra":true,"_id":"10179E","amount":1,"lastModification":"2015-01-08T15:06:31.951Z"}
 {"priceSell":14.83,"vat":21,"stock":null,"label":"FAUG TRAD","isExtra":true,"_id":"10917E","amount":66,"lastModification":"2014-11-21T13:55:25.002Z","dateDeleted":"2014-11-21T13:58:06.498Z"}
+{"label":"bla","_id":"rqdmedH3ntkEv0g3"}
+{"_id":1,"label":"bla"}
+{"_id":1,"label":"bla"}
+{"_id":1,"label":"bla"}
