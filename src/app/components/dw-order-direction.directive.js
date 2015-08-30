@@ -3,9 +3,9 @@
 
     angular
         .module('app')
-        .directive('orderDirection', orderDirection);
+        .directive('dwOrderDirection', dwOrderDirection);
 
-    function orderDirection() {
+    function dwOrderDirection() {
         var directive = {
             restrict: 'EA',
             template: '<i class="fa fa-chevron-up pull-right" ng-class="{true: \'fa-chevron-up\', false: \'fa-chevron-down\' }[dm.query.orderByDirection == 1]" ng-if="dm.query.orderBy == dm.orderBy"></i>',

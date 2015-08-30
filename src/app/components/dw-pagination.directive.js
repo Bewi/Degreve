@@ -3,12 +3,12 @@
 
     angular
         .module('app')
-        .directive('pagination', pagination);
+        .directive('dwPagination', dwPagination);
 
-    function pagination() {
+    function dwPagination() {
         var directive = {
             restrict: 'E',
-            templateUrl: 'app/components/pagination.html',
+            templateUrl: 'app/components/dw-pagination.html',
             scope: {
               total: "=",
               pageSize: "=",

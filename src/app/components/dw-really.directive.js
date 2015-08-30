@@ -3,9 +3,9 @@
 
     angular
         .module('app')
-        .directive('ngReally', ngReally);
+        .directive('dwReally', dwReally);
 
-    function ngReally() {
+    function dwReally() {
         var directive = {
             restrict: 'A',
             link: linkFunc
@@ -15,9 +15,9 @@
 
         function linkFunc(scope, element, attr, ctrl) {
           element.bind("click", function() {
-              var message = attr.ngReally;
-              if (message && attr.ngReallyClick && confirm(message)) {
-                scope.$apply(attr.ngReallyClick);
+              var message = attr.dwReally;
+              if (message && attr.dwReallyClick && confirm(message)) {
+                scope.$apply(attr.dwReallyClick);
               }
           });
 

@@ -3,12 +3,12 @@
 
     angular
         .module('app')
-        .directive('actionBar', actionBar);
+        .directive('dwActionBar', dwActionBar);
 
-    function actionBar() {
+    function dwActionBar() {
         var directive = {
             restrict: 'E',
-            templateUrl: 'app/components/action-bar.html',
+            templateUrl: 'app/components/dw-action-bar.html',
             scope: {
               query: "=",
               addAction: "@",

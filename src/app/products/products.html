@@ -1,10 +1,10 @@
 <section>
-  <action-bar query="vm.query" add-action="products-add" print-template-url="app/products/products.print.html" search="vm.search(query, true)"></action-bar>
+  <dw-action-bar query="vm.query" add-action="products-add" print-template-url="app/products/products.print.html" search="vm.search(query, true)"></dw-action-bar>
   <table class="table table-striped table-bordered" table-no-content="products" tnc-message="Aucun produit trouvé.">
       <thead>
       <tr>
-          <th ng-click="vm.orderBy('_id')"># <order-direction order-by="_id" order-direction-query="vm.query" /></th>
-          <th ng-click="vm.orderBy('label')">Libellé <order-direction order-by="label" order-direction-query="vm.query" /></th>
+          <th ng-click="vm.orderBy('_id')"># <dw-order-direction order-by="_id" order-direction-query="vm.query" /></th>
+          <th ng-click="vm.orderBy('label')">Libellé <dw-order-direction order-by="label" order-direction-query="vm.query" /></th>
           <th class="text-right small-number">Stock</th>
           <th class="text-right mid-number">Prix d'achat</th>
           <th class="text-right mid-number">Prix de vente</th>
@@ -23,7 +23,7 @@
           <td class="text-center">
               <div class="actions">
                   <a ui-sref="products-add({ productId: product._id })"><i class="fa fa-pencil"></i></a>
-                  <a href="" ng-really="Êtes-vous sûr de vouloir supprimer ce produit ?" ng-really-click="vm.remove(product._id)"><i class="fa fa-trash-o"></i></a>
+                  <a href="" dw-really="Êtes-vous sûr de vouloir supprimer ce produit ?" dw-really-click="vm.remove(product._id)"><i class="fa fa-trash-o"></i></a>
               </div>
           </td>
       </tr>
@@ -32,7 +32,7 @@
   <div class="data-table-footer container-fluid">
     <div class="row">
       <div class="col-md-6">
-        <pagination total="vm.total" page-size="vm.query.pageSize" current-page="vm.query.page" paging-action="vm.setPage(page)"></pagination>
+        <dw-pagination total="vm.total" page-size="vm.query.pageSize" current-page="vm.query.page" paging-action="vm.setPage(page)"/>
       </div>
     </div>
   </div>
