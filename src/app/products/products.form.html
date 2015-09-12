@@ -5,35 +5,49 @@
         <div class="form-group">
           <label for="productLabel" class="col-lg-2 control-label">Libellé</label>
           <div class="col-lg-10">
-            <input type="text" class="form-control" id="productLabel" ng-model="vm.product.label" autofocus required>
+              <input type="text" class="form-control" id="productLabel" ng-model="vm.product.label" autofocus required>
           </div>
         </div>
         <div class="form-group">
           <label for="productStock" class="col-lg-2 control-label">Stock</label>
-          <div class="col-lg-10">
-            <input type="text" class="form-control" id="productStock" ng-model="vm.product.stock" required>
+          <div class="col-lg-5">
+            <div class="input-group">
+              <input type="number" class="form-control" id="productStock" ng-model="vm.product.stock" required>
+              <span class="input-group-addon"><i class="fa fa-eur"></i></span>
+            </div>
           </div>
         </div>
         <div class="form-group">
           <label for="productPriceBuy" class="col-lg-2 control-label">Prix d'achat</label>
-          <div class="col-lg-10">
-            <input type="text" class="form-control" id="productPriceBuy" ng-model="vm.product.priceBuy" required>
+          <div class="col-lg-5">
+            <div class="input-group">
+              <input type="number" class="form-control" id="productPriceBuy" ng-model="vm.product.priceBuy" required>
+              <span class="input-group-addon"><i class="fa fa-eur"></i></span>
+            </div>
           </div>
         </div>
         <div class="form-group">
-          <label for="productPriceSell" class="col-lg-2 control-label">Prix de vente</label>
-          <div class="col-lg-10">
-            <input type="text" class="form-control" id="productPriceSell" ng-model="vm.product.priceSell" required>
+          <label for="productPriceSell" class="col-lg-2 control-label">
+            Prix de vente
+          </label>
+          <div class="col-lg-5">
+            <div class="input-group">
+              <input type="number" class="form-control" id="productPriceSell" name="priceSell" ng-model="vm.product.priceSell" required>
+              <span class="input-group-addon"><i class="fa fa-eur"></i></span>
+            </div>
           </div>
         </div>
         <div class="form-group">
           <label for="productVAT" class="col-lg-2 control-label">TVA</label>
-          <div class="col-lg-10">
-            <input type="text" class="form-control" id="productVAT" ng-model="vm.product.vat" required>
+          <div class="col-lg-5">
+            <div class="input-group">
+              <input type="number" class="form-control" id="productVAT" ng-model="vm.product.vat" required>
+              <span class="input-group-addon"><b>%</b></span>
+            </div>
           </div>
         </div>
         <div class="form-group">
-          <div class="col-lg-10 col-lg-offset-2">
+          <div class="col-lg-5 col-lg-offset-2">
             <div class="pull-right">
               <button type="submit" class="btn btn-primary">Valider</button>
               <a type="reset" class="btn btn-default" ui-sref="products">Annuler</a>

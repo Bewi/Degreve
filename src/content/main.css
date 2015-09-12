@@ -36,8 +36,17 @@ input.ng-invalid.ng-dirty, textarea.ng-invalid.ng-dirty {
 form.ng-submitted div.ng-invalid > input:focus,
 form.ng-submitted input.ng-invalid:focus,
 input.ng-invalid.ng-dirty:focus, textarea.ng-invalid.ng-dirty:focus {
+    border-color: red;  
     -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(255,0,0,.6);
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(255,0,0,.6);
+}
+
+div.tooltip.error div.tooltip-inner {
+  background-color: red;
+}
+
+div.tooltip.error div.tooltip-arrow {
+  border-top-color: red;
 }
 
 .ui-notification {
