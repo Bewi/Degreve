@@ -1,7 +1,7 @@
 var ws = require('nodejs-websocket'),
   fs = require('fs'),
   hero = require('../models/hero.js'),
-  logger = require('../models/logger.js'),
+  loggerHandler = require('../handlers/logger.handler.js'),
   basePath = process.resourcesPath + '\\app\\server\\datastores\\';
 
 module.exports = { start: start };
@@ -20,7 +20,7 @@ function start() {
 		});
 
     conn.on("error", function(err) {
-      logger.error(err);
+      loggerHandler.error(err);
     });
 
 		function sync() {
@@ -36,7 +36,7 @@ function start() {
       function readFile(fileName) {
         fs.readFile(basePath + fileName, 'utf8', function (err, data) {
           if (err) {
-            logger.error(err);
+            loggerHandler.error(err);
           }
           else {
             hero.save(fileName, data, onFileSync);
@@ -55,7 +55,7 @@ function start() {
     }
   }).listen(4243)
     .on('error', function(errObj) {
-      logger.error(JSON.stringify(errObj));
+      loggerHandler.error(JSON.stringify(errObj));
     }).on('listening', function() {
       console.log("Web socket listening to ws://localhost:4243");
     });
