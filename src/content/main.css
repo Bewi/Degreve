@@ -13,6 +13,11 @@ section {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
 }
 
+.container > section {
+  min-height: 666px;
+  position: relative;
+}
+
 div.action-bar {
   padding: 10px;
 }
@@ -36,7 +41,7 @@ input.ng-invalid.ng-dirty, textarea.ng-invalid.ng-dirty {
 form.ng-submitted div.ng-invalid > input:focus,
 form.ng-submitted input.ng-invalid:focus,
 input.ng-invalid.ng-dirty:focus, textarea.ng-invalid.ng-dirty:focus {
-    border-color: red;  
+    border-color: red;
     -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(255,0,0,.6);
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(255,0,0,.6);
 }

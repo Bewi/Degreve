@@ -37,6 +37,9 @@ td.date, th.date {
 
 .data-table-footer {
   margin: 15px 0;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
 }
 
 .data-table-footer .col-md-6 {
