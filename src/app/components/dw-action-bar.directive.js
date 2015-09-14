@@ -12,8 +12,7 @@
             scope: {
               query: "=",
               addAction: "@",
-              printTemplateUrl: "@",
-              search: "&"
+              printTemplateUrl: "@"
             },
             controller: Controller,
             controllerAs: 'dm',
@@ -24,13 +23,21 @@
     }
 
     /* @ngInject */
-    function Controller(printService) {
+    function Controller($state, printService, windowService) {
         var dm = this;
 
         dm.print = print;
+        dm.search = search;
+
+        //////////////////////
 
         function print() {
           printService.print(dm.printTemplateUrl, {});
+        }
+
+        function search() {
+          dm.query.page = 0;
+          windowService.search(dm.query);
         }
     }
 })();

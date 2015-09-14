@@ -8,10 +8,16 @@
   /* @ngInject */
   function configBlock($stateProvider) {
     $stateProvider.state("products", {
-      url: '/products',
+      url: '/products?orderBy&orderByDirection&page&pageSize&search',
       templateUrl: 'app/products/products.html',
       controller: 'ProductsController',
       controllerAs: 'vm',
+      params: {
+        orderBy: 'label',
+        orderByDirection: '1',
+        page: '0',
+        pageSize: '10'
+      },
       resolve: { productsPrep: productListPrepService }
     }).state("products-add", {
       url: '/products-form/:productId',
@@ -23,9 +29,8 @@
   }
 
   /* @ngInject */
-  function productListPrepService(ProductsResource) {
-    var query = new Query("label");
-    var resource = ProductsResource.query(query);
+  function productListPrepService(ProductsResource, $stateParams) {
+    var resource = ProductsResource.query($stateParams);
     return resource.$promise;
   }
 

@@ -1,5 +1,5 @@
 <section>
-  <form name="vm.productForm" class="form-horizontal" novalidate ng-submit="vm.valider()">
+  <form name="vm.productForm" class="form-horizontal" novalidate ng-submit="vm.submit()">
     <fieldset>
         <legend>Ajout d'un produit</legend>
         <div class="form-group">
@@ -50,7 +50,7 @@
           <div class="col-lg-5 col-lg-offset-2">
             <div class="pull-right">
               <button type="submit" class="btn btn-primary">Valider</button>
-              <a type="reset" class="btn btn-default" ui-sref="products">Annuler</a>
+              <a type="reset" class="btn btn-default" ng-click="vm.cancel()">Annuler</a>
             </div>
           </div>
         </div>

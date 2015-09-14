@@ -1,8 +1,6 @@
 {"priceBuy":9.5,"priceSell":16.82,"vat":21,"stock":0,"label":"Carignan St Martin 2011","_id":"100005","lastModification":"2015-07-04T11:21:25.940Z"}
-{"priceBuy":5.17,"priceSell":9.88,"vat":21,"stock":94,"label":"Voyou Klur 2014","_id":"100006","lastModification":"2015-06-30T13:29:21.713Z"}
 {"priceBuy":14.2,"priceSell":25.95,"vat":21,"stock":10,"label":"Impatience magnum 2010","_id":"100029","lastModification":"2015-06-14T15:43:26.292Z"}
 {"priceBuy":8.36,"priceSell":15,"vat":21,"stock":11,"label":"Muscat BDV 75 cl 2013","_id":"100030","lastModification":"2015-06-14T14:07:17.381Z"}
-{"priceBuy":19,"priceSell":33.6,"vat":21,"stock":0,"label":"SYRAH d'En Rouzil mag","_id":"100039","lastModification":"2014-12-08T09:18:53.719Z"}
 {"priceBuy":4.87,"priceSell":9.42,"vat":21,"stock":18,"label":"Muscat BDV 37,5 cl 2013","_id":"100042","lastModification":"2015-06-15T18:03:04.424Z"}
 {"priceBuy":5.75,"priceSell":10.83,"vat":21,"stock":15,"label":"BDV rouge 2012","_id":"100044","lastModification":"2015-07-08T08:47:50.328Z"}
 {"priceBuy":8.5,"priceSell":15.21,"vat":21,"stock":6,"label":"Les Folies des Noyers Vert 11","_id":"100046","lastModification":"2015-04-01T12:45:02.884Z"}
@@ -103,7 +101,6 @@
 {"priceBuy":46,"priceSell":77.23,"vat":21,"stock":0,"label":"Faugères Valinière Magnum 2011","_id":"100361","lastModification":"2015-07-04T11:21:59.139Z"}
 {"priceBuy":8.85,"priceSell":19.79,"vat":21,"stock":0,"label":"Chablis Tribut 2012","_id":"100362","lastModification":"2015-06-30T13:29:21.719Z"}
 {"priceBuy":4.7,"priceSell":9.17,"vat":21,"stock":2,"label":"CDR Romance 2013","_id":"100363","lastModification":"2015-06-30T13:29:21.555Z"}
-{"priceBuy":4.72,"priceSell":9.17,"vat":21,"stock":14,"label":"Terre! 2013","_id":"100364","lastModification":"2015-06-30T13:29:21.461Z"}
 {"priceBuy":7.25,"priceSell":13.22,"vat":21,"stock":2,"label":"Bastingage 2013","_id":"100365","lastModification":"2015-06-30T13:29:21.526Z"}
 {"priceBuy":32,"priceSell":54.42,"vat":21,"stock":2,"label":"Magellan Magnum 2012","_id":"100366","lastModification":"2015-03-15T17:55:32.044Z"}
 {"priceBuy":7.78,"priceSell":12.36,"vat":21,"stock":0,"label":"Albatros","_id":"100367","lastModification":"2015-06-30T13:29:21.566Z"}

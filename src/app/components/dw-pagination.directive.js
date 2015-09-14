@@ -11,9 +11,7 @@
             templateUrl: 'app/components/dw-pagination.html',
             scope: {
               total: "=",
-              pageSize: "=",
-              currentPage: "=",
-              pagingAction: "&"
+              query: "="
             },
             controller: Controller,
             controllerAs: 'dm',
@@ -24,7 +22,7 @@
     }
 
     /* @ngInject */
-    function Controller($scope) {
+    function Controller($scope, windowService) {
         var dm = this;
 
         dm.setPage = setPage;
@@ -36,26 +34,20 @@
         activate();
 
         function activate() {
-          refreshPages(dm.currentPage);
-
-          $scope.$watch(function () {
-             return dm.total;
-         },function(value){
-             refreshPages(dm.page);
-         });
+          refreshPages(dm.query.page);
         }
 
         function setPage(page) {
-          if (page == dm.currentPage || page < 0 || page > dm.pageCount - 1)
+          if (page == dm.query.page || page < 0 || page > dm.pageCount - 1)
             return;
 
-          dm.pagingAction({ page: page });
-
-          refreshPages(page);
+          var query = angular.copy(dm.query);
+          query.page = page;
+          windowService.search(query);
         }
 
         function refreshPages(page) {
-          dm.pageCount = Math.ceil(dm.total / dm.pageSize);
+          dm.pageCount = Math.ceil(dm.total / dm.query.pageSize);
 
           if (dm.pageCount <= 1)
             return;

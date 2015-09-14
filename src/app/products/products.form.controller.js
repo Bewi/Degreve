@@ -6,13 +6,14 @@
         .controller('ProductsFormController', ProductsFormController);
 
     /* @ngInject */
-    function ProductsFormController($state, product, notificationService) {
+    function ProductsFormController($state, $window, product, notificationService) {
         var vm = this;
 
         vm.product = product;
-        vm.valider = valider;
+        vm.submit = submit;
+        vm.cancel = cancel;
 
-        function valider() {
+        function submit() {
           if (vm.productForm.$invalid)
             return;
 
@@ -30,6 +31,10 @@
           function errorCallback() {
             notificationService.error("Une erreur est survenue lors de " +  (editMode ? "la modification" : "l'ajout") + " du produit <br/>Erreur:  " + error);
           }
+        }
+
+        function cancel() {
+          $window.history.back();
         }
     }
 })();
