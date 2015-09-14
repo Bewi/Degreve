@@ -13,6 +13,8 @@
     vm.products = [];
     vm.remove = remove;
     vm.orderBy = orderBy;
+    vm.total = 0;
+    vm.appliedSearch = '';
 
     activate();
 
@@ -25,6 +27,7 @@
       vm.query.page = productsPrep.page;
       vm.query.pageSize = productsPrep.pageSize;
       vm.total = productsPrep.total;
+      vm.appliedSearch = vm.query.search;
     }
 
     function remove(id) {
