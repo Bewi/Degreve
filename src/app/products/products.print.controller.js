@@ -15,7 +15,7 @@
           pm.today = new Date();
 
           ProductsResource.query().$promise.then(function(result) {
-            pm.products = result.data;
+            pm.products = _.sortBy(result.data, 'label');
 
             pm.totalStock = _.reduce(pm.products, function(memo, product) { return memo + product.stock; }, 0);
             pm.totalPrice = _.reduce(pm.products, function(memo, product) {

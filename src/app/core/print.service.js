@@ -6,7 +6,7 @@
         .factory('printService', printService);
 
     /* @ngInject */
-    function printService($http, $document, $timeout, $rootScope, $compile,Electron) {
+    function printService($http, $document, $timeout, $rootScope, $compile, Electron) {
         return {
           print: print
         };

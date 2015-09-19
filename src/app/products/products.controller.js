@@ -6,7 +6,7 @@
     .controller('ProductsController',ProductsController );
 
   /* @ngInject */
-  function ProductsController($state, productsPrep, ProductsResource, notificationService, windowService) {
+  function ProductsController($state, productsPrep, ProductsResource, notificationService) {
     var vm = this;
     vm.activate = activate;
     vm.query = new Query("label");
@@ -39,7 +39,7 @@
 
     function orderBy(key) {
       vm.query.setOrder(key);
-      windowService.search(vm.query);
+      $state.transitionTo($state.current.name, vm.query);
     }
   }
 

@@ -23,7 +23,7 @@
     }
 
     /* @ngInject */
-    function Controller($state, printService, windowService) {
+    function Controller($state, printService) {
         var dm = this;
 
         dm.print = print;
@@ -37,7 +37,7 @@
 
         function search() {
           dm.query.page = 0;
-          windowService.search(dm.query);
+          $state.transitionTo($state.current.name, dm.query);
         }
     }
 })();

@@ -22,7 +22,7 @@
     }
 
     /* @ngInject */
-    function Controller($scope, windowService) {
+    function Controller($scope, $state) {
         var dm = this;
 
         dm.setPage = setPage;
@@ -43,7 +43,7 @@
 
           var query = angular.copy(dm.query);
           query.page = page;
-          windowService.search(query);
+          $state.transitionTo($state.current.name, query);
         }
 
         function refreshPages(page) {

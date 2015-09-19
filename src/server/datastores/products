@@ -159,3 +159,7 @@
 {"priceBuy":13,"priceSell":24,"vat":21,"stock":0,"label":"Mine de Rien magnum 2014","_id":"100421","lastModification":"2015-07-03T11:21:05.430Z"}
 {"priceBuy":0,"priceSell":0,"vat":0,"stock":0,"label":"COLIS CADEAUX","isExtra":true,"_id":"10179E","amount":1,"lastModification":"2015-01-08T15:06:31.951Z"}
 {"priceSell":14.83,"vat":21,"stock":null,"label":"FAUG TRAD","isExtra":true,"_id":"10917E","amount":66,"lastModification":"2014-11-21T13:55:25.002Z","dateDeleted":"2014-11-21T13:58:06.498Z"}
+{"label":"test alba alba","stock":10,"priceBuy":10,"priceSell":10,"vat":10,"_id":"moRpNOKC4XMXbPI4"}
+{"label":"Test alba","stock":10,"priceBuy":10,"priceSell":10,"vat":10,"_id":"n6ZQHtZiepTw9In3"}
+{"priceBuy":7.78,"priceSell":12.36,"vat":21,"stock":0,"label":"Albatros","_id":"100367","lastModification":"2015-06-30T13:29:21.566Z"}
+{"priceBuy":7.78,"priceSell":12.36,"vat":21,"stock":0,"label":"Albatros","_id":"100367","lastModification":"2015-06-30T13:29:21.566Z"}

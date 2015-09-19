@@ -25,7 +25,7 @@
 
           function successCallback() {
             notificationService.success("Produit " + (editMode ? "modifié." : "ajouté."));
-            $state.go('products');
+            $window.history.back();
           }
 
           function errorCallback() {
