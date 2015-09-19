@@ -43,7 +43,7 @@
 
           var query = angular.copy(dm.query);
           query.page = page;
-          $state.transitionTo($state.current.name, query);
+          $state.search(query);
         }
 
         function refreshPages(page) {

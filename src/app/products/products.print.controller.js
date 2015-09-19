@@ -15,15 +15,24 @@
           pm.today = new Date();
 
           ProductsResource.query().$promise.then(function(result) {
-            pm.products = _.sortBy(result.data, 'label');
+            pm.products = R.sortBy(R.prop('label'), result.data);
 
-            pm.totalStock = _.reduce(pm.products, function(memo, product) { return memo + product.stock; }, 0);
-            pm.totalPrice = _.reduce(pm.products, function(memo, product) {
-                if (!product.priceBuy || !product.stock)
-                  return memo;
-                return memo + (product.priceBuy * product.stock);
-            }, 0);
+            var sum = R.reduce(add, 0);
+
+            pm.totalStock = sum(R.map(R.prop('stock'), pm.products));
+            pm.totalPrice = sum(R.map(calculatePrice, pm.products));
           });
+        }
+
+        function add(a, b) {
+           return a + b;
+        }
+
+        function calculatePrice(product) {
+          if (!product.priceBuy || !product.stock)
+            return 0;
+
+          return (product.priceBuy * product.stock);
         }
     }
 })();

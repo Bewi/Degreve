@@ -39,7 +39,7 @@
 
     function orderBy(key) {
       vm.query.setOrder(key);
-      $state.transitionTo($state.current.name, vm.query);
+      $state.search(vm.query);
     }
   }
 

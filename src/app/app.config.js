@@ -6,7 +6,7 @@
       .config(configBlock);
 
   /* @ngInject */
-  function configBlock (NotificationProvider, blockUIConfig, hotkeysProvider, ElectronProvider) {
+  function configBlock ($provide, NotificationProvider, blockUIConfig, hotkeysProvider, ElectronProvider) {
     NotificationProvider.setOptions({
       startTop: 55
     });
@@ -17,5 +17,13 @@
     hotkeysProvider.cheatSheetDescription = "Affiche / masque ce menu d'aide";
 
     ElectronProvider.activate();
+
+    $provide.decorator('$state', function($delegate, $stateParams) {
+        $delegate.search = function(query) {
+            return $delegate.go($delegate.current, query);
+        };
+
+        return $delegate;
+    });
   }
 }());

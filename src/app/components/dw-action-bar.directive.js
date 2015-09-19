@@ -37,7 +37,7 @@
 
         function search() {
           dm.query.page = 0;
-          $state.transitionTo($state.current.name, dm.query);
+          $state.search(dm.query);
         }
     }
 })();
