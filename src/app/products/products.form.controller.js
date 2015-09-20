@@ -28,8 +28,8 @@
             $window.history.back();
           }
 
-          function errorCallback() {
-            notificationService.error("Une erreur est survenue lors de " +  (editMode ? "la modification" : "l'ajout") + " du produit <br/>Erreur:  " + error);
+          function errorCallback(error) {
+            notificationService.error("Une erreur est survenue lors de " +  (editMode ? "la modification" : "l'ajout") + " du produit <br/>Erreur:  " + error.statusText);
           }
         }
 

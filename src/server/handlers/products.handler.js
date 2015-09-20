@@ -42,11 +42,11 @@ function query(searchQuery) {
 function get(id) {
   var deferred = Q.defer();
 
-  product.find({ _id: id }, function(err, doc){
+  product.findOne({ _id: id }, function(err, doc){
     if (err)
       deferred.reject(err);
     else
-      deferred.resolve(doc[0]);
+      deferred.resolve(doc);
   });
 
   return deferred.promise;
@@ -54,11 +54,18 @@ function get(id) {
 
 function post(p) {
   var deferred = Q.defer();
-  product.insert(p, function(err, newDoc){
-    if (err)
-      deferred.reject(err);
-    else
-      deferred.resolve(newDoc);
+
+  lastId().then(function(id) {
+    p._id = id;
+
+    product.insert(p, function(err, newDoc){
+      if (err)
+        deferred.reject(err);
+      else
+        deferred.resolve(newDoc);
+    });
+  }, function(err) {
+    deferred.reject(err);
   });
 
   return deferred.promise;
@@ -84,6 +91,19 @@ function remove(id) {
       deferred.reject(err);
     else
       deferred.resolve(countDeleted);
+  });
+
+  return deferred.promise;
+}
+
+function lastId() {
+  var deferred = Q.defer();
+
+  product.find({ _id: { $regex: /^[0-9]*$/ } }).sort({ _id: -1 }).limit(1).exec(function(err, docs) {
+    if (err)
+      deferred.reject(err);
+    else
+      deferred.resolve(String(parseInt(docs[0]._id) + 1));
   });
 
   return deferred.promise;

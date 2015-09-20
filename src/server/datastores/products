@@ -157,9 +157,8 @@
 {"priceBuy":11.7,"priceSell":17.94,"vat":21,"stock":0,"label":"Carte Crème Champagne","_id":"100419","lastModification":"2015-06-26T11:36:02.569Z"}
 {"priceBuy":7,"priceSell":12.81,"vat":21,"stock":12,"label":"Mine de Rien 2014","_id":"100420","lastModification":"2015-07-02T11:30:04.129Z"}
 {"priceBuy":13,"priceSell":24,"vat":21,"stock":0,"label":"Mine de Rien magnum 2014","_id":"100421","lastModification":"2015-07-03T11:21:05.430Z"}
+{"label":"Test","stock":10,"priceBuy":100,"priceSell":120,"vat":21,"_id":"100422"}
 {"priceBuy":0,"priceSell":0,"vat":0,"stock":0,"label":"COLIS CADEAUX","isExtra":true,"_id":"10179E","amount":1,"lastModification":"2015-01-08T15:06:31.951Z"}
 {"priceSell":14.83,"vat":21,"stock":null,"label":"FAUG TRAD","isExtra":true,"_id":"10917E","amount":66,"lastModification":"2014-11-21T13:55:25.002Z","dateDeleted":"2014-11-21T13:58:06.498Z"}
-{"label":"test alba alba","stock":10,"priceBuy":10,"priceSell":10,"vat":10,"_id":"moRpNOKC4XMXbPI4"}
-{"label":"Test alba","stock":10,"priceBuy":10,"priceSell":10,"vat":10,"_id":"n6ZQHtZiepTw9In3"}
-{"$$deleted":true,"_id":"n6ZQHtZiepTw9In3"}
-{"$$deleted":true,"_id":"moRpNOKC4XMXbPI4"}
+{"$$deleted":true,"_id":"100422"}
+{"label":"test20","stock":20,"priceBuy":20,"priceSell":20,"vat":20,"_id":"100422"}
