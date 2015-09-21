@@ -4,7 +4,7 @@ var logger = require('./logger.js');
 var host = 'api-content.dropbox.com';
 var port = 443;
 var headers = {
-  'Authorization': 'Bearer 2nKLmRHQ45gAAAAAAABLXiVy4c9Htg3GU2FogGwiXpn1GHcu-NyR1pCP-57vaXJc'
+  'Authorization': 'Bearer id'
 };
 
 module.exports = {
