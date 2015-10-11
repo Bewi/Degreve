@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 
 var runSequence = require('run-sequence'); // Allow to run task in a sequence
+var merge = require('merge-stream'); // Allow to merge multiple stream in one task
 var del = require('del'); // Deletion of files/folders
 var size = require('gulp-size'); // used to display size of folders
 var install = require('gulp-install'); // used to install only prod packages of server
@@ -40,8 +41,9 @@ gulp.task('default', function(callback){
     ['bundle-libs-js', 'bundle-js'],
     'bundle-css',
     'bundle-html',
-	'bundle-server',
-	'shell',
+  	'bundle-server',
+  	'shell',
+    'clean',
     callback);
 });
 
@@ -57,16 +59,19 @@ gulp.task('build', function(callback) {
 gulp.task('bundle-js', function () {
   var concatOpt = { newLine: ';'};
 
-  gulp.src([src + '/main.js', src + '/package.json'])
+
+  var main = gulp.src([src + '/main.js', src + '/package.json'])
 	.pipe(gulp.dest(dest));
 
-  return gulp.src([appSrc + '/**/*.module.js', appSrc + '/**/*.js'])
+  var modules =  gulp.src([appSrc + '/**/*.module.js', appSrc + '/**/*.js'])
     .pipe(size({showFiles: true}))
     .pipe(ngAnnotate())
     .pipe(uglify())
     .pipe(concat('app.min.js', concatOpt))
     .pipe(gulp.dest(appDest))
     .pipe(size({showFiles: true}));
+
+  return merge(main, modules);
 });
 
 gulp.task('bundle-libs-js', function () {
@@ -81,39 +86,43 @@ gulp.task('bundle-libs-js', function () {
     libSrc + '/angular-hotkeys/build/hotkeys.min.js'
   ];
 
-  gulp.src(libs)
+  var libsStream = gulp.src(libs)
     .pipe(concat('libs.min.js'))
     .pipe(gulp.dest(libsDest));
 
-  gulp.src(libSrc + '/jquery/dist/jquery.min.js').pipe(gulp.dest(libsDest + '/jquery/dist/'));
+  var jquery = gulp.src(libSrc + '/jquery/dist/jquery.min.js').pipe(gulp.dest(libsDest + '/jquery/dist/'));
+
+  return merge(libsStream, jquery);
 });
 
 gulp.task('bundle-css', function () {
     var appCssFilter = filter('app.css');
 
-    gulp.src(cssSrc + '/app.css')
+    var app = gulp.src(cssSrc + '/app.css')
       .pipe(appCssFilter)
       .pipe(size({showFiles: true}))
       .pipe(minifyCss({ processImport: true, keepSpecialComments: 0 }))
       .pipe(gulp.dest(cssDest));
 
-	 gulp.src(cssSrc + '/print.css')
+    var print = gulp.src(cssSrc + '/print.css')
       .pipe(minifyCss({ processImport: true, keepSpecialComments: 0 }))
       .pipe(gulp.dest(cssDest));
 
-    gulp.src(cssSrc + '/font-awesome/fonts/*', {base: cssSrc + '/font-awesome/'})
+    var fonts = gulp.src(cssSrc + '/font-awesome/fonts/*', {base: cssSrc + '/font-awesome/'})
       .pipe(gulp.dest(cssDest + '/font-awesome'));
+
+    return merge(app, print, fonts);
 });
 
 gulp.task('bundle-html', function () {
 
     // Copy all html files
-    gulp.src(appSrc + '/**/*.html')
+  gulp.src(appSrc + '/**/*.html')
     .pipe(gulp.dest(appDest));
 
     // Inject minified files to index.html
 	gulp.src(src + '/index.html')
-	.pipe(gulp.dest(dest))
+    .pipe(gulp.dest(dest))
     .pipe(size({showFiles: true}))
     .pipe(injectWithName(appDest + '/app.min.js'))
     .pipe(injectWithName(libsDest + '/libs.min.js', 'inject-libs'))
@@ -132,18 +141,20 @@ gulp.task('bundle-html', function () {
 });
 
 gulp.task('bundle-server', function() {
-	gulp.src(['!' + serverSrc + '/node_modules/', '!' + serverSrc + '/node_modules/**',
+	var server = gulp.src(['!' + serverSrc + '/node_modules/', '!' + serverSrc + '/node_modules/**',
             '!' + serverSrc + '/spec/', '!' + serverSrc + '/spec/**',
           serverSrc + '/**/*'])
 		.pipe(gulp.dest(serverDest));
 
-  gulp.src(serverSrc + '/package.json')
+  var pack =  gulp.src(serverSrc + '/package.json')
     .pipe(gulp.dest(serverDest))
     .pipe(install({production: true}));
+
+  return merge(server, pack);
 });
 
 gulp.task('clean', function(cb) {
-  del(['dist']);
+  return del('dist');
 });
 
 gulp.task('shell', function () {
