@@ -3,6 +3,7 @@ var gulp = require('gulp');
 var runSequence = require('run-sequence'); // Allow to run task in a sequence
 var del = require('del'); // Deletion of files/folders
 var size = require('gulp-size'); // used to display size of folders
+var install = require('gulp-install'); // used to install only prod packages of server
 
 // JS
 var ngAnnotate = require('gulp-ng-annotate'); // Resolve angular injections
@@ -55,35 +56,36 @@ gulp.task('build', function(callback) {
 
 gulp.task('bundle-js', function () {
   var concatOpt = { newLine: ';'};
-	
+
   gulp.src([src + '/main.js', src + '/package.json'])
 	.pipe(gulp.dest(dest));
-  
+
   return gulp.src([appSrc + '/**/*.module.js', appSrc + '/**/*.js'])
     .pipe(size({showFiles: true}))
     .pipe(ngAnnotate())
     .pipe(uglify())
     .pipe(concat('app.min.js', concatOpt))
     .pipe(gulp.dest(appDest))
-    .pipe(size({showFiles: true}));	
+    .pipe(size({showFiles: true}));
 });
 
 gulp.task('bundle-libs-js', function () {
   var libs = [
-	libSrc + '/underscore/underscore-min.js',
-	libSrc + '/angular/angular.min.js',
-	libSrc + '/angular-resource/angular-resource.min.js',
-	libSrc + '/angular-ui-router/release/angular-ui-router.min.js',
-	libSrc + '/angular-ui-notification/dist/angular-ui-notification.min.js',
-	libSrc + '/angular-block-ui/dist/angular-block-ui.min.js',
-	libSrc + '/angular-hotkeys/build/hotkeys.min.js'
+  	libSrc + '/ramda/dist/ramda.min.js',
+    libSrc + '/bootstrap/dist/js/bootstrap.min.js',
+  	libSrc + '/angular/angular.min.js',
+    libSrc + '/angular-resource/angular-resource.min.js',
+    libSrc + '/angular-ui-router/release/angular-ui-router.min.js',
+    libSrc + '/angular-ui-notification/dist/angular-ui-notification.min.js',
+    libSrc + '/angular-block-ui/dist/angular-block-ui.min.js',
+    libSrc + '/angular-hotkeys/build/hotkeys.min.js'
   ];
-	
+
   gulp.src(libs)
     .pipe(concat('libs.min.js'))
-    .pipe(gulp.dest(libsDest))
-	
-  gulp.src(libSrc + '/jquery/dist/jquery.min.js').pipe(gulp.dest(libsDest + '/jquery/dist/'));		
+    .pipe(gulp.dest(libsDest));
+
+  gulp.src(libSrc + '/jquery/dist/jquery.min.js').pipe(gulp.dest(libsDest + '/jquery/dist/'));
 });
 
 gulp.task('bundle-css', function () {
@@ -94,7 +96,7 @@ gulp.task('bundle-css', function () {
       .pipe(size({showFiles: true}))
       .pipe(minifyCss({ processImport: true, keepSpecialComments: 0 }))
       .pipe(gulp.dest(cssDest));
-	  
+
 	 gulp.src(cssSrc + '/print.css')
       .pipe(minifyCss({ processImport: true, keepSpecialComments: 0 }))
       .pipe(gulp.dest(cssDest));
@@ -104,11 +106,11 @@ gulp.task('bundle-css', function () {
 });
 
 gulp.task('bundle-html', function () {
-  
+
     // Copy all html files
     gulp.src(appSrc + '/**/*.html')
     .pipe(gulp.dest(appDest));
-	
+
     // Inject minified files to index.html
 	gulp.src(src + '/index.html')
 	.pipe(gulp.dest(dest))
@@ -125,13 +127,19 @@ gulp.task('bundle-html', function () {
       name: name
     };
 
-    return inject(gulp.src(path), opt)
+    return inject(gulp.src(path), opt);
   }
 });
 
 gulp.task('bundle-server', function() {
-	gulp.src(serverSrc + '/**/*')
-		.pipe(gulp.dest(serverDest))
+	gulp.src(['!' + serverSrc + '/node_modules/', '!' + serverSrc + '/node_modules/**',
+            '!' + serverSrc + '/spec/', '!' + serverSrc + '/spec/**',
+          serverSrc + '/**/*'])
+		.pipe(gulp.dest(serverDest));
+
+  gulp.src(serverSrc + '/package.json')
+    .pipe(gulp.dest(serverDest))
+    .pipe(install({production: true}));
 });
 
 gulp.task('clean', function(cb) {
@@ -140,6 +148,6 @@ gulp.task('clean', function(cb) {
 
 gulp.task('shell', function () {
     return gulp.src('dist/**')
-        .pipe(electron({ version: '0.27.2', platform: 'win32' }))
-        .pipe(electron.zfsdest('shell.zip'));
+        .pipe(electron({ version: '0.33.0', platform: 'win32', winIcon: 'icon.ico' }))
+        .pipe(gulp.dest('shell'));
 });
