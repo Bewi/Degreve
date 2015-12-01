@@ -8,7 +8,6 @@
   /* @ngInject */
   function ProductsController($state, productsPrep, ProductsResource, notificationService) {
     var vm = this;
-    vm.activate = activate;
     vm.query = new Query("label");
     vm.products = [];
     vm.remove = remove;
