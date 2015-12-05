@@ -3,6 +3,7 @@ var application_root = __dirname,
   path = require('path'),
   bodyParser = require('body-parser'),
   products = require('./routes/products.routes.js'),
+  customers = require('./routes/customers.routes.js'),
   backup = require('./routes/backup.routes.js'),
   backupSocket = require('./routes/backup.socket.js'),
   logger = require('./handlers/logger.handler.js');
@@ -19,6 +20,7 @@ app.get('/', function (req, res) {
 });
 
 app.use('/products', products);
+app.use('/customers', customers);
 
 app.use('/backup', backup);
 /* ****** */

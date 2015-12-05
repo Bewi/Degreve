@@ -36,7 +36,7 @@
 
   function productPrepService(ProductsResource, $stateParams) {
     if ($stateParams.productId)
-      return ProductsResource.get({ id: $stateParams.productId });
+      return ProductsResource.get({ id: $stateParams.productId }).$promise;
 
     return new ProductsResource({});
   }
