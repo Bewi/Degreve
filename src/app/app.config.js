@@ -29,6 +29,9 @@
 
     $provide.decorator('$resource', function($delegate) {
       var actions = {
+        create: {
+          method: 'POST'
+        },
         update: {
           method: 'PUT'
         },
@@ -53,7 +56,17 @@
 
         angular.extend(arguments[2], actions);
 
-        return $delegate.apply(this, arguments);
+        var decoratedResource = $delegate.apply(this, arguments);
+
+        decoratedResource.prototype.$save = function(successCallback, errorCallback) {
+          if (this._id) {
+            return this.$update(successCallback, errorCallback);
+          }
+
+          return this.$create(successCallback, errorCallback);
+        };
+
+        return decoratedResource;
       };
     });
   }

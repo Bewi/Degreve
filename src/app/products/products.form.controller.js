@@ -18,10 +18,7 @@
           if (vm.productForm.$invalid)
             return;
 
-          if (vm.editMode)
-            vm.product.$update(successCallback, errorCallback);
-          else
-            vm.product.$save(successCallback, errorCallback);
+          vm.product.$save(successCallback, errorCallback);
 
           function successCallback() {
             notificationService.success("Produit " + (vm.editMode ? "modifié." : "ajouté."));
