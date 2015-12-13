@@ -1,3 +1,11 @@
+.table-paged {
+  margin-bottom: 100px;
+}
+
+.table-fixed {
+  table-layout: fixed;
+}
+
 .table > thead > tr > th:first-child,
 .table > tbody > tr > td:first-child,
 .table > tfoot > tr > td:first-child{
@@ -17,6 +25,8 @@ thead th:hover {
 .table > thead > tr > th,
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
+  overflow: hidden;
+  text-overflow: ellipsis;
   border: 0px;
 }
 
