@@ -1,10 +1,11 @@
 var https = require('https');
 var logger = require('./logger.js');
+var tokens = require('./hero.tokens.js');
 
 var host = 'api-content.dropbox.com';
 var port = 443;
 var headers = {
-  'Authorization': 'Bearer xxx'
+  'Authorization': tokens
 };
 
 module.exports = {
