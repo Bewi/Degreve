@@ -3,10 +3,10 @@
 
     angular
         .module('app.products')
-        .controller('ProductsFormController', ProductsFormController);
+        .controller('ProductEditorController', ProductEditorController);
 
     /* @ngInject */
-    function ProductsFormController($state, $window, product, notificationService) {
+    function ProductEditorController($state, $window, product, notificationService) {
         var vm = this;
 
         vm.product = product;

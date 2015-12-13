@@ -7,7 +7,7 @@
 
   /* @ngInject */
   function configBlock($stateProvider) {
-    $stateProvider.state("products", {
+    $stateProvider.state('products', {
       url: '/products?orderBy&orderByDirection&page&pageSize&search',
       templateUrl: 'app/products/products.html',
       controller: 'ProductsController',
@@ -19,10 +19,10 @@
         pageSize: '10'
       },
       resolve: { productsPrep: productListPrepService }
-    }).state("products-add", {
-      url: '/products-form/:productId',
-      templateUrl: 'app/products/products.form.html',
-      controller: 'ProductsFormController',
+    }).state('product-editor', {
+      url: '/product-editor/:productId',
+      templateUrl: 'app/products/product-editor.html',
+      controller: 'ProductEditorController',
       controllerAs: 'vm',
       resolve: { product: productPrepService }
     });
@@ -30,10 +30,10 @@
 
   /* @ngInject */
   function productListPrepService(ProductsResource, $stateParams) {
-    var resource = ProductsResource.query($stateParams);
-    return resource.$promise;
+    return ProductsResource.query($stateParams).$promise;
   }
 
+  /* @ngInject */
   function productPrepService(ProductsResource, $stateParams) {
     if ($stateParams.productId)
       return ProductsResource.get({ id: $stateParams.productId }).$promise;
