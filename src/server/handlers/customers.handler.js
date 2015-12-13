@@ -53,13 +53,58 @@ var customer  = require("../models/customer.js"),
   }
 
   function post(c) {
+    var deferred = Q.defer();
 
+    lastId().then(function(id) {
+      c._id = id;
+
+      customer.insert(c, function(err, newDoc){
+        if (err)
+          deferred.reject(err);
+        else
+          deferred.resolve(newDoc);
+      });
+    }, function(err) {
+      deferred.reject(err);
+    });
+
+    return deferred.promise;
   }
 
   function put(c) {
+    var deferred = Q.defer();
+    customer.update({ _id: c._id }, c, {}, function (err, numReplaced) {
+      if (err)
+        deferred.reject(err);
+      else
+        deferred.resolve(c._id);
+    });
 
+    return deferred.promise;
   }
 
   function remove(id) {
+    var deferred = Q.defer();
 
+    customer.remove({ _id: id }, {}, function(err, countDeleted){
+      if (err)
+        deferred.reject(err);
+      else
+        deferred.resolve(countDeleted);
+    });
+
+    return deferred.promise;
+  }
+
+  function lastId() {
+    var deferred = Q.defer();
+
+    customer.find({ _id: { $regex: /^[0-9]*$/ } }).sort({ _id: -1 }).limit(1).exec(function(err, docs) {
+      if (err)
+        deferred.reject(err);
+      else
+        deferred.resolve(String(parseInt(docs[0]._id) + 1));
+    });
+
+    return deferred.promise;
   }

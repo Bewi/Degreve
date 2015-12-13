@@ -53,7 +53,18 @@
     }
 
     function updateErrorTooltip(error, showTooltip) {
-      var message = error == 'required' ? "Champs requis" : "Nombre non valide";
+      var message;
+      switch(error) {
+        case 'required':
+          message = "Champs requis";
+          break;
+        case 'number':
+          message = "Nombre non valide";
+          break;
+        case 'email':
+          message = "Email incorrect";
+      }
+
       element.attr("title", message);
 
       var tooltip = $(element).tooltip("fixTitle");

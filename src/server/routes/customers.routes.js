@@ -15,8 +15,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:id', function(req, res, next) {
-  customersHandler.get(req.params.id).then(function(product) {
-    res.json(product);
+  customersHandler.get(req.params.id).then(function(doc) {
+    res.json(doc);
   }, function(err){
     next(err);
   });
@@ -32,7 +32,7 @@ router.post('/', function(req, res, next) {
 
 router.put('/', function(req, res, next) {
   customersHandler.put(req.body).then(function(id) {
-    res.send("Product id " + id + " edited");
+    res.send("Customer id " + id + " edited");
   }, function(err) {
     next(err);
   });

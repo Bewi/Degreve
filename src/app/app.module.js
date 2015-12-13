@@ -13,6 +13,7 @@
         'app.core',
 
         /* Features */
-        'app.products'
+        'app.products',
+        'app.customers'
     ]);
 }());
