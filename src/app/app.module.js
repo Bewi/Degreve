@@ -14,6 +14,7 @@
 
         /* Features */
         'app.products',
-        'app.customers'
+        'app.customers',
+        'app.invoices'
     ]);
 }());
