@@ -14,7 +14,7 @@
       </thead>
       <tbody>
         <tr ng-repeat="product in vm.products">
-            <td>{{product._id}}</td>
+            <td ng-bind-html="product._id | highlight: vm.appliedSearch"></td>
             <td ng-bind-html="product.label | highlight: vm.appliedSearch"></td>
             <td class="text-right">{{product.stock}}</td>
             <td class="text-right">{{product.priceBuy | currency:"" }}€</td>
