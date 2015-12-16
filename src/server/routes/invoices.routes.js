@@ -3,7 +3,7 @@ var express = require('express'),
     invoicesHandler = require('../handlers/invoices.handler.js');
 
 router.get('/', function(req, res, next) {
-  customersHandler.query(req.query)
+  invoicesHandler.query(req.query)
     .then(function(result) {
       res.header('page', req.query.page);
       res.header('page-size', req.query.pageSize);
@@ -12,6 +12,6 @@ router.get('/', function(req, res, next) {
     }, function(error){
       next(err);
     });
-})
+});
 
 module.exports = router;

@@ -8,7 +8,7 @@
     /* @NgInject */
     function InvoicesResource($resource) {
       // TODO: Move service URL to const
-      return $resource("http://localhost:4242/customers/:id", {id: "@id"});
+      return $resource("http://localhost:4242/invoices/:id", {id: "@id"});
     }
 
 })();

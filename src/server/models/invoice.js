@@ -1,6 +1,6 @@
-var DataStore = require('nedb');
+var Datastore = require('nedb');
 var path = __dirname + '/../datastores';
 
-var invoiceDataStore = DataStore({filename: path + '/invoices', autload: true});
+var invoiceDataStore = new Datastore({filename: path + '/invoices', autoload: true});
 
 module.exports = invoiceDataStore;

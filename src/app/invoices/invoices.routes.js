@@ -11,10 +11,10 @@
       url: '/invoices?orderBy&orderByDirection&page&pageSize&search',
       templateUrl: 'app/invoices/invoices.html',
       controller: 'InvoicesController',
-      contollerAs: 'vm',
+      controllerAs: 'vm',
       params: {
-        orderBy: '_id',
-        orderByDirection: '1',
+        orderBy: 'number',
+        orderByDirection: '-1',
         page: '1',
         pageSize: '10'
       },
@@ -24,7 +24,7 @@
 
   /* @NgInject */
   function invoicesPrepService(InvoicesResource, $stateParams) {
-    return invoicesResource.query($stateParams).$promise;
+    return InvoicesResource.query($stateParams).$promise;
   }
 
 })();

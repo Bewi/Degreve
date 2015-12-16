@@ -8,7 +8,7 @@
   function InvoicesController($state, invoicesPrep) {
     var vm = this;
 
-    vm.query = new Query('_id');
+    vm.query = new Query('number');
     vm.orderBy = orderBy;
     vm.total = 0;
     vm.appliedSearch = '';
@@ -24,6 +24,11 @@
       vm.query.pageSize = invoicesPrep.pageSize;
       vm.total = invoicesPrep.total;
       vm.appliedSearch = vm.query.search;
+    }
+
+    function orderBy(key) {
+      vm.query.setOrder(key);
+      $state.search(vm.query);
     }
   }
 
