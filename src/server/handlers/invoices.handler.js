@@ -11,7 +11,7 @@ function query(searchQuery) {
   var nedbQuery = {};
   if (searchQuery.search) {
     var regex = { $regex:new RegExp(searchQuery.search, 'i') };
-    nedbQuery = { $or: [{name: regex}] };
+    nedbQuery = { $or: [{number: regex}] };
   }
 
   invoice.count(nedbQuery, function(err, count){

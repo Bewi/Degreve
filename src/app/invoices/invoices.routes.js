@@ -15,7 +15,7 @@
       params: {
         orderBy: 'number',
         orderByDirection: '-1',
-        page: '1',
+        page: '0',
         pageSize: '10'
       },
       resolve: { invoicesPrep: invoicesPrepService }
