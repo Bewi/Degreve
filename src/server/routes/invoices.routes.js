@@ -14,4 +14,12 @@ router.get('/', function(req, res, next) {
     });
 });
 
+router.get('/:id', function(req, res, next) {
+  invoicesHandler.get(req.params.id).then(function(doc) {
+    res.json(doc);
+  }, function(err){
+    next(err);
+  });
+});
+
 module.exports = router;

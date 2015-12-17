@@ -1,9 +1,12 @@
 var invoice = require('../models/invoice.js'),
+    invoiceProduct = require('../models/invoice-product.js'),
+    product = require('../models/product.js'),
     customersHandler = require('./customers.handler.js'),
     Q = require("q");
 
 module.exports = {
-  query: query
+  query: query,
+  get: get
 };
 
 function query(searchQuery) {
@@ -45,12 +48,69 @@ function query(searchQuery) {
   return deferred.promise;
 }
 
-function linkCustomer(invoice) {
-  var promise = customersHandler.get(invoice.customerId.toString());
+function get(id) {
+  return getInvoice(id).then(linkCustomer).then(setProducts);
+}
 
-  promise.then(function(c) {
-    invoice.customer = c;
+function getInvoice(id) {
+  var deferred = Q.defer();
+
+  invoice.findOne({ _id: id}, function(err, doc) {
+    if (err)
+      deferred.reject(err);
+    else
+      deferred.resolve(doc);
   });
 
-  return promise;
+  return deferred.promise;
+}
+
+function setProducts(invoice) {
+  var deferred = Q.defer();
+
+  invoiceProduct.find({invoiceId: invoice._id}, {productId: 1, amount: 1, _id:0}, function(err, invoiceProducts) {
+    if (err) {
+        deferred.reject(err);
+        return;
+    }
+
+    var ids = [];
+
+    for (var index in invoiceProducts) {
+      ids.push(invoiceProducts[index].productId);
+    }
+
+    product.find({ _id: {$in: ids}}, function(err, products) {
+      if (err) {
+        deferred.reject(err);
+        return;
+      }
+
+      for(var i in invoiceProducts) {
+        for (var j in products) {
+          if (invoiceProducts[i].productId === products[j]._id) {
+            products[j].amount = invoiceProducts[i].amount;
+            break;
+          }
+        }
+      }
+
+      invoice.products = products;
+
+      deferred.resolve(invoice);
+    });
+  });
+
+  return deferred.promise;
+}
+
+function linkCustomer(invoice) {
+  var deferred = Q.defer();
+
+  customersHandler.get(invoice.customerId.toString()).then(function(c) {
+    invoice.customer = c;
+    deferred.resolve(invoice);
+  });
+
+  return deferred.promise;
 }

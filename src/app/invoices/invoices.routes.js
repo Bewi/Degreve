@@ -18,13 +18,27 @@
         page: '0',
         pageSize: '10'
       },
-      resolve: { invoicesPrep: invoicesPrepService }
+      resolve: { invoicesPrep: invoiceListPrepService }
+    }).state('invoice-editor', {
+      url: '/invoice-editor/:invoiceId',
+      templateUrl: 'app/invoices/invoice-editor.html',
+      controller: 'InvoiceEditorController',
+      controllerAs: 'vm',
+      resolve: { invoice: invoicePrepService }
     });
   }
 
   /* @NgInject */
-  function invoicesPrepService(InvoicesResource, $stateParams) {
+  function invoiceListPrepService(InvoicesResource, $stateParams) {
     return InvoicesResource.query($stateParams).$promise;
+  }
+
+  /* @NgInject */
+  function invoicePrepService(InvoicesResource, $stateParams) {
+    if ($stateParams.invoiceId)
+      return InvoicesResource.get({ id: $stateParams.invoiceId }).$promise;
+
+    return new InvoicesResource();
   }
 
 })();
