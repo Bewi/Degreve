@@ -8,7 +8,7 @@
   /* @ngInject */
   function configBlock($stateProvider) {
     $stateProvider.state("customers", {
-      url: '/customers?orderBy&orderByDirection&page&pageSize&search',
+      url: '/customers?orderBy&orderByDirection&page&pageSize&back&search',
       templateUrl: 'app/customers/customers.html',
       controller: 'CustomersController',
       controllerAs: 'vm',

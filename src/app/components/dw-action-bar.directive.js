@@ -23,11 +23,12 @@
     }
 
     /* @ngInject */
-    function Controller($state, printService) {
+    function Controller($state, $window, printService) {
         var dm = this;
 
         dm.print = print;
         dm.search = search;
+        dm.goBack = goBack;
 
         //////////////////////
 
@@ -38,6 +39,10 @@
         function search() {
           dm.query.page = 0;
           $state.search(dm.query);
+        }
+
+        function goBack(){
+          $window.history.back();
         }
     }
 })();

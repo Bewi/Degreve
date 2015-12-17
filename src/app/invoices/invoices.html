@@ -18,7 +18,7 @@
             <td class="text-right">{{ ::invoice._total | currency:"" }}€</td>
             <td class="text-center">
                 <div class="actions">
-                    <a href="#/customers?customer={{invoice.customer.name}}"><i class="fa fa-group"></i>TODO</a>
+                    <a href="#/customers?search={{invoice.customer.name}}&back=factures"><i class="fa fa-group"></i></a>
                     <a ui-sref="invoice-editor({ invoiceId: invoice._id })"><i class="fa fa-info"></i></a>
                     <a href="" dw-really="Êtes-vous sûr de vouloir supprimer cette facture ?" dw-really-click="vm.remove(invoice._id)"><i class="fa fa-trash-o"></i></a>
                 </div>
