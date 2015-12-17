@@ -31,8 +31,13 @@ thead th:hover {
 }
 
 td.small-number, th.small-number {
-    width: 75px;
+    width: 80px;
 }
+
+td.date, th.date {
+  width: 95px;
+}
+
 td.mid-number, th.mid-number {
     width: 125px;
 }
