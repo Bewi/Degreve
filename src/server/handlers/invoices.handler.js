@@ -1,4 +1,5 @@
 var invoice = require('../models/invoice.js'),
+    customersHandler = require('./customers.handler.js'),
     Q = require("q");
 
 module.exports = {
@@ -28,10 +29,28 @@ function query(searchQuery) {
       .exec(function(err, data) {
         if (err)
           deferred.reject(err);
-        else
-          deferred.resolve({data: data, count: count});
+        else {
+          var promises = [];
+          for (var index in data) {
+            promises.push(linkCustomer(data[index]));
+          }
+
+          Q.all(promises).done(function() {
+            deferred.resolve({data: data, count: count});
+          });
+        }
       });
   });
 
   return deferred.promise;
+}
+
+function linkCustomer(invoice) {
+  var promise = customersHandler.get(invoice.customerId.toString());
+
+  promise.then(function(c) {
+    invoice.customer = c;
+  });
+
+  return promise;
 }

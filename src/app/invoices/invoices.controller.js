@@ -9,9 +9,9 @@
     var vm = this;
 
     vm.query = new Query('number');
-    vm.orderBy = orderBy;
     vm.total = 0;
     vm.appliedSearch = '';
+    vm.orderBy = orderBy;
 
     activate();
 
