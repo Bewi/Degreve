@@ -34,10 +34,12 @@ var libsDest = 'dist/libs';
 var appDest = 'dist/app';
 var cssDest = 'dist/content';
 var serverDest = 'dist/server';
+var shellResourcesDest = 'shell/resources/app';
 
 
 gulp.task('default', function(callback){
   runSequence(
+    'clean-shell-resources',
     ['bundle-libs-js', 'bundle-js'],
     'bundle-css',
     'bundle-html',
@@ -49,11 +51,19 @@ gulp.task('default', function(callback){
 
 gulp.task('build', function(callback) {
 	return runSequence(
+    'clean-shell-resources',
 	['bundle-libs-js', 'bundle-js'],
     'bundle-css',
     'bundle-html',
 	'bundle-server',
 	callback);
+});
+
+gulp.task('build-dev', function(callback) {
+    return runSequence(
+        'clean-shell-resources',
+        'copy',
+        callback);
 });
 
 gulp.task('bundle-js', function () {
@@ -83,12 +93,14 @@ gulp.task('bundle-libs-js', function () {
     libSrc + '/angular-ui-router/release/angular-ui-router.min.js',
     libSrc + '/angular-ui-notification/dist/angular-ui-notification.min.js',
     libSrc + '/angular-block-ui/dist/angular-block-ui.min.js',
-    libSrc + '/angular-hotkeys/build/hotkeys.min.js'
+    libSrc + '/angular-hotkeys/build/hotkeys.min.js',
+    libSrc + '/angular-bootstrap/ui-bootstrap-tpls.min.js'
   ];
 
   var libsStream = gulp.src(libs)
     .pipe(concat('libs.min.js'))
-    .pipe(gulp.dest(libsDest));
+    .pipe(gulp.dest(libsDest))
+    .pipe(size({showFiles: true}));
 
   var jquery = gulp.src(libSrc + '/jquery/dist/jquery.min.js').pipe(gulp.dest(libsDest + '/jquery/dist/'));
 
@@ -154,7 +166,7 @@ gulp.task('bundle-server', function() {
 });
 
 gulp.task('clean', function(cb) {
-  return del('dist');
+  return del.sync('dist');
 });
 
 gulp.task('shell', function () {
@@ -162,3 +174,13 @@ gulp.task('shell', function () {
         .pipe(electron({ version: '0.33.0', platform: 'win32', winIcon: 'icon.ico' }))
         .pipe(gulp.dest('shell'));
 });
+
+gulp.task('clean-shell-resources', function () {
+   return del.sync(shellResourcesDest + '/**/*');
+});
+   
+gulp.task('copy', function() {
+    return gulp.src(src + '/**/*').pipe(gulp.dest(shellResourcesDest))
+        .pipe(size({showFiles: true}));
+});
+
