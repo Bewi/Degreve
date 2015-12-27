@@ -23,6 +23,13 @@
       },
       query: {
         method: 'GET',
+        params: {
+            /** 
+             * Specify if block-ui should be displayed for that request
+             * Used for typeahead (block-ui is making a blur which prevent the typeahead to display data properly)
+            **/
+            blockUi: true  
+        },
         transformResponse: function(data, headers) {
           return {
             data: JSON.parse(data),
