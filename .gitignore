@@ -52,3 +52,4 @@ shell.zip
 # Sensitive data 
 src/server/datastores
 src/server/models/hero.tokens.js
+*.ts

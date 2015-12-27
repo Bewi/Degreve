@@ -8,6 +8,7 @@
         'ngResource',
         'blockUI',
         'cfp.hotkeys',
+        'ui.bootstrap',
 
         /* Core */
         'app.core',

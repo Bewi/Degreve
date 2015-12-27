@@ -6,7 +6,8 @@ var invoice = require('../models/invoice.js'),
 
 module.exports = {
   query: query,
-  get: get
+  get: get,
+  getNextNumber: getNextNumber
 };
 
 function query(searchQuery) {
@@ -50,6 +51,18 @@ function query(searchQuery) {
 
 function get(id) {
   return getInvoice(id).then(linkCustomer).then(setProducts);
+}
+
+function getNextNumber() {
+  var deferred = Q.defer();
+  invoice.find({}, {number:1, _id:0}).sort({ number: -1 }).limit(1).exec(function(err, docs) {
+    if (err)
+      deferred.reject(err);
+    else
+      deferred.resolve(parseInt(docs[0].number) + 1);
+  });
+
+  return deferred.promise;
 }
 
 function getInvoice(id) {

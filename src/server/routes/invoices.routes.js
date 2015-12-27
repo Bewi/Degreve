@@ -14,6 +14,14 @@ router.get('/', function(req, res, next) {
     });
 });
 
+router.get('/nextNumber', function(req, res, next) {
+  invoicesHandler.getNextNumber().then(function(nextNumber) {
+    res.json({nextNumber: nextNumber});
+  }, function(err) {
+    next(err);
+  });
+});
+
 router.get('/:id', function(req, res, next) {
   invoicesHandler.get(req.params.id).then(function(doc) {
     res.json(doc);

@@ -5,6 +5,8 @@
     'ngResource',
     'ui.router',
     'ui-notification',
-    'app.core'
+    'ui.bootstrap',
+    'app.core',
+    'app.customers'
   ]);
 }());
