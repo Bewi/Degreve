@@ -62,11 +62,18 @@
                     <td class="text-right">{{product.priceSell}}</td>    
                     <td class="text-right">{{product.priceSell * product.amount}}</td>    
                     <td class="text-right">{{product.vat}}</td>    
-                    <td class="text-center">
-                        <div class="actions">
-                            <TODO description="product type dropdown">T</TODO>
-                            <a ng-click="removeProduct(product._id)"><i class="fa fa-trash"></i></a>
+                    <td class="text-center actions">
+                        <div class="btn-group" ng-if="!product.extra">
+                            <button type="button" class="btn btn-primary" data-toggle="dropdown">
+                                <i class="fa" ng-class="{'fa-calculator': !product.returned && !product.defect, 'fa-check': product.returned, 'fa-close': product.defect }"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-icons" role="menu">
+                                <li ng-if="product.returned || product.defect"><a href="" ng-click="product.setAsSell()" uib-tooltip="Vente" tooltip-placement="top"><i class="fa fa-calculator"></i></a></li>
+                                <li ng-if="!product.returned"><a href="" ng-click="product.setAsReturned()" uib-tooltip="Retour" tooltip-placement="top"><i class="fa fa-check"></i></a></li>
+                                <li ng-if="!product.defect"><a href="" ng-click="product.setAsDefect()" uib-tooltip="Défaut" tooltip-placement="top"><i class="fa fa-close"></i></a></li>
+                            </ul>
                         </div>
+                        <a ng-click="removeProduct(product._id)"><i class="fa fa-trash"></i></a>
                     </td>
                 </tr>    
             </tbody>
