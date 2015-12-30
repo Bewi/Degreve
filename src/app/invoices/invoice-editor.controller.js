@@ -26,7 +26,12 @@
 
       function activate() {
         if (vm.editMode)
-          return;
+        {
+            vm.invoice.date = new Date(vm.invoice.date);
+            vm.invoice.paymentMethod = vm.paymentMethods[vm.invoice.paymentMethod.key];
+              
+            return;
+        }
 
         vm.invoice.paymentMethod = vm.paymentMethods[0];
         vm.invoice.date = new Date();
