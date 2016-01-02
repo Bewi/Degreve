@@ -9,7 +9,7 @@
         'blockUI',
         'cfp.hotkeys',
         'ui.bootstrap',
-
+        'ui.cg',
         /* Core */
         'app.core',
 

@@ -12,13 +12,16 @@
                 <div class="form-group col-lg-6">
                     <label for="invoiceDate" class="col-lg-6 control-label">Date de la facture</label>
                     <div class="col-lg-6">
-                    <input type="date" class="form-control" id="invoiceDate" ng-model="vm.invoice.date" ng-disabled="vm.editMode" >
+                        <input type="date" class="form-control" id="invoiceDate" ng-model="vm.invoice.date" ng-disabled="vm.editMode" >
                     </div>
                 </div>
                 <div class="form-group col-lg-6">
                     <label for="invoiceDiscount" class="col-lg-6 control-label">Reduction</label>
                     <div class="col-lg-6">
-                    <input type="number" class="form-control" id="invoiceDiscount" ng-model="vm.invoice.discount" ng-change="vm.updateTotal()" ng-disabled="vm.editMode" >
+                        <div class="input-group">
+                            <numberinput ng-model="vm.invoice.discount" ni-class="form-control" ng-disabled="vm.editMode" decimals="0" minimum="0" maximum="100" spinner="false" />
+                            <span class="input-group-addon">%</span>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group col-lg-6">
@@ -58,10 +61,21 @@
                 <tr ng-repeat="product in vm.invoice.products">
                     <td class="text-center">{{product._id}}</td>    
                     <td>{{product.label}}</td>    
-                    <td class="text-right">{{product.amount}}</td>    
-                    <td class="text-right">{{product.priceSell}}</td>    
+                    <td class="text-right">
+                        <numberinput ni-class="form-control text-right" ng-disabled="vm.editMode" ng-model="product.amount" ng-change="vm.updateTotal()"
+                                    spinner="false" minimum="1" maximum="{{ !product.defect && !product.returned && !product.isExtra && product.stock }}" decimals="0" />
+                    </td>
+                    <td class="text-right">
+                        <span ng-if="!product.isExtra">{{product.priceSell}}</span>
+                        <numberinput ng-if="product.isExtra" ng-disabled="vm.editMode" ng-model="product.priceSell" ng-change="vm.updateTotal()"
+                             decimal-separator="." step="1" minimum="0" spinner="false" ni-class="form-control text-right" required />    
+                    </td>    
                     <td class="text-right">{{product.priceSell * product.amount | number: 2}}</td>    
-                    <td class="text-right">{{product.vat}}</td>    
+                    <td class="text-right">
+                        <span ng-if="!product.isExtra">{{product.vat}}</span>
+                        <numberinput ng-if="product.isExtra" ng-disabled="vm.editMode" ng-model="product.vat" ng-change="vm.updateTotal()"
+                              decimals="0" step="1" minimum="0" spinner="false" ni-class="form-control text-right" required />
+                    </td>    
                     <td class="text-center actions">
                         <div class="btn-group" ng-if="!product.extra">
                             <button type="button" class="btn btn-primary" data-toggle="dropdown">
