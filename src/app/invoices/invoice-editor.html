@@ -68,9 +68,9 @@
                                 <i class="fa" ng-class="{'fa-calculator': !product.returned && !product.defect, 'fa-check': product.returned, 'fa-close': product.defect }"></i>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-icons" role="menu">
-                                <li ng-if="product.returned || product.defect"><a href="" ng-click="product.setAsSell()" uib-tooltip="Vente" tooltip-placement="top"><i class="fa fa-calculator"></i></a></li>
-                                <li ng-if="!product.returned"><a href="" ng-click="product.setAsReturned()" uib-tooltip="Retour" tooltip-placement="top"><i class="fa fa-check"></i></a></li>
-                                <li ng-if="!product.defect"><a href="" ng-click="product.setAsDefect()" uib-tooltip="Défaut" tooltip-placement="top"><i class="fa fa-close"></i></a></li>
+                                <li ng-if="product.returned || product.defect"><a href="" ng-click="vm.setAsSell(product)" uib-tooltip="Vente" tooltip-placement="top"><i class="fa fa-calculator"></i></a></li>
+                                <li ng-if="!product.returned"><a href="" ng-click="vm.setAsReturned(product)" uib-tooltip="Retour" tooltip-placement="top"><i class="fa fa-check"></i></a></li>
+                                <li ng-if="!product.defect"><a href="" ng-click="vm.setAsDefect(product)" uib-tooltip="Défaut" tooltip-placement="top"><i class="fa fa-close"></i></a></li>
                             </ul>
                         </div>
                         <a ng-click="vm.removeProduct($index)"><i class="fa fa-trash"></i></a>

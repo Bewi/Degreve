@@ -25,6 +25,9 @@
         vm.addExtra = addExtra;
         vm.removeProduct = removeProduct;
         vm.updateTotal = updateTotal;
+        vm.setAsDefect = setAsDefect;
+        vm.setAsReturned = setAsReturned;
+        vm.setAsSell = setAsSell;
         vm.submit = submit;
         vm.cancel = cancel;
 
@@ -35,9 +38,6 @@
             {
                 vm.invoice.date = new Date(vm.invoice.date);
                 vm.invoice.paymentMethod = vm.paymentMethods[vm.invoice.paymentMethod.key];
-                
-                R.forEach(initProductStateActions, vm.invoice.products);
-                
                 return;
             }
 
@@ -191,27 +191,21 @@
          * Products state logic.
          * Does it belong here ?
          */
-        function initProductStateActions(product) {
-            product.setAsDefect = setAsDefect;
-            product.setAsReturned = setAsReturned;
-            product.setAsSell = setAsSell;
-        }
-        
         function setAsDefect(product){
-            this.defect = true;
-            this.returned = false;
+            product.defect = true;
+            product.returned = false;
             vm.updateTotal();            
         };
         
         function setAsReturned(product) {
-            this.defect = false;
-            this.returned = true;
+            product.defect = false;
+            product.returned = true;
             vm.updateTotal();
         };
         
         function setAsSell(product) {
-            this.defect = false;
-            this.returned = false;
+            product.defect = false;
+            product.returned = false;
             vm.updateTotal();
         };
     }
