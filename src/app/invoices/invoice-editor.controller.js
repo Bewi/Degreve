@@ -7,7 +7,7 @@
         .controller('InvoiceEditorController', InvoiceEditorController);
 
     /* @ngInject */
-    function InvoiceEditorController($window, $q, notificationService, invoice, InvoicesResource, CustomersResource) {
+    function InvoiceEditorController($window, $q, notificationService, invoice, InvoicesResource, CustomersResource, ProductsResource) {
         var vm = this;
 
         vm.invoice = invoice;
@@ -20,6 +20,9 @@
         ];
 
         vm.getCustomers = getCustomers;
+        vm.getProducts = getProducts;
+        vm.addProduct = addProduct;
+        vm.addExtra = addExtra;
         vm.submit = submit;
         vm.cancel = cancel;
 
@@ -39,6 +42,7 @@
             vm.invoice.paymentMethod = vm.paymentMethods[0];
             vm.invoice.date = new Date();
             vm.invoice.discount = 0;
+            vm.invoice.products = [];
             
             InvoicesResource.getNextNumber().$promise.then(function(response) {
                 vm.invoice.number = response.nextNumber;
@@ -53,6 +57,36 @@
             return CustomersResource.query(customerQuery).$promise.then(function(response) {
                 return $q.when(response.data);
             });
+        }
+        
+        function getProducts(searchQuery) {
+            var productQuery = new Query("label");
+            productQuery.blockUi = false;
+            productQuery.search = searchQuery;
+            
+            return ProductsResource.query(productQuery).$promise.then(function(response) {
+                return $q.when(response.data);
+            });
+        }
+        
+        function addProduct(product) {
+            var alreadyInInvoice = R.any(function(p) { return p._id === product._id; }, vm.invoice.products);
+            if (alreadyInInvoice) {
+                alert('Produit déjà présent sur la facture.');
+            } else if (product.stock <= 0) {
+                alert("Stock insuffisant.");
+            } else {
+                product.amount = 1;
+                vm.invoice.products.push(product);
+            }
+            
+            // Clear input.
+            vm.product = undefined;
+        }
+        
+        function addExtra(productLabel) {
+            alert("TODO");
+            console.log(productLabel);
         }
         
         function submit() {

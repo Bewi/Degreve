@@ -57,7 +57,7 @@
             <tbody>
                 <tr ng-repeat="product in vm.invoice.products">
                     <td class="text-center">{{product._id}}</td>    
-                    <td>{{product.name}}</td>    
+                    <td>{{product.label}}</td>    
                     <td class="text-right">{{product.amount}}</td>    
                     <td class="text-right">{{product.priceSell}}</td>    
                     <td class="text-right">{{product.priceSell * product.amount}}</td>    
@@ -79,6 +79,18 @@
             </tbody>
         </table>
         <div class="content">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="product" placeholder="Entrez un produit" autofocus
+                            ng-model="vm.product" uib-typeahead="product as product.label for product in vm.getProducts($viewValue)" 
+                            typeahead-on-select="vm.addProduct(vm.product)" />
+                        <span class="input-group-btn">  
+                            <a class="btn btn-primary" ng-click="vm.addExtra(vm.product)"><i class="fa fa-plus"></i></a>
+                        </span>
+                    </div>
+                </div>
+            </div>
             <div class="form-group">
                 <div class="col-sm-12">
                     <div class="pull-right">

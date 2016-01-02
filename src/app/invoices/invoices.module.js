@@ -7,6 +7,7 @@
     'ui-notification',
     'ui.bootstrap',
     'app.core',
-    'app.customers'
+    'app.customers',
+    'app.products'
   ]);
 }());
