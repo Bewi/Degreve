@@ -15,10 +15,9 @@ function query(searchQuery) {
 
   var nedbQuery = {};
   if (searchQuery.search) {
-    var regex = { $regex:new RegExp(searchQuery.search, 'i') };
-    nedbQuery = { $or: [{number: regex}] };
+    nedbQuery.number =  isNaN(searchQuery.search) ? 0 : parseInt(searchQuery.search);
   }
-
+  
   invoice.count(nedbQuery, function(err, count){
     if (err)
       return deferred.reject(err);
