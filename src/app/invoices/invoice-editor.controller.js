@@ -24,9 +24,7 @@
         vm.addProduct = addProduct;
         vm.addExtra = addExtra;
         vm.removeProduct = removeProduct;
-        vm.getTotalPrice = getTotalPrice;
-        vm.getTotalVAT = getTotalVAT;
-        vm.getTotalPriceVATIncluded = getTotalPriceVATIncluded;
+        vm.updateTotal = updateTotal;
         vm.submit = submit;
         vm.cancel = cancel;
 
@@ -82,6 +80,7 @@
             } else {
                 product.amount = 1;
                 vm.invoice.products.push(product);
+                vm.updateTotal();
             }
             
             // Clear input.
@@ -94,6 +93,7 @@
             }
             
             vm.invoice.products.splice(index, 1);
+            vm.updateTotal();            
         }
         
         function addExtra(productLabel) {
@@ -130,10 +130,6 @@
                 return;
             }
             
-            vm.invoice._totalPrice = getTotalPrice();
-            vm.invoice._totalVAT = getTotalVAT();
-            vm.invoice._total = getTotalPriceVATIncluded();
-            
             vm.invoice.$save(successCallback, errorCallback);
             
             function successCallback() {
@@ -153,6 +149,12 @@
         /**
          * Calculations logic
          */
+        function updateTotal() {
+            vm.invoice._totalPrice = getTotalPrice();
+            vm.invoice._totalVAT = getTotalVAT();
+            vm.invoice._total = getTotalPriceVATIncluded();
+        }
+        
         function getTotalPrice() {
             return R.reduce(function(total, product) {
                 return total + getProductTotalPrice(product) * product.amount;
@@ -198,16 +200,19 @@
         function setAsDefect(product){
             this.defect = true;
             this.returned = false;
+            vm.updateTotal();            
         };
         
         function setAsReturned(product) {
             this.defect = false;
             this.returned = true;
+            vm.updateTotal();
         };
         
         function setAsSell(product) {
             this.defect = false;
             this.returned = false;
+            vm.updateTotal();
         };
     }
 })();
