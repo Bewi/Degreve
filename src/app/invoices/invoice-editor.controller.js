@@ -23,6 +23,7 @@
         vm.getProducts = getProducts;
         vm.addProduct = addProduct;
         vm.addExtra = addExtra;
+        vm.removeProduct = removeProduct;
         vm.submit = submit;
         vm.cancel = cancel;
 
@@ -82,6 +83,14 @@
             
             // Clear input.
             vm.product = undefined;
+        }
+        
+        function removeProduct(index) {
+            if(!confirm("Êtes-vous sûr de vouloir supprimer ce produit de la facture ?")) {
+                return;
+            }
+            
+            vm.invoice.products.splice(index, 1);
         }
         
         function addExtra(productLabel) {
