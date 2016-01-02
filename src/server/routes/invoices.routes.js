@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
       res.header('page-size', req.query.pageSize);
       res.header('total-count', result.count);
       res.json(result.data);
-    }, function(error){
+    }, function(err){
       next(err);
     });
 });
@@ -29,5 +29,13 @@ router.get('/:id', function(req, res, next) {
     next(err);
   });
 });
+
+router.post('/', function(req, res, next) {
+    invoicesHandler.post(req.body).then(function(doc) {
+        res.sendStatus(200);
+    }, function(err) {
+        next(err);
+    });
+})
 
 module.exports = router;

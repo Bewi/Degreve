@@ -121,8 +121,29 @@
         }
         
         function submit() {
-            console.log(vm.invoice);
-            alert('TODO');
+            if (vm.invoice.products.length === 0) {
+                alert('Aucun produit présent sur la facture. \nVeuillez en ajouter avant de la sauvegarder!');
+                return;
+            }
+            
+            if (!confirm("Êtes-vous sur de vouloir finaliser cette facture ?")) {
+                return;
+            }
+            
+            vm.invoice._totalPrice = getTotalPrice();
+            vm.invoice._totalVAT = getTotalVAT();
+            vm.invoice._total = getTotalPriceVATIncluded();
+            
+            vm.invoice.$save(successCallback, errorCallback);
+            
+            function successCallback() {
+                notificationService.success("Facture clôturée !");
+                $window.history.back();
+            }
+
+            function errorCallback(error) {
+                notificationService.error("Une erreur est survenue lors de la clôture de la facture.<br/>Erreur:  " + error.statusText);
+            }
         }
 
         function cancel() {
