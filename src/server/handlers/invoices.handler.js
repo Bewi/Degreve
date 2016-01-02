@@ -80,7 +80,7 @@ function getInvoice(id) {
 function setProducts(invoice) {
   var deferred = Q.defer();
 
-  invoiceProduct.find({invoiceId: invoice._id}, {productId: 1, amount: 1, _id:0}, function(err, invoiceProducts) {
+  invoiceProduct.find({invoiceId: invoice._id}, {_id:0}, function(err, invoiceProducts) {
     if (err) {
         deferred.reject(err);
         return;
@@ -91,14 +91,20 @@ function setProducts(invoice) {
     for (var index in invoiceProducts) {
       ids.push(invoiceProducts[index].productId);
     }
-
+    
     product.find({ _id: {$in: ids}}, function(err, products) {
       if (err) {
         deferred.reject(err);
         return;
       }
-
+      
       for(var i in invoiceProducts) {
+        if (invoiceProducts[i].isExtra) {
+            invoiceProducts[i]._id = invoiceProducts[i].productId;
+            products.push(invoiceProducts[i]);
+            continue;
+        }
+
         for (var j in products) {
           if (invoiceProducts[i].productId === products[j]._id) {
             products[j].amount = invoiceProducts[i].amount;
