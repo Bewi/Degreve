@@ -24,6 +24,9 @@
         vm.addProduct = addProduct;
         vm.addExtra = addExtra;
         vm.removeProduct = removeProduct;
+        vm.getTotalPrice = getTotalPrice;
+        vm.getTotalVAT = getTotalVAT;
+        vm.getTotalPriceVATIncluded = getTotalPriceVATIncluded;
         vm.submit = submit;
         vm.cancel = cancel;
 
@@ -125,6 +128,41 @@
         function cancel() {
             $window.history.back();
         }
+        
+        /**
+         * Calculations logic
+         */
+        function getTotalPrice() {
+            return R.reduce(function(total, product) {
+                return total + getProductTotalPrice(product) * product.amount;
+            }, 0, vm.invoice.products);           
+        }
+        
+        function getTotalVAT() {
+            return R.reduce(function(total, product) {
+                return total + getProductTotalVAT(product) * product.amount;
+            }, 0, vm.invoice.products);
+        }
+        
+        function getTotalPriceVATIncluded() {
+            return getTotalPrice() + getTotalVAT();
+        }
+        
+        function getProductTotalPrice(product) {
+            if (product.isExtra)
+                return product.priceSell;
+
+            var sign = product.returned || product.defect ? -1 : 1;
+
+            var discount = vm.invoice.discount ? vm.invoice.discount / 100 * product.priceSell : 0;
+            discount = Number(discount.toFixed(2));
+            return sign * (product.priceSell - discount);
+        }
+        
+        function getProductTotalVAT(product) {
+            return getProductTotalPrice(product) * product.vat / 100;
+        }
+
         
          /**
          * Products state logic.
