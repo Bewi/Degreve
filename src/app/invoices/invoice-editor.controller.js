@@ -94,8 +94,27 @@
         }
         
         function addExtra(productLabel) {
-            alert("TODO");
-            console.log(productLabel);
+            var alreadyInInvoice = R.any(function(p) {return p.label === productLabel; }, vm.invoice.products);
+             if (alreadyInInvoice) {
+                alert('Produit déjà présent sur la facture.');
+            } else {
+                var id = Math.floor((10 + Math.random()) * 1000);
+
+                var product = {
+                    _id: id + "E",
+                    label: productLabel,
+                    amount: 1,
+                    priceBuy: 0,
+                    priceSell: 0,
+                    vat: 0,
+                    isExtra: true
+                };
+
+                vm.invoice.products.push(product);
+            }
+            
+            // Clear input.
+            vm.product = undefined;            
         }
         
         function submit() {
