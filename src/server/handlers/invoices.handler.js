@@ -1,4 +1,5 @@
 var invoice = require('../models/invoice.js'),
+    deliveryNote = require('../models/delivery-note.js'),
     invoiceProduct = require('../models/invoice-product.js'),
     product = require('../models/product.js'),
     customersHandler = require('./customers.handler.js'),
@@ -148,7 +149,7 @@ function linkCustomer(invoice) {
 function saveInvoicePrimaryData(invoiceData) {
     var deferred = Q.defer();    
     
-    invoice.insert({
+    var data = {
        number: invoiceData.number,
        paymentMethod: invoiceData.paymentMethod,
        discount: invoiceData.discount,
@@ -158,13 +159,22 @@ function saveInvoicePrimaryData(invoiceData) {
        _totalVAT: invoiceData._totalVAT,
        _total: invoiceData._total,
        customerId: invoiceData.customer ? invoiceData.customer._id : undefined
-    }, function(err, newDoc) {
+    }
+    
+    if (invoiceData.postponed) {
+        data.lastModification = new Date().toString();
+        deliveryNote.insert(data, callback);
+    } else {
+        invoice.insert(data, callback);
+    }
+    
+    function callback(err, newDoc) {
         if (err) {
             deferred.reject(err);
         } else {
             deferred.resolve(newDoc);
         }
-    });
+    }
     
     return deferred.promise;
 }

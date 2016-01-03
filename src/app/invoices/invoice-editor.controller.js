@@ -123,25 +123,31 @@
             vm.product = undefined;            
         }
         
-        function submit() {
+        function submit(postponed) {
+            
+            
             if (vm.invoice.products.length === 0) {
-                alert('Aucun produit présent sur la facture. \nVeuillez en ajouter avant de la sauvegarder!');
+                alert('Aucun produit présent sur la facture. \nVeuillez en ajouter avant de continuer!');
                 return;
             }
             
-            if (!confirm("Êtes-vous sur de vouloir finaliser cette facture ?")) {
+            if (!confirm("Êtes-vous sur de vouloir " + (postponed ? "ajourner" : "finaliser") + " cette facture ?")) {
                 return;
             }
+            
+            vm.invoice.postponed = postponed === true;
             
             vm.invoice.$save(successCallback, errorCallback);
             
             function successCallback() {
-                notificationService.success("Facture clôturée !");
+                var successMessage = postponed ? "Facture ajournée !" : "Facture clôturée !"
+                notificationService.success(successMessage);
                 $window.history.back();
             }
 
             function errorCallback(error) {
-                notificationService.error("Une erreur est survenue lors de la clôture de la facture.<br/>Erreur:  " + error.statusText);
+                var errorMessage = "Une erreur est survenue lors de " + (postponed ? "l'ajournement" : "la clôture") + " de la facture.<br/>Erreur:  " + error.statusText
+                notificationService.error(errorMessage);
             }
         }
 
