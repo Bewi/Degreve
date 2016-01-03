@@ -11,7 +11,8 @@
         var vm = this;
 
         vm.invoice = invoice;
-        vm.editMode = invoice._id ? true : false;
+        vm.readOnly = invoice._id ? true : false;
+        
         vm.paymentMethods = [
             { key: 0, name: "Liquide", printName: 'liquide' },
             { key: 1, name: "Carte", printName: 'par carte' },
@@ -34,7 +35,7 @@
         activate();
 
         function activate() {
-            if (vm.editMode)
+            if (vm.invoice._id)
             {
                 vm.invoice.date = new Date(vm.invoice.date);
                 vm.invoice.paymentMethod = vm.paymentMethods[vm.invoice.paymentMethod.key];

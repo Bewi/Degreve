@@ -2,24 +2,24 @@
     <form name="vm.invoiceForm" class="form-horizontal clear" novalidate ng-submit="vm.submit()">
         <div class="content">
             <fieldset>
-                <legend>{{ vm.editMode && 'Edition' || 'Création' }} d'une facture</legend>
+                <legend>{{ vm.readOnly && 'Visualisation' || 'Création' }} d'une facture</legend>
                 <div class="form-group col-lg-6">
                     <label for="invoiceNumber" class="col-lg-6 control-label">Numéro de facture</label>
                     <div class="col-lg-6">
-                    <input type="number" class="form-control" id="invoiceNumber" ng-model="vm.invoice.number" ng-disabled="vm.editMode" autofocus>
+                    <input type="number" class="form-control" id="invoiceNumber" ng-model="vm.invoice.number" ng-disabled="vm.readOnly" autofocus>
                     </div>
                 </div>
                 <div class="form-group col-lg-6">
                     <label for="invoiceDate" class="col-lg-6 control-label">Date de la facture</label>
                     <div class="col-lg-6">
-                        <input type="date" class="form-control" id="invoiceDate" ng-model="vm.invoice.date" ng-disabled="vm.editMode" >
+                        <input type="date" class="form-control" id="invoiceDate" ng-model="vm.invoice.date" ng-disabled="vm.readOnly" >
                     </div>
                 </div>
                 <div class="form-group col-lg-6">
                     <label for="invoiceDiscount" class="col-lg-6 control-label">Reduction</label>
                     <div class="col-lg-6">
                         <div class="input-group">
-                            <numberinput ng-model="vm.invoice.discount" ni-class="form-control" ng-disabled="vm.editMode" decimals="0" minimum="0" maximum="100" spinner="false" />
+                            <numberinput ng-model="vm.invoice.discount" ni-class="form-control" ng-disabled="vm.readOnly" decimals="0" minimum="0" maximum="100" spinner="false" />
                             <span class="input-group-addon">%</span>
                         </div>
                     </div>
@@ -28,7 +28,7 @@
                     <label for="invoicePaymentMethods" class="col-lg-6 control-label">Méthode de paiement</label>
                     <div class="col-lg-6">
                     <select class="form-control" id="invoicePaymentMethods"
-                            ng-model="vm.invoice.paymentMethod" ng-options="pm.name for pm in vm.paymentMethods" ng-disabled="vm.editMode"></select>
+                            ng-model="vm.invoice.paymentMethod" ng-options="pm.name for pm in vm.paymentMethods" ng-disabled="vm.readOnly"></select>
                     </div>
                 </div>
                 <div class="form-group col-lg-6">
@@ -36,7 +36,7 @@
                     <div class="col-lg-6">
                     <input type="text" class="form-control" id="invoiceCustomer"
                         ng-model="vm.invoice.customer" uib-typeahead="customer as customer.name for customer in vm.getCustomers($viewValue)" 
-                        ng-disabled="vm.editMode" >
+                        ng-disabled="vm.readOnly" >
                     </div>
                 </div>
             </fieldset>
@@ -62,18 +62,18 @@
                     <td class="text-center">{{product._id}}</td>    
                     <td>{{product.label}}</td>    
                     <td class="text-right">
-                        <numberinput ni-class="form-control text-right" ng-disabled="vm.editMode" ng-model="product.amount" ng-change="vm.updateTotal()"
+                        <numberinput ni-class="form-control text-right" ng-disabled="vm.readOnly" ng-model="product.amount" ng-change="vm.updateTotal()"
                                     spinner="false" minimum="1" maximum="{{ !product.defect && !product.returned && !product.isExtra && product.stock }}" decimals="0" />
                     </td>
                     <td class="text-right">
                         <span ng-if="!product.isExtra">{{product.priceSell}}</span>
-                        <numberinput ng-if="product.isExtra" ng-disabled="vm.editMode" ng-model="product.priceSell" ng-change="vm.updateTotal()"
+                        <numberinput ng-if="product.isExtra" ng-disabled="vm.readOnly" ng-model="product.priceSell" ng-change="vm.updateTotal()"
                              decimal-separator="." step="1" minimum="0" spinner="false" ni-class="form-control text-right" required />    
                     </td>    
                     <td class="text-right">{{product.priceSell * product.amount | number: 2}}</td>    
                     <td class="text-right">
                         <span ng-if="!product.isExtra">{{product.vat}}</span>
-                        <numberinput ng-if="product.isExtra" ng-disabled="vm.editMode" ng-model="product.vat" ng-change="vm.updateTotal()"
+                        <numberinput ng-if="product.isExtra" ng-disabled="vm.readOnly" ng-model="product.vat" ng-change="vm.updateTotal()"
                               decimals="0" step="1" minimum="0" spinner="false" ni-class="form-control text-right" required />
                     </td>    
                     <td class="text-center actions">
@@ -93,7 +93,7 @@
             </tbody>
         </table>
         <div class="content">
-            <div class="form-group">
+            <div class="form-group" ng-if="!vm.readOnly">
                 <div class="col-sm-12">
                     <div class="input-group">
                         <input type="text" class="form-control" id="product" placeholder="Entrez un produit" autofocus
@@ -116,7 +116,7 @@
             <div class="form-group">
                 <div class="col-sm-12">
                     <div class="pull-right">
-                        <button type="submit" class="btn btn-primary">Valider</button>
+                        <button type="submit" class="btn btn-primary" ng-if="!vm.readOnly">Valider</button>
                         <a type="reset" class="btn btn-default" ng-click="vm.cancel()">Annuler</a>
                     </div>
                 </div>
