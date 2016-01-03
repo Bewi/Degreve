@@ -10,7 +10,6 @@
     function InvoiceEditorController($window, $q, notificationService, invoice, InvoicesResource, CustomersResource, ProductsResource) {
         var vm = this;
 
-        vm.invoice = invoice;
         vm.readOnly = invoice._id ? true : false;
         
         vm.paymentMethods = [
@@ -20,6 +19,7 @@
             { key: 3, name: "Aucun", printName: 'aucun' },
         ];
 
+        vm.reset = activate;
         vm.getCustomers = getCustomers;
         vm.getProducts = getProducts;
         vm.addProduct = addProduct;
@@ -35,6 +35,8 @@
         activate();
 
         function activate() {
+            vm.invoice = angular.copy(invoice);
+            
             if (vm.invoice._id)
             {
                 vm.invoice.date = new Date(vm.invoice.date);
