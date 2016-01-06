@@ -1,0 +1,101 @@
+<div ng-controller="InvoicePrintController as pm">
+    <div class="print-head row">
+        <div class="col-xs-6">
+            <img src="content/logo.png">
+        </div>
+        <div class="col-xs-6">
+            <h1>Facture N° {{ ::data.invoice.number }}</span></h1>
+            <p class="small">{{ ::data.invoice.date | date:'dd-MM-yyyy'}}</p>
+        </div>
+    </div>
+    <div class="print-sub-head row">
+        <div class="col-xs-6 small">
+            <p>Rue Félix Maigret 24</p>
+            <p>B-7030 SAINT-SYMPHORIEN</p>
+            <p>GSM: 0032(0)477.52.41.84</p>
+            <p>Email: vinsdegreve@hotmail.com</p>
+        </div>
+        <div ng-if="data.invoice.customer" class="col-xs-5 col-xs-offset-1 customer">
+            <p>{{ ::data.invoice.customer.name }}</p>
+            <p>{{ ::data.invoice.customer.address }}</p>
+            <p>{{ ::data.invoice.customer.postcode }} {{::data.invoice.customer.loc }}</p>
+            <p>BELGIUM</p>
+            <p><span ng-if="data.invoice.customer.vatNumber">TVA: {{ ::data.invoice.customer.vatNumber | empty: '-' }}</span></p>
+        </div>
+    </div>
+    <div class="table-container">
+        <table class="table table-striped">
+            <thead>
+                <tr ng-if="!hideDetails">
+                    <th class="small-number">Article</th>
+                    <th>Designation</th>
+                    <th class="small-number">Quantité</th>
+                    <th class="mid-number">Prix Net</th>
+                    <th class="mid-number">TVA</th>
+                    <th class="mid-number">Total Net</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="product in pm.getPosProducts(data.invoice.products)" ng-if="!hideDetails">
+                    <td class="number">{{ ::product._id }}</td>
+                    <td>{{ ::product.label }}</td>
+                    <td class="number">{{ ::product.amount }}</td>
+                    <td class="number">{{ ::pm.getProductTotalPrice(data.invoice.discount, product) | currency: "" }}€</td>
+                    <td class="number">{{ ::product.vat }}%</td>
+                    <td class="number">{{ ::pm.getProductTotalPrice(data.invoice.discount, product) * product.amount | currency: "" | number:2 }}€</td>
+                </tr>
+                <tr ng-repeat="product in vm.getNegProducts(data.invoice.products)" ng-if="!hideDetails">
+                    <td class="number">{{ ::product._id }}</td>
+                    <td>{{ ::product.label }}</td>
+                    <td class="number">{{ ::product.amount }}</td>
+                    <td class="number">{{ ::pm.getProductTotalPrice(data.invoice.discount, product) | currency: "" }}€</td>
+                    <td class="number">{{ ::product.vat }}%</td>
+                    <td class="number">{{ ::pm.getProductTotalPrice(data.invoice.discount, product) * product.amount | currency: "" | number:2 }}€</td>
+                </tr>
+                <tr ng-if="hideDetails">
+                    <td colspan="7 no-border">
+                        <h3 class="text-center">Colis cadeau</h3>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="number" colspan="5">Total Net:</td>
+                    <td class="number">{{::pm.getTotalPrice(data.invoice) | currency: ""}}€</td>
+                </tr>
+                <tr>
+                    <td class="no-border" colspan="3"></td>
+                    <td class="number" colspan="2">TVA:</td>
+                    <td class="number">{{::pm.getTotalVAT(data.invoice) | currency: ""}}€</td>
+                </tr>
+                <tr ng-if="!hideDiscount">
+                    <td class="no-border" colspan="3"></td>
+                    <td class="number" colspan="2">Remise:</td>
+                    <td class="number">{{::data.invoice.discount | empty: 0}}%</td>
+                </tr>
+                <tr>
+                    <td class="border-heavy" colspan="4">
+                        <span ng-if="data.invoice.customer || (data.invoice.paymentMethod && data.invoice.paymentMethod.key != 3)" >Paiement </span>
+                        <span ng-if="data.invoice.paymentMethod  && data.invoice.paymentMethod.key != 3">{{ ::data.invoice.paymentMethod.printName }}</span>
+                        <span ng-if="data.invoice.customer"> {{::data.invoice.customer.paymentDelay | paymentDelay:true}}</span>
+                    </td>
+                    <td class="number border-heavy">Total:</td>
+                    <td class="number border-heavy">{{::pm.getTotalPriceVATIncluded(data.invoice) | currency: ""}}€</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr/>
+    <div class="footer">
+        <div class="col-xs-12">
+            <small>Le magasin est ouvert du mardi au samedi de 10h30 à 18h. Le samedi fermé à 17h.</small>
+            <br/>
+            <br/>
+        </div>
+
+        <div class="col-xs-6 small">
+            <small>TVA: BE 0823.001.052</small>
+        </div>
+        <div class="col-xs-6 small">
+            <small>ING: BE94 3630 6844 0614 BIC: BBRUBEBB RC: 121569</small>
+        </div>
+    </div>
+</div>

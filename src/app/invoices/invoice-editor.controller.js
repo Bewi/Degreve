@@ -7,7 +7,7 @@
         .controller('InvoiceEditorController', InvoiceEditorController);
 
     /* @ngInject */
-    function InvoiceEditorController($window, $q, notificationService, invoice, InvoicesResource, CustomersResource, ProductsResource) {
+    function InvoiceEditorController($window, $q, notificationService, invoice, InvoicesResource, CustomersResource, ProductsResource, printService) {
         var vm = this;
 
         vm.readOnly = invoice._id ? true : false;
@@ -19,7 +19,6 @@
             { key: 3, name: "Aucun", printName: 'aucun' },
         ];
 
-        vm.reset = activate;
         vm.getCustomers = getCustomers;
         vm.getProducts = getProducts;
         vm.addProduct = addProduct;
@@ -29,7 +28,10 @@
         vm.setAsDefect = setAsDefect;
         vm.setAsReturned = setAsReturned;
         vm.setAsSell = setAsSell;
+        
         vm.submit = submit;
+        vm.reset = activate;
+        vm.print = print;
         vm.cancel = cancel;
 
         activate();
@@ -124,8 +126,6 @@
         }
         
         function submit(postponed) {
-            
-            
             if (vm.invoice.products.length === 0) {
                 alert('Aucun produit présent sur la facture. \nVeuillez en ajouter avant de continuer!');
                 return;
@@ -153,6 +153,10 @@
 
         function cancel() {
             $window.history.back();
+        }
+        
+        function print() {
+            printService.print("app/invoices/invoice.print.html", { invoice: vm.invoice });
         }
         
         /**

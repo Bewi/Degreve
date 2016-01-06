@@ -13,6 +13,9 @@
         function print(templateUrl, data) {
           $http.get(templateUrl).success(function(template){
             var printScope = $rootScope.$new();
+            
+            if (data) 
+                printScope.data = data;
 
             var printBox = $compile($("<div class='print-box'>" + template + "</div>"))(printScope);
             printBox.appendTo('body');
