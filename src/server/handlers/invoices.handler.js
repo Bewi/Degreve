@@ -16,7 +16,11 @@ function query(searchQuery) {
     var deferred = Q.defer();
 
     var nedbQuery = {};
-    if (searchQuery.search) {
+    
+    // If a customerId is specified on the url, this is the main query.
+    if (searchQuery.customerId) {
+        nedbQuery.customerId = searchQuery.customerId;
+    } else if (searchQuery.search) {
         nedbQuery.number =  isNaN(searchQuery.search) ? 0 : parseInt(searchQuery.search);
     }
     
