@@ -10,6 +10,7 @@
         return {
           print: print
         };
+        
         function print(templateUrl, data) {
           $http.get(templateUrl).success(function(template){
             var printScope = $rootScope.$new();
@@ -17,12 +18,14 @@
             if (data) 
                 printScope.data = data;
 
-            var printBox = $compile($("<div class='print-box'>" + template + "</div>"))(printScope);
+            var printBox = $compile(angular.element("<div class='print-box'>" + template + "</div>"))(printScope);
             printBox.appendTo('body');
-
-            waitForRenderAndPrint(printScope);
-
-            $timeout(function() { printBox.remove(); }, 1000);
+            
+            // Wait half a sec, to be sure image is loaded, no better way :'(
+            $timeout(function() {
+                waitForRenderAndPrint(printScope);
+                $timeout(function() { printBox.remove(); }, 1000);
+            }, 500);
           });
         }
 
