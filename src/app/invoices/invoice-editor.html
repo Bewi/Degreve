@@ -118,7 +118,32 @@
                     <div class="pull-right">
                         <button type="submit" class="btn btn-primary" ng-if="!vm.readOnly">Clôturer</button>
                         <a class="btn btn-primary" ng-click="vm.submit(true)" ng-if="!vm.readOnly">Ajourner</a>
-                        <a class="btn btn-primary" ng-click="vm.print()">Imprimer</a>
+                        <div class="btn-group">
+                            <a class="btn btn-primary" ng-click="vm.print()">Imprimer</a>
+                            <a type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a type="button" class="btn btn-full-width  text-left" ng-model="vm.hidePrintDiscount"
+                                            uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="undefined">
+                                        <span>
+                                            <i class="fa"  ng-class="{ 'fa-square-o': !vm.hidePrintDiscount, 'fa-check-square-o': vm.hidePrintDiscount }" />
+                                            Masquer reduction
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="top-buffer">
+                                    <a type="button" class="btn btn-full-width text-left"  ng-model="vm.hidePrintDetails"
+                                            uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="undefined">
+                                        <span>
+                                            <i class="fa"  ng-class="{ 'fa-square-o': !vm.hidePrintDetails, 'fa-check-square-o': vm.hidePrintDetails }" />
+                                            Colis cadeau
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                         <a type="reset" class="btn btn-primary" ng-click="vm.reset()" ng-if="!vm.readOnly">Réinitialiser</a>
                         <a type="reset" class="btn btn-default" ng-click="vm.cancel()">Annuler</a>
                     </div>

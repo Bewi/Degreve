@@ -26,7 +26,7 @@
     <div class="table-container">
         <table class="table table-striped">
             <thead>
-                <tr ng-if="!hideDetails">
+                <tr ng-if="!data.hideDetails">
                     <th class="small-number">Article</th>
                     <th>Designation</th>
                     <th class="small-number">Quantité</th>
@@ -36,7 +36,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="product in pm.getPosProducts(data.invoice.products)" ng-if="!hideDetails">
+                <tr ng-repeat="product in pm.getPosProducts(data.invoice.products)" ng-if="!data.hideDetails">
                     <td class="number">{{ ::product._id }}</td>
                     <td>{{ ::product.label }}</td>
                     <td class="number">{{ ::product.amount }}</td>
@@ -44,7 +44,7 @@
                     <td class="number">{{ ::product.vat }}%</td>
                     <td class="number">{{ ::pm.getProductTotalPrice(data.invoice.discount, product) * product.amount | currency: "" | number:2 }}€</td>
                 </tr>
-                <tr ng-repeat="product in vm.getNegProducts(data.invoice.products)" ng-if="!hideDetails">
+                <tr ng-repeat="product in vm.getNegProducts(data.invoice.products)" ng-if="!data.hideDetails">
                     <td class="number">{{ ::product._id }}</td>
                     <td>{{ ::product.label }}</td>
                     <td class="number">{{ ::product.amount }}</td>
@@ -52,7 +52,7 @@
                     <td class="number">{{ ::product.vat }}%</td>
                     <td class="number">{{ ::pm.getProductTotalPrice(data.invoice.discount, product) * product.amount | currency: "" | number:2 }}€</td>
                 </tr>
-                <tr ng-if="hideDetails">
+                <tr ng-if="data.hideDetails">
                     <td colspan="7 no-border">
                         <h3 class="text-center">Colis cadeau</h3>
                     </td>
@@ -66,7 +66,7 @@
                     <td class="number" colspan="2">TVA:</td>
                     <td class="number">{{::pm.getTotalVAT(data.invoice) | currency: ""}}€</td>
                 </tr>
-                <tr ng-if="!hideDiscount">
+                <tr ng-if="!data.hideDiscount">
                     <td class="no-border" colspan="3"></td>
                     <td class="number" colspan="2">Remise:</td>
                     <td class="number">{{::data.invoice.discount | empty: 0}}%</td>

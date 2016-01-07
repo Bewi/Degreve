@@ -156,7 +156,13 @@
         }
         
         function print() {
-            printService.print("app/invoices/invoice.print.html", { invoice: vm.invoice });
+            var printParams =  { 
+                invoice: vm.invoice,
+                hideDetails: vm.hidePrintDetails,
+                hideDiscount: vm.hidePrintDiscount
+            };
+            
+            printService.print("app/invoices/invoice.print.html", printParams);
         }
         
         /**

@@ -71,3 +71,17 @@ div.tooltip.error div.tooltip-arrow {
   display: none;
   visibility: hidden;
 }
+
+.btn-group .btn.active {
+    outline: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.btn-group .dropdown-menu .btn {
+    text-align: left;
+}
+
+.btn-group .dropdown-menu .btn i {
+    margin-right: 3px;
+}
