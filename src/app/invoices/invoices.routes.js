@@ -8,7 +8,7 @@
   /* @NgInject */
   function configBlock($stateProvider) {
     $stateProvider.state('invoices', {
-      url: '/invoices?orderBy&orderByDirection&page&pageSize&search',
+      url: '/invoices?orderBy&orderByDirection&page&pageSize&back&search&customerId',
       templateUrl: 'app/invoices/invoices.html',
       controller: 'InvoicesController',
       controllerAs: 'vm',
