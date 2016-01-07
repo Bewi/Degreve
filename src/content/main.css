@@ -33,6 +33,14 @@ section form {
   padding: 20px 50px;
 }
 
+section form.clear {
+    padding: 20px 0px;
+}
+
+section form.clear > .content {
+    padding: 0px 50px;
+}
+
 form.ng-submitted div.ng-invalid > input,
 form.ng-submitted input.ng-invalid,
 input.ng-invalid.ng-dirty, textarea.ng-invalid.ng-dirty {
@@ -62,4 +70,18 @@ div.tooltip.error div.tooltip-arrow {
 .print-box {
   display: none;
   visibility: hidden;
+}
+
+.btn-group .btn.active {
+    outline: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.btn-group .dropdown-menu .btn {
+    text-align: left;
+}
+
+.btn-group .dropdown-menu .btn i {
+    margin-right: 3px;
 }

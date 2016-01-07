@@ -30,15 +30,67 @@ thead th:hover {
   border: 0px;
 }
 
-td.small-number, th.small-number {
-    width: 75px;
+.table > tbody > tr > td.actions {
+    overflow: visible;
 }
+
+td.actions .dropdown-menu {
+    min-width: 0px;
+}
+
+td.small-number, th.small-number {
+    width: 80px;
+}
+
+td.date, th.date {
+  width: 95px;
+}
+
 td.mid-number, th.mid-number {
     width: 125px;
 }
 
 td.date, th.date {
     width: 150px;
+}
+
+table input.form-control,
+table input.form-control.input-sm{
+    display: inline-block;
+    width: 70px;
+    border-color: transparent;
+    box-shadow: none;
+    height: 30px;
+    padding: 5 10px;
+    margin-top: -5px;
+    background: inherit;
+    box-shadow: none;
+}
+
+table input.form-control:hover,
+table input.form-control.input-sm:hover{
+    border-color: transparent;
+    box-shadow: none;
+    border-bottom: 1px solid rgb(100, 100, 100);
+}
+
+table input.form-control:focus,
+table input.form-control.input-sm:focus{
+    border-color: transparent;
+    box-shadow: none;
+    border-bottom: 1px solid rgb(52, 201, 223);
+}
+
+table input.form-control:disabled,
+table input.form-control.input-sm:disabled,
+table input.form-control:disabled:focus,
+table input.form-control.input-sm:disabled:focus,
+table input.form-control:disabled:hover,
+table input.form-control.input-sm:disabled:hover{
+    border: none;
+    background:transparent;
+    cursor: default;
+    box-shadow: none;
 }
 
 .table td:last-child, .table th:last-child {

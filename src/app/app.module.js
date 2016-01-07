@@ -8,12 +8,14 @@
         'ngResource',
         'blockUI',
         'cfp.hotkeys',
-
+        'ui.bootstrap',
+        'ui.cg',
         /* Core */
         'app.core',
 
         /* Features */
         'app.products',
-        'app.customers'
+        'app.customers',
+        'app.invoices'
     ]);
 }());

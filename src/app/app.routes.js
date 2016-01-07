@@ -7,6 +7,6 @@
 
     /*@ngInject*/
     function configBlock ($urlRouterProvider) {
-        $urlRouterProvider.otherwise("/customers");
+        $urlRouterProvider.otherwise("/invoices");
     }
 }());
