@@ -85,3 +85,8 @@ div.tooltip.error div.tooltip-arrow {
 .btn-group .dropdown-menu .btn i {
     margin-right: 3px;
 }
+
+a[disabled] {
+    color: grey;
+    pointer-events: none;
+}

@@ -10,7 +10,7 @@
     function InvoiceEditorController($window, $q, notificationService, invoice, InvoicesResource, CustomersResource, ProductsResource, printService) {
         var vm = this;
 
-        vm.readOnly = invoice._id ? true : false;
+        vm.readOnly = false;
         
         vm.paymentMethods = [
             { key: 0, name: "Liquide", printName: 'liquide' },
@@ -43,6 +43,8 @@
             {
                 vm.invoice.date = new Date(vm.invoice.date);
                 vm.invoice.paymentMethod = vm.paymentMethods[vm.invoice.paymentMethod.key];
+                
+                vm.readonly = !vm.invoice.postponed;                
                 return;
             }
 

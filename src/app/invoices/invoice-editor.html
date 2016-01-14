@@ -117,7 +117,7 @@
                 <div class="col-sm-12">
                     <div class="pull-right">
                         <button type="submit" class="btn btn-primary" ng-if="!vm.readOnly">Clôturer</button>
-                        <a class="btn btn-primary" ng-click="vm.submit(true)" ng-if="!vm.readOnly">Ajourner</a>
+                        <a class="btn btn-primary" ng-click="vm.submit(true)" ng-if="!vm.readOnly">{{ vm.invoice.postponed ? 'Sauvegarder' : 'Ajourner' }}</a>
                         <div class="btn-group">
                             <a class="btn btn-primary" ng-click="vm.print()">Imprimer</a>
                             <a type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">

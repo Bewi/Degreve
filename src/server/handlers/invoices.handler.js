@@ -1,5 +1,4 @@
 var invoice = require('../models/invoice.js'),
-    deliveryNote = require('../models/delivery-note.js'),
     invoiceProduct = require('../models/invoice-product.js'),
     product = require('../models/product.js'),
     customersHandler = require('./customers.handler.js'),
@@ -15,7 +14,9 @@ module.exports = {
 function query(searchQuery) {
     var deferred = Q.defer();
 
-    var nedbQuery = {};
+    var nedbQuery = {
+        postponed: searchQuery.postponed ? true : false
+    };
     
     // If a customerId is specified on the url, this is the main query.
     if (searchQuery.customerId) {
@@ -25,8 +26,8 @@ function query(searchQuery) {
     }
     
     invoice.count(nedbQuery, function(err, count){
-        if (err)
-        return deferred.reject(err);
+        if (err) 
+            return deferred.reject(err);
 
         var orderBy = {};
         orderBy[searchQuery.orderBy] = searchQuery.orderByDirection;
@@ -107,29 +108,31 @@ function setProducts(invoice) {
         }
         
         product.find({ _id: {$in: ids}}, function(err, products) {
-        if (err) {
-            deferred.reject(err);
-            return;
-        }
-        
-        for(var i in invoiceProducts) {
-            if (invoiceProducts[i].isExtra) {
-                invoiceProducts[i]._id = invoiceProducts[i].productId;
-                products.push(invoiceProducts[i]);
-                continue;
+            if (err) {
+                deferred.reject(err);
+                return;
             }
+            
+            for(var i in invoiceProducts) {
+                if (invoiceProducts[i].isExtra) {
+                    invoiceProducts[i]._id = invoiceProducts[i].productId;
+                    products.push(invoiceProducts[i]);
+                    continue;
+                }
 
-            for (var j in products) {
-                if (invoiceProducts[i].productId === products[j]._id) {
-                    products[j].amount = invoiceProducts[i].amount;
-                    break;
+                for (var j in products) {
+                    if (invoiceProducts[i].productId === products[j]._id) {
+                        products[j].amount = invoiceProducts[i].amount;
+                        products[j].defect = invoiceProducts[i].defect;
+                        products[j].returned = invoiceProducts[i].returned;
+                        break;
+                    }
                 }
             }
-        }
 
-        invoice.products = products;
+            invoice.products = products;
 
-        deferred.resolve(invoice);
+            deferred.resolve(invoice);
         });
     });
 
@@ -138,7 +141,7 @@ function setProducts(invoice) {
 
 function linkCustomer(invoice) {
     if (!invoice.customerId)
-        return; 
+        return Q.when(invoice); 
         
     var deferred = Q.defer();
     
@@ -162,15 +165,15 @@ function saveInvoicePrimaryData(invoiceData) {
        _totalPrice: invoiceData._totalPrice,
        _totalVAT: invoiceData._totalVAT,
        _total: invoiceData._total,
-       customerId: invoiceData.customer ? invoiceData.customer._id : undefined
+       customerId: invoiceData.customer ? invoiceData.customer._id : undefined,
+       postponed: invoiceData.postponed ? true : false
     }
     
     if (invoiceData.postponed) {
         data.lastModification = new Date().toString();
-        deliveryNote.insert(data, callback);
-    } else {
-        invoice.insert(data, callback);
     }
+    
+    invoice.insert(data, callback);
     
     function callback(err, newDoc) {
         if (err) {
