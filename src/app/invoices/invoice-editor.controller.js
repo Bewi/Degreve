@@ -44,7 +44,7 @@
                 vm.invoice.date = new Date(vm.invoice.date);
                 vm.invoice.paymentMethod = vm.paymentMethods[vm.invoice.paymentMethod.key];
                 
-                vm.readonly = !vm.invoice.postponed;                
+                vm.readOnly = !vm.invoice.postponed;                
                 return;
             }
 
