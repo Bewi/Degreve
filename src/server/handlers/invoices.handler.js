@@ -8,6 +8,7 @@ module.exports = {
     query: query,
     get: get,
     getNextNumber: getNextNumber,
+    validateNumber: validateNumber,
     post: post,
     put: put
 };
@@ -63,12 +64,28 @@ function get(id) {
 function getNextNumber() {
     var deferred = Q.defer();
     invoice.find({}, {number:1, _id:0}).sort({ number: -1 }).limit(1).exec(function(err, docs) {
-        if (err)
-        deferred.reject(err);
-        else
-        deferred.resolve(parseInt(docs[0].number) + 1);
+        if (err) {
+            deferred.reject(err);
+        }
+        else {
+            deferred.resolve(parseInt(docs[0].number) + 1);
+        }
     });
 
+    return deferred.promise;
+}
+
+function validateNumber(number) {
+    var deferred = Q.defer();
+    
+    invoice.count({ number: parseInt(number) }, function(err, count) {
+        if (err) {
+            deferred.reject(err);
+        } else {
+            deferred.resolve(count <= 0);
+        }
+    });
+    
     return deferred.promise;
 }
 

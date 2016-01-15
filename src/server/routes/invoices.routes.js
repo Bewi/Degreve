@@ -22,6 +22,15 @@ router.get('/nextNumber', function(req, res, next) {
   });
 });
 
+router.get('/validate/:number', function(req, res, next){
+    invoicesHandler.validateNumber(req.params.number).then(function(isValid){
+        res.json({valid: isValid});
+    }, function(err) {
+        next(err);
+    });
+});
+
+// Order matter !!
 router.get('/:id', function(req, res, next) {
   invoicesHandler.get(req.params.id).then(function(doc) {
     res.json(doc);
@@ -39,7 +48,6 @@ router.post('/', function(req, res, next) {
 });
 
 router.put('/', function(req, res, next) {
-    console.log("PUT Invoice");
     invoicesHandler.put(req.body).then(function(doc) {
         res.sendStatus(200);
     }, function(err) {

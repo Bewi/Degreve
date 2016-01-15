@@ -14,6 +14,13 @@
           method: 'GET',
           url: 'http://localhost:4242/invoices/nextNumber',
           isArray: false      
+        },
+        validateNumber: {
+            action: 'validateNumber',
+            method: 'GET',
+            url: 'http://localhost:4242/invoices/validate/:number',
+            params: {number: "@number"},
+            isArray: false
         }
       });
     }

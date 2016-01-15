@@ -28,6 +28,7 @@
         vm.setAsDefect = setAsDefect;
         vm.setAsReturned = setAsReturned;
         vm.setAsSell = setAsSell;
+        vm.validateNumber = validateNumber;
         
         vm.submit = submit;
         vm.reset = activate;
@@ -206,7 +207,6 @@
         function getProductTotalVAT(product) {
             return getProductTotalPrice(product) * product.vat / 100;
         }
-
         
          /**
          * Products state logic.
@@ -229,5 +229,11 @@
             product.returned = false;
             vm.updateTotal();
         };
+        
+        function validateNumber(number) {
+            return InvoicesResource.validateNumber({number: number}).$promise.then(function(response) {
+                return response.valid;
+            });
+        }
     }
 })();
