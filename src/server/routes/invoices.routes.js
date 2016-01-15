@@ -36,6 +36,15 @@ router.post('/', function(req, res, next) {
     }, function(err) {
         next(err);
     });
-})
+});
+
+router.put('/', function(req, res, next) {
+    console.log("PUT Invoice");
+    invoicesHandler.put(req.body).then(function(doc) {
+        res.sendStatus(200);
+    }, function(err) {
+        next(err);
+    });
+});
 
 module.exports = router;

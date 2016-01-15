@@ -8,7 +8,8 @@ module.exports = {
     query: query,
     get: get,
     getNextNumber: getNextNumber,
-    post: post
+    post: post,
+    put: put
 };
 
 function query(searchQuery) {
@@ -74,6 +75,14 @@ function getNextNumber() {
 function post(invoice) {    
     return saveInvoicePrimaryData(invoice).then(function(newDoc) {
         return saveInvoiceProducts(newDoc._id, invoice.products);  
+    });
+}
+
+function put(invoice) {
+    return saveInvoicePrimaryData(invoice).then(function() {
+        return clearInvoiceProducts(invoice._id); 
+    }).then(function(newDoc) {
+        return saveInvoiceProducts(invoice._id, invoice.products);
     });
 }
 
@@ -169,11 +178,15 @@ function saveInvoicePrimaryData(invoiceData) {
        postponed: invoiceData.postponed ? true : false
     }
     
-    if (invoiceData.postponed) {
+    if (data.postponed === true) {
         data.lastModification = new Date().toString();
     }
     
-    invoice.insert(data, callback);
+    if (invoiceData._id) {
+        invoice.update({ _id: invoiceData._id}, data, callback);    
+    } else {
+        invoice.insert(data, callback);
+    }    
     
     function callback(err, newDoc) {
         if (err) {
@@ -182,6 +195,19 @@ function saveInvoicePrimaryData(invoiceData) {
             deferred.resolve(newDoc);
         }
     }
+    
+    return deferred.promise;
+}
+
+function clearInvoiceProducts(invoiceId) {
+    var deferred = Q.defer();
+    invoiceProduct.remove({invoiceId: invoiceId}, {multi: true}, function(err, count) {
+        if (err) {
+            deferred.reject(err);
+        } else {
+            deferred.resolve(count);
+        } 
+    });
     
     return deferred.promise;
 }
