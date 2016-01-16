@@ -90,3 +90,7 @@ a[disabled] {
     color: grey;
     pointer-events: none;
 }
+
+a.btn[disabled] {
+    color: white;
+}

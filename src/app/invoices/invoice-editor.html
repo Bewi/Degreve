@@ -116,11 +116,11 @@
             <div class="form-group">
                 <div class="col-sm-12">
                     <div class="pull-right">
-                        <button type="submit" class="btn btn-primary" ng-if="!vm.readOnly">Clôturer</button>
-                        <a class="btn btn-primary" ng-click="vm.submit(true)" ng-if="!vm.readOnly">{{ vm.invoice.postponed ? 'Sauvegarder' : 'Ajourner' }}</a>
+                        <button type="submit" class="btn btn-primary" ng-if="!vm.readOnly" ng-disabled="vm.invoiceForm.$invalid">Clôturer</button>
+                        <a class="btn btn-primary" ng-click="vm.submit(true)" ng-if="!vm.readOnly" ng-disabled="vm.invoiceForm.$invalid">{{ vm.invoice.postponed ? 'Sauvegarder' : 'Ajourner' }}</a>
                         <div class="btn-group">
-                            <a class="btn btn-primary" ng-click="vm.print()">Imprimer</a>
-                            <a type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            <a class="btn btn-primary" ng-click="vm.print()" ng-disabled="vm.invoiceForm.$invalid">Imprimer</a>
+                            <a type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" ng-disabled="vm.invoiceForm.$invalid">
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
