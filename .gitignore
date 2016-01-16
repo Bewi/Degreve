@@ -53,3 +53,4 @@ shell.zip
 src/server/datastores
 src/server/models/hero.tokens.js
 *.ts
+.vscode/settings.json

@@ -10,7 +10,7 @@
     function InvoiceEditorController($window, $q, notificationService, invoice, InvoicesResource, CustomersResource, ProductsResource, printService) {
         var vm = this;
 
-        vm.readOnly = invoice._id ? true : false;
+        vm.readOnly = false;
         
         vm.paymentMethods = [
             { key: 0, name: "Liquide", printName: 'liquide' },
@@ -28,6 +28,7 @@
         vm.setAsDefect = setAsDefect;
         vm.setAsReturned = setAsReturned;
         vm.setAsSell = setAsSell;
+        vm.validateNumber = validateNumber;
         
         vm.submit = submit;
         vm.reset = activate;
@@ -43,6 +44,8 @@
             {
                 vm.invoice.date = new Date(vm.invoice.date);
                 vm.invoice.paymentMethod = vm.paymentMethods[vm.invoice.paymentMethod.key];
+                
+                vm.readOnly = !vm.invoice.postponed;                
                 return;
             }
 
@@ -204,7 +207,6 @@
         function getProductTotalVAT(product) {
             return getProductTotalPrice(product) * product.vat / 100;
         }
-
         
          /**
          * Products state logic.
@@ -227,5 +229,11 @@
             product.returned = false;
             vm.updateTotal();
         };
+        
+        function validateNumber(number) {
+            return InvoicesResource.validateNumber({number: number}).$promise.then(function(response) {
+                return response.valid;
+            });
+        }
     }
 })();

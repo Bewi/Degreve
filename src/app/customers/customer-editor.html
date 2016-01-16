@@ -59,7 +59,7 @@
       <div class="form-group">
         <div class="col-sm-12">
           <div class="pull-right">
-            <button type="submit" class="btn btn-primary">Valider</button>
+            <button type="submit" class="btn btn-primary" ng-disabled="vm.customerForm.$dirty && vm.customerForm.$invalid">Valider</button>
             <a type="reset" class="btn btn-default" ng-click="vm.cancel()">Annuler</a>
           </div>
         </div>
