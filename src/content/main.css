@@ -3,7 +3,7 @@ body {
     background-color: #edecec;
 }
 
-[ng-click], [ui-sref] {
+[ng-click], [ui-sref], [uib-popover-template] {
     cursor: pointer;
 }
 
@@ -93,4 +93,13 @@ a[disabled] {
 
 a.btn[disabled] {
     color: white;
+}
+
+.customer-details i {
+    width: 14px;
+    text-align: center;
+}
+
+.popover {
+    max-width: 500px;
 }
