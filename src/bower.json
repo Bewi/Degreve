@@ -25,6 +25,6 @@
     "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.5.0",
     "bootstrap": "~3.3.5",
     "ramda": "~0.17.1",
-    "angular-bootstrap": "~0.14.3"
+    "angular-bootstrap": "~1.1.0"
   }
 }

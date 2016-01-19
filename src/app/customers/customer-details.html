@@ -1,0 +1,16 @@
+<div class="customer-details">
+    <span ng-if="customer.address || customer.postcode || customer.loc">
+        <i class='fa fa-home'></i> {{customer.address}} {{customer.postcode}} {{customer.loc}} <br/>
+    </span>
+    <span ng-if="customer.gsm || customer.phone">
+        <i class='fa fa-mobile' ng-if="customer.gsm"></i> {{customer.gsm}} &nbsp;
+        <i class='fa fa-phone' ng-if="customer.phone"></i> {{customer.phone}} <br/>
+    </span>
+    <span ng-if="customer.mail"><i class='fa fa-envelope'></i> {{customer.mail}}<br/></span>
+    <span ng-if="customer.vatNumber">
+        <i class='fa fa-percent'></i> {{customer.vatNumber}}<br/>
+    </span>
+    <span ng-if="customer.paymentDelay">
+        <i class='fa fa-clock-o'></i> {{customer.paymentDelay}} jours<br/>
+    </span>
+</div>
