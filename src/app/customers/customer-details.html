@@ -2,15 +2,22 @@
     <span ng-if="customer.address || customer.postcode || customer.loc">
         <i class='fa fa-home'></i> {{customer.address}} {{customer.postcode}} {{customer.loc}} <br/>
     </span>
-    <span ng-if="customer.gsm || customer.phone">
+    <span ng-if="customer.gsm">
         <i class='fa fa-mobile' ng-if="customer.gsm"></i> {{customer.gsm}} &nbsp;
+        <br ng-if="!customer.phone" />
+    </span>
+    <span ng-if="customer.phone">
         <i class='fa fa-phone' ng-if="customer.phone"></i> {{customer.phone}} <br/>
     </span>
-    <span ng-if="customer.mail"><i class='fa fa-envelope'></i> {{customer.mail}}<br/></span>
+    <span ng-if="customer.mail">
+        <i class='fa fa-envelope'></i> {{customer.mail}}<br/></span>
     <span ng-if="customer.vatNumber">
         <i class='fa fa-percent'></i> {{customer.vatNumber}}<br/>
     </span>
     <span ng-if="customer.paymentDelay">
-        <i class='fa fa-clock-o'></i> {{customer.paymentDelay}} jours<br/>
+        <i class='fa fa-clock-o'></i> {{customer.paymentDelay | paymentDelay:false}}<br/>
+    </span>
+    <span ng-if="!customer.address && !customer.postcode && !customer.loc && !customer.gsm && !customer.phone && !customer.mail && !customer.vatNumber && !customer.paymentDelay">
+        Aucun détail pour ce client.
     </span>
 </div>
