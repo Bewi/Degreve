@@ -57,7 +57,7 @@ var customer  = require("../models/customer.js"),
 
     lastId().then(function(id) {
       c._id = id;
-
+      c.dateAdded = new Date().toString;
       customer.insert(c, function(err, newDoc){
         if (err)
           deferred.reject(err);
@@ -73,6 +73,8 @@ var customer  = require("../models/customer.js"),
 
   function put(c) {
     var deferred = Q.defer();
+    
+    c.lastModification = new Date().toString;
     customer.update({ _id: c._id }, c, {}, function (err, numReplaced) {
       if (err)
         deferred.reject(err);

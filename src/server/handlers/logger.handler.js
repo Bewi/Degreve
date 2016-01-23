@@ -24,7 +24,7 @@ function notify(message, callback) {
 }
 
 function log(type, message, callback) {
-  logger.insert({ type: type, date: new Date(), message: message }, callback);
+  logger.insert({ type: type, date: new Date().toString(), message: message }, callback);
 }
 
 function getAll(callback){

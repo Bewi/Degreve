@@ -90,12 +90,14 @@ function validateNumber(number) {
 }
 
 function post(invoice) {    
+    invoice.dateAdded = new Date().toString();
     return saveInvoicePrimaryData(invoice).then(function(newDoc) {
         return saveInvoiceProducts(newDoc._id, invoice.products);  
     });
 }
 
 function put(invoice) {
+    invoice.lastModification = new Date().toString();
     return saveInvoicePrimaryData(invoice).then(function() {
         return clearInvoiceProducts(invoice._id); 
     }).then(function(newDoc) {
@@ -280,7 +282,7 @@ function saveProduct(productData) {
     
     var sign = productData.returned ? 1 : -1;
     var newStock = productData.stock + (productData.amount * sign);
-    
+    productData.lastModification = new Date().toString();
     product.update({ _id: productData._id }, { $set : { stock: newStock }}, function(err, count) {
         if (err) {
             deferred.reject(err);
