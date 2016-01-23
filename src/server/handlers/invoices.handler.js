@@ -92,7 +92,7 @@ function validateNumber(number) {
 function post(invoice) {    
     invoice.dateAdded = new Date().toString();
     return saveInvoicePrimaryData(invoice).then(function(newDoc) {
-        return saveInvoiceProducts(newDoc._id, invoice.products);  
+        return saveInvoiceProducts(newDoc, invoice.products);  
     });
 }
 
@@ -101,7 +101,7 @@ function put(invoice) {
     return saveInvoicePrimaryData(invoice).then(function() {
         return clearInvoiceProducts(invoice._id); 
     }).then(function(newDoc) {
-        return saveInvoiceProducts(invoice._id, invoice.products);
+        return saveInvoiceProducts(invoice, invoice.products);
     });
 }
 
@@ -122,46 +122,54 @@ function getInvoice(id) {
 
 function setProducts(invoice) {
     var deferred = Q.defer();
-
+    
     invoiceProduct.find({invoiceId: invoice._id}, {_id:0}, function(err, invoiceProducts) {
         if (err) {
             deferred.reject(err);
             return;
         }
-
-        var ids = [];
-
-        for (var index in invoiceProducts) {
-            ids.push(invoiceProducts[index].productId);
-        }
         
-        product.find({ _id: {$in: ids}}, function(err, products) {
-            if (err) {
-                deferred.reject(err);
-                return;
+        // If invoice is closed, all product data is stored in invoiceProducts.
+        // To avoid invoice modification if a product is changed after an invoice is closed.
+        if (!invoice.postponed) {
+            invoice.products = invoiceProducts;
+            deferred.resolve(invoice);
+        } else {
+            var ids = [];
+
+            for (var index in invoiceProducts) {
+                ids.push(invoiceProducts[index].productId);
             }
             
-            for(var i in invoiceProducts) {
-                if (invoiceProducts[i].isExtra) {
-                    invoiceProducts[i]._id = invoiceProducts[i].productId;
-                    products.push(invoiceProducts[i]);
-                    continue;
+            product.find({ _id: {$in: ids}}, function(err, products) {
+                if (err) {
+                    deferred.reject(err);
+                    return;
                 }
+                
+                for(var i in invoiceProducts) {
+                    if (invoiceProducts[i].isExtra) {
+                        invoiceProducts[i]._id = invoiceProducts[i].productId;
+                        products.push(invoiceProducts[i]);
+                        continue;
+                    }
 
-                for (var j in products) {
-                    if (invoiceProducts[i].productId === products[j]._id) {
-                        products[j].amount = invoiceProducts[i].amount;
-                        products[j].defect = invoiceProducts[i].defect;
-                        products[j].returned = invoiceProducts[i].returned;
-                        break;
+                    for (var j in products) {
+                        if (invoiceProducts[i].productId === products[j]._id) {
+                            products[j].amount = invoiceProducts[i].amount;
+                            products[j].defect = invoiceProducts[i].defect;
+                            products[j].returned = invoiceProducts[i].returned;
+                            break;
+                        }
                     }
                 }
-            }
 
-            invoice.products = products;
+                invoice.products = products;
 
-            deferred.resolve(invoice);
-        });
+                deferred.resolve(invoice);
+                
+            });
+        }        
     });
 
     return deferred.promise;
@@ -231,13 +239,13 @@ function clearInvoiceProducts(invoiceId) {
     return deferred.promise;
 }
 
-function saveInvoiceProducts(invoiceId, products) {
+function saveInvoiceProducts(invoice, products) {
     var productInvoicesPromises = [];
     var productPromises = [];
     
     for(var index in products) {
         var product = products[index];
-        productInvoicesPromises.push(saveInvoiceProduct(invoiceId, product));
+        productInvoicesPromises.push(saveInvoiceProduct(invoice, product));
         
         if (!product.isExtra && !product.defect) {
             productPromises.push(saveProduct(product));
@@ -247,11 +255,11 @@ function saveInvoiceProducts(invoiceId, products) {
     return Q.all(productInvoicesPromises);
 }
 
-function saveInvoiceProduct(invoiceId, product) {
+function saveInvoiceProduct(invoice, product) {
     var deferred = Q.defer();
     
     var data  = {
-        invoiceId: invoiceId,
+        invoiceId: invoice._id,
         dateAdded: new Date().toString(),
         productId: product._id,
         amount: product.amount,
@@ -259,9 +267,10 @@ function saveInvoiceProduct(invoiceId, product) {
         returned: product.returned
     };
     
-    if (product.isExtra) {
+    if (!invoice.postponed || product.isExtra) {
         data.isExtra = product.isExtra,
         data.priceSell = product.priceSell,
+        data.priceBuy = product.priceBuy,
         data.vat = product.vat,
         data.label = product.label
     }    
