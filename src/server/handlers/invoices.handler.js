@@ -99,6 +99,8 @@ function post(invoice) {
 function put(invoice) {
     invoice.lastModification = new Date().toString();
     return saveInvoicePrimaryData(invoice).then(function() {
+        return restoreStock(invoice);  
+    }).then(function() {
         return clearInvoiceProducts(invoice._id); 
     }).then(function(newDoc) {
         return saveInvoiceProducts(invoice, invoice.products);
@@ -226,6 +228,23 @@ function saveInvoicePrimaryData(invoiceData) {
     return deferred.promise;
 }
 
+function restoreStock(invoice) {
+    var oldInvoice = {
+        _id: invoice._id,
+        postponed: invoice.postponed
+    };
+    
+    var productsPromises = []
+    
+    return setProducts(oldInvoice).then(function() {
+        for (var index in oldInvoice.products) {
+            productsPromises.push(saveProduct(oldInvoice.products[index], true));
+        }       
+        
+        return Q.all(productsPromises);
+    });
+}
+
 function clearInvoiceProducts(invoiceId) {
     var deferred = Q.defer();
     invoiceProduct.remove({invoiceId: invoiceId}, {multi: true}, function(err, count) {
@@ -286,10 +305,15 @@ function saveInvoiceProduct(invoice, product) {
     return deferred.promise;
 }
 
-function saveProduct(productData) {
+function saveProduct(productData, restore) {
     var deferred = Q.defer();
     
     var sign = productData.returned ? 1 : -1;
+    
+    if (restore) {
+        sign *= -1;
+    }
+    
     var newStock = productData.stock + (productData.amount * sign);
     productData.lastModification = new Date().toString();
     product.update({ _id: productData._id }, { $set : { stock: newStock }}, function(err, count) {
