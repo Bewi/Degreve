@@ -69,13 +69,13 @@
                     <td class="text-right">
                         <span ng-if="!product.isExtra">{{product.priceSell}}</span>
                         <numberinput ng-if="product.isExtra" ng-disabled="vm.readOnly" ng-model="product.priceSell" ng-change="vm.updateTotal()"
-                             decimal-separator="." step="1" minimum="0" spinner="false" ni-class="form-control text-right" required />    
+                             decimal-separator="." step="1" minimum="0" spinner="false" ni-class="form-control text-right" ng-required="!vm.readOnly" />    
                     </td>    
                     <td class="text-right">{{product.priceSell * product.amount | number: 2}}</td>    
                     <td class="text-right">
                         <span ng-if="!product.isExtra">{{product.vat}}</span>
                         <numberinput ng-if="product.isExtra" ng-disabled="vm.readOnly" ng-model="product.vat" ng-change="vm.updateTotal()"
-                              decimals="0" step="1" minimum="0" spinner="false" ni-class="form-control text-right" required />
+                              decimals="0" step="1" minimum="0" spinner="false" ni-class="form-control text-right" ng-required="!vm.readOnly" />
                     </td>    
                     <td class="text-center actions">
                         <div class="btn-group" ng-if="!product.extra">
