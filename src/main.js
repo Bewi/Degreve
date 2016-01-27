@@ -1,8 +1,12 @@
 var app = require('app');
 var server = require('./server/app.js');
 var BrowserWindow = require('browser-window');
-
+var squirrel = require('./squirrel.js');
 var mainWindow = null;
+
+if (squirrel.handleEvent()) {
+   return;
+}
 
 app.on('window-all-closed', function() {
   if (process.platform != 'darwin') {

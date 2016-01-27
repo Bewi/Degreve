@@ -52,5 +52,11 @@ shell.zip
 # Sensitive data 
 src/server/datastores
 src/server/models/hero.tokens.js
+
+# VSCode
 *.ts
 .vscode/settings.json
+
+# Staging
+staging/
+
