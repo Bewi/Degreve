@@ -30,7 +30,7 @@
 
     function remove(id) {
       CustomersResource.remove({ id: id }).$promise.then(function() {
-        notificationService.success("Produit supprimé");
+        notificationService.success("Client supprimé");
         $state.reload();
       });
     }

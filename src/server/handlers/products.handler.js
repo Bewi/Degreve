@@ -87,7 +87,7 @@ function put(p) {
 function remove(id) {
     var deferred = Q.defer();
 
-    product.remove({ _id: id }, {}, function(err, countDeleted){
+    product.remove({ _id: parseInt(id) }, {}, function(err, countDeleted){
         if (err)
             deferred.reject(err);
         else
@@ -103,6 +103,8 @@ function lastId() {
     product.find({ _id: { $regex: /^[0-9]*$/ } }).sort({ _id: -1 }).limit(1).exec(function(err, docs) {
         if (err)
             deferred.reject(err);
+        else if (docs.length <= 0) 
+            deferred.resolve(1000);
         else
             deferred.resolve(String(parseInt(docs[0]._id) + 1));
     });

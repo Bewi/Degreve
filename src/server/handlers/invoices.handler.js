@@ -67,7 +67,9 @@ function getNextNumber() {
         if (err) {
             deferred.reject(err);
         }
-        else {
+        else if(docs.length <= 0) {
+            deferred.resolve(1000);
+        } else {
             deferred.resolve(parseInt(docs[0].number) + 1);
         }
     });

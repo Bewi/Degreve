@@ -70,7 +70,7 @@ gulp.task('bundle-js', function () {
   var concatOpt = { newLine: ';'};
 
 
-  var main = gulp.src([src + '/main.js', src + '/package.json'])
+  var main = gulp.src([src + 'squirrel.js', src + '/main.js', src + '/package.json'])
 	.pipe(gulp.dest(dest));
 
   var modules =  gulp.src([appSrc + '/**/*.module.js', appSrc + '/**/*.js'])
