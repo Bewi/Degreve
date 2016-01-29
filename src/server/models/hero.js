@@ -1,6 +1,7 @@
 var https = require('https');
 var logger = require('./logger.js');
 var tokens = require('./hero.tokens.js');
+var Q = require('q');
 
 var host = 'api-content.dropbox.com';
 var port = 443;
@@ -10,7 +11,8 @@ var headers = {
 
 module.exports = {
   save: save,
-  release: release
+  release: release,
+  getRemoteFileNames: getRemoteFileNames
 };
 
 function save(fileName, data, callback) {
@@ -40,30 +42,72 @@ function save(fileName, data, callback) {
 }
 
 function release(fileName, callback) {
-  var options = {
-    host: host,
-    port: port,
-    path: '/1/files/auto/' + fileName,
-    method: 'GET',
-    headers: headers
-  };
+    var deferred = Q.defer();
+    var options = {
+        host: host,
+        port: port,
+        path: '/1/files/auto/' + fileName,
+        method: 'GET',
+        headers: headers
+    };
 
-  var req = https.request(options, function(res) {
-    res.setEncoding('utf8');
-    var result = "";
-    res.on('data', function (data, err) {
-      result += data;
+    var req = https.request(options, function(res) {
+        res.setEncoding('utf8');
+        var result = "";
+        res.on('data', function (data, err) {
+            result += data;
+        });
+
+        res.on('end', function() {
+            deferred.resolve(result);
+        });
     });
 
-    res.on('end', function() {
-        if (callback)
-         callback(result);
+    req.on('error', function(err) {
+        logger.error(err.message);
+        deferred.reject(err);
     });
-  });
 
-  req.on('error', function(err) {
-    logger.error(err.message);
-  });
+    req.end();
+    
+    return deferred.promise;
+}
 
-  req.end();
+function getRemoteFileNames() {
+    var deferred = Q.defer();
+    var options = {
+        host: 'api.dropboxapi.com',
+        port: port,
+        path: '/1/metadata/auto/',
+        method: 'GET',
+        headers: headers
+    };
+    
+    var req = https.request(options, function(res) {
+        res.setEncoding('utf8');
+        var result = "";
+        res.on('data', function (data, err) {
+            result += data;
+        });
+
+        res.on('end', function() {
+            var fileNames = [];
+            
+            var metadata = JSON.parse(result);
+            for(var index in metadata.contents) {
+                fileNames.push(metadata.contents[index].path.replace('/',''));
+            }
+            
+            deferred.resolve(fileNames);
+        });
+    });
+
+    req.on('error', function(err) {
+        logger.error(err.message);
+        deferred.reject(err);
+    });
+
+    req.end();
+    
+    return deferred.promise;
 }

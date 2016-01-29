@@ -1,4 +1,5 @@
 var logger = require('../models/logger.js');
+var Q = require('q');
 
 module.exports = {
   error: error,
@@ -24,31 +25,39 @@ function notify(message, callback) {
 }
 
 function log(type, message, callback) {
-  logger.insert({ type: type, date: new Date().toString(), message: message }, callback);
+  logger.insert({ type: type, date: new Date(), message: message }, callback);
 }
 
-function getAll(callback){
-  get(callback);
+function getAll(){
+  return get();
 }
 
-function getErrors(callback) {
-  get(callback, "error");
+function getErrors() {
+  return get("error");
 }
 
-function getWarnings(callback) {
-  get(callback, "warning");
+function getWarnings() {
+  return get("warning");
 }
 
-function getInfos(callback) {
-  get(callback, "info");
+function getInfos() {
+  return get("info");
 }
 
-function get(callback, type) {
+function get(type) {
+  var deferred = Q.defer()
   var nedbQuery = {};
 
   if(type) {
     nedbQuery = { type: type };
   }
 
-  logger.find(nedbQuery, callback);
+  logger.find(nedbQuery, function(err, docs) {
+        if (err) 
+            deferred.reject(err);
+        else    
+            deferred.resolve(docs);
+  });
+  
+  return deferred.promise;
 }

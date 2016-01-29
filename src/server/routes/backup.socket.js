@@ -4,6 +4,10 @@ var ws = require('nodejs-websocket'),
   loggerHandler = require('../handlers/logger.handler.js'),
   basePath = process.resourcesPath + '\\app\\server\\datastores\\';
 
+
+
+basePath = 'C:\\Projects\\GitHub\\Degreve\\src\\server\\datastores\\';
+
 module.exports = { start: start };
 
 function start() {
@@ -11,48 +15,71 @@ function start() {
     console.log("New connection");
 
     var syncStatus = { total: 0, processed: 0 };
-
+    
     conn.on("text", function (str) {
-			if (str === 'startSync') {
-				syncStatus.processed = 0;
-				sync();
-			}
-		});
-
-    conn.on("error", function(err) {
-      loggerHandler.error(err);
+        if (str === 'startSync') {
+            syncStatus.processed = 0;
+            sync();
+        } else if (str === 'startRestore') {
+            syncStatus.processed = 0;
+            restore();
+        }
     });
 
-		function sync() {
-      var files = fs.readdirSync(basePath);
+    conn.on("error", function(err) {
+        loggerHandler.error(err);
+    });
 
-      syncStatus.total = files.length;
-      conn.sendText(JSON.stringify(syncStatus));
+    function sync() {
+        var files = fs.readdirSync(basePath);
 
-      for (var i = 0; i < files.length; i ++) {
-          readFile(files[i]);
-      }
+        syncStatus.total = files.length;
+        conn.sendText(JSON.stringify(syncStatus));
 
-      function readFile(fileName) {
-        fs.readFile(basePath + fileName, 'utf8', function (err, data) {
-          if (err) {
-            loggerHandler.error(err);
-          }
-          else {
-            hero.save(fileName, data, onFileSync);
-          }
+        for (var i = 0; i < files.length; i ++) {
+            readFile(files[i]);
+        }
+
+        function readFile(fileName) {
+            fs.readFile(basePath + fileName, 'utf8', function (err, data) {
+                if (err) {
+                    loggerHandler.error(err);
+                }
+                else {
+                    hero.save(fileName, data, onFileSync);
+                }
+            });
+        }
+    }
+    
+    function restore() {
+        hero.getRemoteFileNames().then(function(fileNames) {
+            syncStatus.total = fileNames.length;
+            
+            for(var i in fileNames) {
+                writeFile(fileNames[i]);
+            }
         });
-      }
-		}
+        
+        function writeFile(fileName) {
+            hero.release(fileName).then(function(data) {
+                fs.writeFile(basePath + fileName, data, function() {
+                    onFileSync();
+                });
+            });
+        }
+    }
 
     function onFileSync() {
-      syncStatus.processed ++;
-      conn.sendText(JSON.stringify(syncStatus));
+        syncStatus.processed ++;
+        conn.sendText(JSON.stringify(syncStatus));
 
-      if (syncStatus.processed >= syncStatus.total) {
-        conn.close();
-      }
+        if (syncStatus.processed >= syncStatus.total) {
+            conn.close();
+        }
     }
+    
+    
   }).listen(4243)
     .on('error', function(errObj) {
       loggerHandler.error(JSON.stringify(errObj));
