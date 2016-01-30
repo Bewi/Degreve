@@ -11,6 +11,7 @@
         
         vm.logs = logsPrep.data;
         vm.restoreData = backupService.restore;
+        vm.transformData = backupService.transform;
     }
     
 }());

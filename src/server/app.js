@@ -7,7 +7,8 @@ var application_root = __dirname,
   invoices = require('./routes/invoices.routes.js'),
   logs = require('./routes/logs.routes.js'),
   backupSocket = require('./routes/backup.socket.js'),
-  logger = require('./handlers/logger.handler.js');
+  logger = require('./handlers/logger.handler.js'),
+  transform = require('./routes/transform.routes.js');
 
 var app = express();
 
@@ -24,6 +25,7 @@ app.use('/products', products);
 app.use('/customers', customers);
 app.use('/invoices', invoices);
 app.use('/logs', logs);
+app.use('/transform', transform);
 /* ****** */
 
 // Error handling

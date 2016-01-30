@@ -10,6 +10,7 @@
         /* jshint validthis: true */
         this.perform = perform;
         this.restore = restore;
+        this.transform = transform;
         /* jshint validthis: false */
 
         function perform(notify) {
@@ -18,6 +19,10 @@
 
         function restore(notify) {
           return startSocketing('startRestore', notify);
+        }
+        
+        function transform() {
+            return $http.post('http://localhost:4242/transform');
         }
         
         function startSocketing(type, notify) {
