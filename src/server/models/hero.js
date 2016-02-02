@@ -15,30 +15,39 @@ module.exports = {
   getRemoteFileNames: getRemoteFileNames
 };
 
-function save(fileName, data, callback) {
-  var options = {
-    host: host,
-    port: port,
-    path: '/1/files_put/auto/' + fileName,
-    method: 'POST',
-    headers: headers
-  };
+function save(fileName, data) {
+    var deferred = Q.defer();
+    
+    var options = {
+        host: host,
+        port: port,
+        path: '/1/files_put/auto/' + fileName,
+        method: 'POST',
+        headers: headers
+    };
 
-  var req = https.request(options, function(res) {
-    res.setEncoding('utf8');
+    var req = https.request(options, function(res) {
+        res.setEncoding('utf8');
 
-    res.on('data', function (data) {
-      if (callback)
-       callback(data);
+        res.on('data', function (response) {
+            response = JSON.parse(response);
+            if (response.error) {
+                deferred.reject(response.error);
+            } else {
+                deferred.resolve(response);
+            }
+        });
     });
-  });
 
-  req.on('error', function(err) {
-    logger.error(err.message);
-  });
+    req.on('error', function(err) {
+        deferred.reject(err);
+        logger.error(err.message);
+    });
 
-  req.write(data);
-  req.end();
+    req.write(data);
+    req.end();
+    
+    return deferred.promise
 }
 
 function release(fileName, callback) {
@@ -59,7 +68,12 @@ function release(fileName, callback) {
         });
 
         res.on('end', function() {
-            deferred.resolve(result);
+            if (result.indexOf('\"error\":') > 0) {
+                var jsonResult = JSON.parse(result);       
+                deferred.reject(jsonResult.error);
+            } else {
+                deferred.resolve(result);
+            }
         });
     });
 
@@ -86,19 +100,24 @@ function getRemoteFileNames() {
     var req = https.request(options, function(res) {
         res.setEncoding('utf8');
         var result = "";
-        res.on('data', function (data, err) {
+        res.on('data', function (data) {
             result += data;
         });
 
         res.on('end', function() {
-            var fileNames = [];
             
             var metadata = JSON.parse(result);
-            for(var index in metadata.contents) {
-                fileNames.push(metadata.contents[index].path.replace('/',''));
-            }
             
-            deferred.resolve(fileNames);
+            if (metadata.error) {
+                deferred.reject(metadata.error);
+            } else {
+                var fileNames = [];            
+                for(var index in metadata.contents) {
+                    fileNames.push(metadata.contents[index].path.replace('/',''));
+                }
+                
+                deferred.resolve(fileNames);
+            }
         });
     });
 

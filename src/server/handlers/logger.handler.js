@@ -12,20 +12,30 @@ module.exports = {
   getInfos: getInfos
 };
 
-function error(message, callback) {
-  this.log("error", message, callback);
+function error(message) {
+  return this.log("error", message);
 }
 
-function warn(message, callback) {
-  this.log("warning", message, callback);
+function warn(message) {
+  return this.log("warning", message);
 }
 
-function notify(message, callback) {
-  this.log("info", message, callback);
+function notify(message) {
+  return this.log("info", message);
 }
 
-function log(type, message, callback) {
-  logger.insert({ type: type, date: new Date(), message: message }, callback);
+function log(type, message) {
+    var deferred = Q.defer();
+    
+    logger.insert({ type: type, date: new Date(), message: message }, function(err) {
+        if (err){
+            deferred.reject(err);
+        } else {
+            deferred.resolve();
+        }
+    });
+    
+    return deferred.promise;
 }
 
 function getAll(){

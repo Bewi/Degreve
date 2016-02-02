@@ -7,15 +7,15 @@
       <thead>
       <tr>
           <th class="text-center date">Date</th>
-          <th class="text-center mid-number">Type</th>
           <th>Message</th>
+          <th></th>
       </tr>
       </thead>
       <tbody>
         <tr ng-repeat="log in vm.logs">
             <td class="text-center date">{{ log.date | date:'dd-MM-yyyy'}}</td>
-            <td class="text-center mid-number">{{ log.type }}</td>
             <td>{{ log.message }}</td>
+            <td><i class="fa" ng-class="{ 'fa-exclamation-circle': log.type == 'error', 'fa-warning': log.type == 'warn', 'fa-info': log.type == 'info' }"></i></td>
         </tr>
       </tbody>
   </table>

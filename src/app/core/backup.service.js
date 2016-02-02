@@ -26,9 +26,10 @@
         }
         
         function startSocketing(type, notify) {
-             var deferred = $q.defer();
+            var deferred = $q.defer();
             var electronWindow = Electron.mainWindow;
             var connection = new WebSocket("ws://localhost:4243");
+            var status = {};
             
             connection.onopen = onOpen;
             connection.onmessage = onMessage;
@@ -42,8 +43,8 @@
             }
 
             function onMessage(msg) {
-                var status = JSON.parse(msg.data);
-                electronWindow.setProgressBar(status.processed / status.total);
+                status = JSON.parse(msg.data);
+                electronWindow.setProgressBar(status.processed + status.failed / status.total);
                 
                 if (notify) {
                     notify('progress', status);
@@ -58,18 +59,27 @@
                 }
             }
 
-            function onClose() {
+            function onClose(closeEvent) {
                 $timeout(blockUI.stop());
                 console.warn("Connection closed");
 
                 $timeout(function() {
                     electronWindow.setProgressBar(-1);
                 }, 1000);
-
-                if (status.processed == status.total)
-                    deferred.resolve();
-                else
+                
+                if (closeEvent.code == 500) {
+                    console.error("Reason : ", closeEvent.reason);
+                    deferred.reject();
+                }                
+                else if (status.failed > 0) {
+                    deferred.reject("Echec de la synchornisation de " + status.failed + " sur " + status.total + " fichiers");
+                }
+                else if (status.processed != status.total) {
                     deferred.reject("Connection closed before end of sync.");
+                }
+                else {
+                    deferred.resolve();
+                }
             }
             
             return deferred.promise;
