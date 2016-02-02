@@ -2,7 +2,8 @@ var invoice = require('../models/invoice.js'),
     invoiceProduct = require('../models/invoice-product.js'),
     product = require('../models/product.js'),
     customersHandler = require('./customers.handler.js'),
-    Q = require("q");
+    Q = require("q"),
+    R = require("ramda");
 
 module.exports = {
     query: query,
@@ -134,7 +135,12 @@ function setProducts(invoice) {
         // If invoice is closed, all product data is stored in invoiceProducts.
         // To avoid invoice modification if a product is changed after an invoice is closed.
         if (!invoice.postponed) {
-            invoice.products = invoiceProducts;
+            invoice.products = R.map(function(invoiceProduct) {
+                var mappedInvoiceProduct = R.clone(invoiceProduct);
+                mappedInvoiceProduct._id = invoiceProduct.productId;
+                delete mappedInvoiceProduct.productId;
+                return mappedInvoiceProduct;
+            }, invoiceProducts);
             deferred.resolve(invoice);
         } else {
             var ids = [];
