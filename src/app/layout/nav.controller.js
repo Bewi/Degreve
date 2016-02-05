@@ -6,13 +6,14 @@
     .controller('NavController', NavController);
 
   /* @ngInject */
-  function NavController($state, backupService, notificationService) {
+  function NavController($state, Electron, backupService, notificationService) {
     /* jshint validthis: true */
     var vm = this;
     /* jshint validthis: false */
 
     vm.isCurrentState = isCurrentState;
     vm.backup = backup;
+    vm.adminMode = Electron.isAdminMode();
 
     ////////////////
     function isCurrentState(state) {

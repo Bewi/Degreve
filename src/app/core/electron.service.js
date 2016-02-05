@@ -1,3 +1,4 @@
+/* global R */
 (function() {
     'use strict';
 
@@ -8,7 +9,8 @@
     function ElectronProvider() {
         var remote = require('remote');
         var service = {
-            mainWindow: remote.getCurrentWindow()
+            mainWindow: remote.getCurrentWindow(),
+            isAdminMode: isAdminMode
         };
 
         /* jshint validthis: true */
@@ -25,6 +27,10 @@
               service.mainWindow.toggleDevTools();
             }
           });
+        }
+        
+        function isAdminMode() {
+            return service.mainWindow.adminMode;
         }
     }
 })();
