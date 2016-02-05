@@ -5,9 +5,10 @@ var application_root = __dirname,
   products = require('./routes/products.routes.js'),
   customers = require('./routes/customers.routes.js'),
   invoices = require('./routes/invoices.routes.js'),
-  backup = require('./routes/backup.routes.js'),
+  logs = require('./routes/logs.routes.js'),
   backupSocket = require('./routes/backup.socket.js'),
-  logger = require('./handlers/logger.handler.js');
+  logger = require('./handlers/logger.handler.js'),
+  transform = require('./routes/transform.routes.js');
 
 var app = express();
 
@@ -23,8 +24,8 @@ app.get('/', function (req, res) {
 app.use('/products', products);
 app.use('/customers', customers);
 app.use('/invoices', invoices);
-
-app.use('/backup', backup);
+app.use('/logs', logs);
+app.use('/transform', transform);
 /* ****** */
 
 // Error handling

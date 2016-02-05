@@ -13,7 +13,6 @@
 
     vm.isCurrentState = isCurrentState;
     vm.backup = backup;
-    vm.restore = restore;
 
     ////////////////
     function isCurrentState(state) {
@@ -23,18 +22,14 @@
     function backup() {
       backupService.perform().then(function() {
         notificationService.success("Sauvegarde terminée avec succés");
-      }, function() {
-        notificationService.error("Une erreur est survenue lors de la sauvegarde");
+      }, function(message) {
+        if (message) {
+            notificationService.error(message);
+        } else {
+            notificationService.error("Une erreur est survenur lors de la restauration des données");
+        }
       });
-    }
-
-    function restore() {
-      backupService.restore().then(function() {
-        notificationService.success("Les données ont été restaurées");
-      }, function() {
-        notificationService.error("Une erreur est survenur lors de la restauration des données");
-      });
-    }
+    }   
   }
 
 }());

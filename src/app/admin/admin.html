@@ -1,0 +1,22 @@
+<section>
+    <div class="content">
+        <button class="btn btn-primary" ng-click="vm.restoreData()">Restore local data</button>
+        <button class="btn btn-default" ng-click="vm.transformData()">Transform data</button>
+    </div>
+    <table class="table table-striped table-bordered table-paged table-fixed">
+      <thead>
+      <tr>
+          <th class="text-center date">Date</th>
+          <th>Message</th>
+          <th></th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="log in vm.logs">
+            <td class="text-center date">{{ log.date | date:'dd-MM-yyyy'}}</td>
+            <td>{{ log.message }}</td>
+            <td><i class="fa" ng-class="{ 'fa-exclamation-circle': log.type == 'error', 'fa-warning': log.type == 'warn', 'fa-info': log.type == 'info' }"></i></td>
+        </tr>
+      </tbody>
+  </table>
+</section>

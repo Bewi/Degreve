@@ -2,7 +2,8 @@ var invoice = require('../models/invoice.js'),
     invoiceProduct = require('../models/invoice-product.js'),
     product = require('../models/product.js'),
     customersHandler = require('./customers.handler.js'),
-    Q = require("q");
+    Q = require("q"),
+    R = require("ramda");
 
 module.exports = {
     query: query,
@@ -92,14 +93,14 @@ function validateNumber(number) {
 }
 
 function post(invoice) {    
-    invoice.dateAdded = new Date().toString();
+    invoice.dateAdded = new Date();
     return saveInvoicePrimaryData(invoice).then(function(newDoc) {
         return saveInvoiceProducts(newDoc, invoice.products);  
     });
 }
 
 function put(invoice) {
-    invoice.lastModification = new Date().toString();
+    invoice.lastModification = new Date();
     return saveInvoicePrimaryData(invoice).then(function() {
         return restoreStock(invoice);  
     }).then(function() {
@@ -136,7 +137,12 @@ function setProducts(invoice) {
         // If invoice is closed, all product data is stored in invoiceProducts.
         // To avoid invoice modification if a product is changed after an invoice is closed.
         if (!invoice.postponed) {
-            invoice.products = invoiceProducts;
+            invoice.products = R.map(function(invoiceProduct) {
+                var mappedInvoiceProduct = R.clone(invoiceProduct);
+                mappedInvoiceProduct._id = invoiceProduct.productId;
+                delete mappedInvoiceProduct.productId;
+                return mappedInvoiceProduct;
+            }, invoiceProducts);
             deferred.resolve(invoice);
         } else {
             var ids = [];
@@ -201,7 +207,7 @@ function saveInvoicePrimaryData(invoiceData) {
        paymentMethod: invoiceData.paymentMethod,
        discount: invoiceData.discount,
        date: invoiceData.date,
-       dateAdded: new Date().toString(),
+       dateAdded: new Date(),
        _totalPrice: invoiceData._totalPrice,
        _totalVAT: invoiceData._totalVAT,
        _total: invoiceData._total,
@@ -210,7 +216,7 @@ function saveInvoicePrimaryData(invoiceData) {
     }
     
     if (data.postponed === true) {
-        data.lastModification = new Date().toString();
+        data.lastModification = new Date();
     }
     
     if (invoiceData._id) {
@@ -281,7 +287,7 @@ function saveInvoiceProduct(invoice, product) {
     
     var data  = {
         invoiceId: invoice._id,
-        dateAdded: new Date().toString(),
+        dateAdded: new Date(),
         productId: product._id,
         amount: product.amount,
         defect: product.defect,
@@ -317,7 +323,7 @@ function saveProduct(productData, restore) {
     }
     
     var newStock = productData.stock + (productData.amount * sign);
-    productData.lastModification = new Date().toString();
+    productData.lastModification = new Date();
     product.update({ _id: productData._id }, { $set : { stock: newStock }}, function(err, count) {
         if (err) {
             deferred.reject(err);

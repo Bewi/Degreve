@@ -1,4 +1,5 @@
 var logger = require('../models/logger.js');
+var Q = require('q');
 
 module.exports = {
   error: error,
@@ -11,44 +12,62 @@ module.exports = {
   getInfos: getInfos
 };
 
-function error(message, callback) {
-  this.log("error", message, callback);
+function error(message) {
+  return this.log("error", message);
 }
 
-function warn(message, callback) {
-  this.log("warning", message, callback);
+function warn(message) {
+  return this.log("warning", message);
 }
 
-function notify(message, callback) {
-  this.log("info", message, callback);
+function notify(message) {
+  return this.log("info", message);
 }
 
-function log(type, message, callback) {
-  logger.insert({ type: type, date: new Date().toString(), message: message }, callback);
+function log(type, message) {
+    var deferred = Q.defer();
+    
+    logger.insert({ type: type, date: new Date(), message: message }, function(err) {
+        if (err){
+            deferred.reject(err);
+        } else {
+            deferred.resolve();
+        }
+    });
+    
+    return deferred.promise;
 }
 
-function getAll(callback){
-  get(callback);
+function getAll(){
+  return get();
 }
 
-function getErrors(callback) {
-  get(callback, "error");
+function getErrors() {
+  return get("error");
 }
 
-function getWarnings(callback) {
-  get(callback, "warning");
+function getWarnings() {
+  return get("warning");
 }
 
-function getInfos(callback) {
-  get(callback, "info");
+function getInfos() {
+  return get("info");
 }
 
-function get(callback, type) {
+function get(type) {
+  var deferred = Q.defer()
   var nedbQuery = {};
 
   if(type) {
     nedbQuery = { type: type };
   }
 
-  logger.find(nedbQuery, callback);
+  logger.find(nedbQuery, function(err, docs) {
+        if (err) 
+            deferred.reject(err);
+        else    
+            deferred.resolve(docs);
+  });
+  
+  return deferred.promise;
 }

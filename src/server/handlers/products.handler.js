@@ -57,7 +57,7 @@ function post(p) {
 
     lastId().then(function(id) {
         p._id = id;
-        p.dateCreated = new Date().toString();
+        p.dateCreated = new Date();
         product.insert(p, function(err, newDoc){
         if (err)
             deferred.reject(err);
@@ -73,7 +73,7 @@ function post(p) {
 
 function put(p) {
     var deferred = Q.defer();
-    p.lastModification = new Date().toString();
+    p.lastModification = new Date();
     product.update({ _id: p._id }, p, {}, function (err, numReplaced) {
         if (err)
             deferred.reject(err);
