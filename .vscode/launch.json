@@ -6,7 +6,7 @@
             "type": "node",
             "program": "src/main.js", // entry point of electron
             "stopOnEntry": false,
-            "args": [],
+            "args": ["--admin"],
             "cwd": ".",
             // next line is very important
             "runtimeExecutable": "node_modules/electron-prebuilt/dist/electron.exe",
