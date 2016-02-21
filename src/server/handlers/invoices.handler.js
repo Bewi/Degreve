@@ -64,14 +64,19 @@ function get(id) {
 
 function getNextNumber() {
     var deferred = Q.defer();
-    invoice.find({}, {number:1, _id:0}).sort({ number: -1 }).limit(1).exec(function(err, docs) {
+    invoice.find({}, {number:1, _id:0}).sort({ number: -1 }).limit(10).exec(function(err, docs) {
         if (err) {
             deferred.reject(err);
         }
         else if(docs.length <= 0) {
             deferred.resolve(1000);
         } else {
-            deferred.resolve(parseInt(docs[0].number) + 1);
+            var numbers = R.pluck('number')(docs);
+            var nextNumber = R.dropWhile(function(num) {
+                return numbers.indexOf(num - 1) > -1;                
+            }, numbers)[1] + 1; 
+            
+            deferred.resolve(nextNumber);
         }
     });
 

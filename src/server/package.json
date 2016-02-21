@@ -22,6 +22,7 @@
   "author": "Me",
   "license": "ISC",
   "devDependencies": {
-    "jasmine": "^2.3.2"
+    "jasmine": "^2.3.2",
+    "proxyquire": "^1.7.4"
   }
 }
