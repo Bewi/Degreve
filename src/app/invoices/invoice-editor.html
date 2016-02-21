@@ -77,7 +77,7 @@
                         <numberinput ng-if="product.isExtra" ng-disabled="vm.readOnly" ng-model="product.vat" ng-change="vm.updateTotal()"
                               decimals="0" step="1" minimum="0" spinner="false" ni-class="form-control text-right" ng-required="!vm.readOnly" />
                     </td>    
-                    <td class="text-center actions">
+                    <td class="text-center actions" ng-if="!vm.readOnly">
                         <div class="btn-group" ng-if="!product.extra">
                             <button type="button" class="btn btn-primary" data-toggle="dropdown">
                                 <i class="fa" ng-class="{'fa-calculator': !product.returned && !product.defect, 'fa-check': product.returned, 'fa-close': product.defect }"></i>
@@ -89,6 +89,11 @@
                             </ul>
                         </div>
                         <a ng-click="vm.removeProduct($index)"><i class="fa fa-trash"></i></a>
+                    </td>
+                    <td class="text-center actions" ng-if="vm.readOnly">
+                        <i class="fa fa-calculator" ng-if="!product.returned && !product.defect"  uib-tooltip="Vente" tooltip-placement="top"></i>
+                        <i class="fa fa-check" ng-if="product.returned" uib-tooltip="Retour" tooltip-placement="top"></i>
+                        <i class="fa fa-close" ng-if="product.defect" uib-tooltip="Défaut" tooltip-placement="top"></i>
                     </td>
                 </tr>    
             </tbody>

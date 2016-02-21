@@ -41,16 +41,16 @@ function query(searchQuery) {
         .limit(searchQuery.pageSize)
         .exec(function(err, data) {
             if (err)
-            deferred.reject(err);
+             deferred.reject(err);
             else {
-            var promises = [];
-            for (var index in data) {
-                promises.push(linkCustomer(data[index]));
-            }
+                var promises = [];
+                for (var index in data) {
+                    promises.push(linkCustomer(data[index]));
+                }
 
-            Q.all(promises).done(function() {
-                deferred.resolve({data: data, count: count});
-            });
+                Q.all(promises).done(function() {
+                    deferred.resolve({data: data, count: count});
+                });
             }
         });
     });
@@ -239,7 +239,7 @@ function saveInvoicePrimaryData(invoiceData) {
 function restoreStock(invoice) {
     var oldInvoice = {
         _id: invoice._id,
-        postponed: invoice.postponed
+        postponed: true
     };
     
     var productsPromises = []
@@ -249,7 +249,16 @@ function restoreStock(invoice) {
             productsPromises.push(saveProduct(oldInvoice.products[index], true));
         }       
         
-        return Q.all(productsPromises);
+        return Q.all(productsPromises).then(function(result) {
+            R.forEach(function(newP) {
+                var prodToUpdate = R.find(R.propEq('_id', newP._id), invoice.products);
+                if(prodToUpdate) {
+                    prodToUpdate.stock = newP.stock;
+                }
+            }, result)
+            
+            return Q.resolve(result);
+        });
     });
 }
 
@@ -328,7 +337,8 @@ function saveProduct(productData, restore) {
         if (err) {
             deferred.reject(err);
         } else {
-            deferred.resolve(count);
+            productData.stock = newStock;
+            deferred.resolve(productData);
         }
     });
     

@@ -1,6 +1,6 @@
 var https = require('https');
-var logger = require('./logger.js');
-var tokens = require('./hero.tokens.js');
+var logger = require('./logger.handler.js');
+var tokens = require('../models/hero.tokens.js');
 var Q = require('q');
 
 var host = 'api-content.dropbox.com';

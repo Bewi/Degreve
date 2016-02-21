@@ -1,13 +1,11 @@
 var ws = require('nodejs-websocket'),
   fs = require('fs'),
   R = require('ramda'),
-  hero = require('../models/hero.js'),
+  hero = require('../handlers/hero.handler.js'),
   loggerHandler = require('../handlers/logger.handler.js'),
   basePath = process.resourcesPath + '\\app\\server\\datastores\\';
 
-
-
-basePath = 'C:\\Projects\\GitHub\\Degreve\\src\\server\\datastores\\';
+// basePath = 'C:\\Projects\\GitHub\\Degreve\\src\\server\\datastores\\';
 
 module.exports = { start: start };
 

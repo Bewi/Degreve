@@ -2,26 +2,26 @@ var logger = require('../models/logger.js');
 var Q = require('q');
 
 module.exports = {
-  error: error,
-  warn: warn,
-  notify: notify,
-  log: log,
-  getAll: getAll,
-  getErrors: getErrors,
-  getWarnings: getWarnings,
-  getInfos: getInfos
+    error: error,
+    warn: warn,
+    notify: notify,
+    log: log,
+    getAll: getAll,
+    getErrors: getErrors,
+    getWarnings: getWarnings,
+    getInfos: getInfos
 };
 
 function error(message) {
-  return this.log("error", message);
+    return this.log("error", message);
 }
 
 function warn(message) {
-  return this.log("warning", message);
+    return this.log("warning", message);
 }
 
 function notify(message) {
-  return this.log("info", message);
+    return this.log("info", message);
 }
 
 function log(type, message) {
@@ -39,35 +39,37 @@ function log(type, message) {
 }
 
 function getAll(){
-  return get();
+    return get();
 }
 
 function getErrors() {
-  return get("error");
+    return get("error");
 }
 
 function getWarnings() {
-  return get("warning");
+    return get("warning");
 }
 
 function getInfos() {
-  return get("info");
+    return get("info");   
 }
 
 function get(type) {
-  var deferred = Q.defer()
-  var nedbQuery = {};
+    var deferred = Q.defer()
+    var nedbQuery = {};
 
-  if(type) {
-    nedbQuery = { type: type };
-  }
+    if(type) {
+        nedbQuery = { type: type };
+    }
 
-  logger.find(nedbQuery, function(err, docs) {
+    logger.find(nedbQuery)
+    .sort({ date: -1 })
+    .exec(function(err, docs) {
         if (err) 
             deferred.reject(err);
         else    
             deferred.resolve(docs);
-  });
+    });
   
-  return deferred.promise;
+    return deferred.promise;  
 }

@@ -10,7 +10,7 @@
       </thead>
       <tbody>
         <tr ng-repeat="customer in vm.customers">
-            <td class="text-center">{{customer._id}}</td>
+            <td class="text-center" ng-bind-html="customer._id | highlight: vm.appliedSearch"></td>
             <td>
                 <span uib-popover-template="'app/customers/customer-details.html'"
                       popover-trigger='outsideClick'

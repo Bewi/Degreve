@@ -14,7 +14,7 @@ function query(searchQuery) {
     var nedbQuery = {};
     if (searchQuery.search) {
         var regex = { $regex:new RegExp(searchQuery.search, 'i') };
-        nedbQuery = { $or: [{name: regex}] };
+        nedbQuery = { $or: [{name: regex}, {_id: regex}] };
     }
 
     customer.count(nedbQuery, function(err, count){
@@ -88,7 +88,7 @@ function put(c) {
 function remove(id) {
     var deferred = Q.defer();
 
-    customer.remove({ _id: parseInt(id) }, {}, function(err, countDeleted){
+    customer.remove({ _id: id }, {}, function(err, countDeleted){
         if (err)
             deferred.reject(err);
         else
