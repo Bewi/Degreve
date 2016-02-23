@@ -5,6 +5,7 @@ var merge = require('merge-stream'); // Allow to merge multiple stream in one ta
 var del = require('del'); // Deletion of files/folders
 var size = require('gulp-size'); // used to display size of folders
 var install = require('gulp-install'); // used to install only prod packages of server
+var rename = require('gulp-rename');
 
 // JS
 var ngAnnotate = require('gulp-ng-annotate'); // Resolve angular injections
@@ -154,15 +155,19 @@ gulp.task('bundle-html', function () {
 
 gulp.task('bundle-server', function() {
 	var server = gulp.src(['!' + serverSrc + '/node_modules/', '!' + serverSrc + '/node_modules/**',
-            '!' + serverSrc + '/spec/', '!' + serverSrc + '/spec/**',
+            '!' + serverSrc + '/spec/', '!' + serverSrc + '/spec/**', '!' + serverSrc + '/models/hero.tokens.js', '!' + serverSrc + '/models/hero.tokens.prod.js',
           serverSrc + '/**/*'])
 		.pipe(gulp.dest(serverDest));
 
-  var pack =  gulp.src(serverSrc + '/package.json')
+  var pack = gulp.src(serverSrc + '/package.json')
     .pipe(gulp.dest(serverDest))
     .pipe(install({production: true}));
+    
+  var tokens = gulp.src(serverSrc + '/models/hero.tokens.prod.js')
+    .pipe(rename('hero.tokens.js'))
+    .pipe(gulp.dest(serverDest + '/models'));
 
-  return merge(server, pack);
+  return merge(server, pack, tokens);
 });
 
 gulp.task('clean', function(cb) {

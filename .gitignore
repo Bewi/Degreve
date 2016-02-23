@@ -60,3 +60,4 @@ src/server/models/hero.tokens.js
 # Staging
 staging/
 
+src/server/models/hero.tokens.prod.js
