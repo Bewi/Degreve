@@ -6,19 +6,19 @@
     .factory('InvoicesResource', InvoicesResource);
 
     /* @NgInject */
-    function InvoicesResource($resource) {
+    function InvoicesResource($resource, serviceUrl) {
       // TODO: Move service URL to const
-      return $resource("http://localhost:4242/invoices/:id", {id: "@id"}, {
+      return $resource(serviceUrl+ "/invoices/:id", {id: "@id"}, {
         getNextNumber: {
           action: 'getNextNumber',
           method: 'GET',
-          url: 'http://localhost:4242/invoices/nextNumber',
+          url: serviceUrl +'/invoices/nextNumber',
           isArray: false      
         },
         validateNumber: {
             action: 'validateNumber',
             method: 'GET',
-            url: 'http://localhost:4242/invoices/validate/:number',
+            url: serviceUrl + '/invoices/validate/:number',
             params: {number: "@number"},
             isArray: false
         }

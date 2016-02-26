@@ -40,10 +40,6 @@ var releaseDest = './release';
 gulp.task('build', function(callback){
   runSequence(
     'cleanShell',
-    // ['bundle-libs-js', 'bundle-js'],
-    // 'bundle-css',
-    // 'bundle-html',
-  	// 'bundle-server',
     'default',
   	'shell',
     'clean',

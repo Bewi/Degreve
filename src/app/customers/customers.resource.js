@@ -6,7 +6,7 @@
         .factory('CustomersResource', CustomersResource);
 
     /* @ngInject */
-    function CustomersResource($resource) {
-      return $resource("http://localhost:4242/customers/:id", {id: "@id"});
+    function CustomersResource($resource, serviceUrl) {
+      return $resource(serviceUrl + "/customers/:id", {id: "@id"});
     }
 })();

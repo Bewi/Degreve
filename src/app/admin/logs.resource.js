@@ -6,7 +6,7 @@
         .factory('LogsResource', LogsResource);
         
     /* @ngInject */
-    function LogsResource($resource) {
-      return $resource("http://localhost:4242/logs");
+    function LogsResource($resource, serviceUrl) {
+      return $resource(serviceUrl + "/logs");
     }
 }());

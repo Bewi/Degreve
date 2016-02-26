@@ -6,7 +6,7 @@
         .service('backupService', backupService);
 
       /* @ngInject */
-      function backupService($http, $timeout, $q, serviceUrl, blockUI, Electron) {
+      function backupService($http, $timeout, $q, serviceUrl, socketUrl, blockUI, Electron) {
         /* jshint validthis: true */
         this.perform = perform;
         this.restore = restore;
@@ -22,13 +22,13 @@
         }
         
         function transform() {
-            return $http.post('http://localhost:4242/transform');
+            return $http.post(serviceUrl + '/transform');
         }
         
         function startSocketing(type, notify) {
             var deferred = $q.defer();
             var electronWindow = Electron.mainWindow;
-            var connection = new WebSocket("ws://localhost:4243");
+            var connection = new WebSocket(socketUrl);
             var status = {};
             
             connection.onopen = onOpen;
