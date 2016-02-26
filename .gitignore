@@ -46,8 +46,8 @@ Temporary Items
 libs/
 node_modules/
 dist/
-shell/
-shell.zip
+cache/
+release/
 
 # Sensitive data 
 src/server/datastores

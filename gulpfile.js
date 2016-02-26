@@ -20,7 +20,7 @@ var filter = require('gulp-filter'); // Filter files
 var inject = require('gulp-inject'); // Used to add min libs to the index.html
 
 // Shell
-var electron = require('gulp-atom-electron');
+var electron = require('gulp-electron');
 
 // Sources
 var src = 'src/';
@@ -174,10 +174,28 @@ gulp.task('clean', function(cb) {
   return del.sync('dist');
 });
 
-gulp.task('shell', function () {
-    return gulp.src('dist/**')
-        .pipe(electron({ version: '0.33.0', platform: 'win32', winIcon: 'icon.ico' }))
-        .pipe(gulp.dest('shell'));
+gulp.task('shell', function() {
+    var packageJson = require('./src/package.json');
+    
+    gulp.src("")
+    .pipe(electron({
+        src: './dist',
+        packageJson: packageJson,
+        release: './release',
+        cache: './cache',
+        version: 'v0.36.0',
+        packaging: false,
+        platforms: ['win32-ia32'],
+        platformResources: {
+            win: {  
+                "version-string": packageJson.version,
+                "file-version": packageJson.version,
+                "product-version": packageJson.version,
+                "icon": 'icon.ico'
+            }
+        }
+    }))
+    .pipe(gulp.dest(""));
 });
 
 gulp.task('clean-shell-resources', function () {
