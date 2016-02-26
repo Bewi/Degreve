@@ -63,8 +63,10 @@
                     <td class="text-center">{{product._id}}</td>    
                     <td>{{product.label}}</td>    
                     <td class="text-right">
-                        <numberinput ni-class="form-control text-right" ng-disabled="vm.readOnly" ng-model="product.amount" ng-change="vm.updateTotal()"
+                        <div uib-tooltip="{{ vm.getProductTooltip(product) }}" tooltip-placement="top">
+                            <numberinput ni-class="form-control text-right" ng-disabled="vm.readOnly" ng-model="product.amount" ng-change="vm.updateTotal()"
                                     spinner="false" minimum="1" maximum="{{ !product.defect && !product.returned && !product.isExtra && product.stock }}" decimals="0" />
+                        </div>
                     </td>
                     <td class="text-right">
                         <span ng-if="!product.isExtra">{{product.priceSell}}</span>

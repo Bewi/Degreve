@@ -28,6 +28,7 @@
         vm.setAsDefect = setAsDefect;
         vm.setAsReturned = setAsReturned;
         vm.setAsSell = setAsSell;
+        vm.getProductTooltip = getProductTooltip;
         vm.validateNumber = validateNumber;
         
         vm.submit = submit;
@@ -229,6 +230,10 @@
             product.returned = false;
             vm.updateTotal();
         };
+        
+        function getProductTooltip(product) {
+            return product.defect || product.returned || product.isExtra ? "" : "Stock: " + product.stock;
+        }
         
         function validateNumber(number) {
             return InvoicesResource.validateNumber({number: number}).$promise.then(function(response) {
