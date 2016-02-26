@@ -19,7 +19,7 @@
                 </span>
             </td>
             <td class="text-center">
-                <div class="actions">
+                <div>
                     <a ui-sref="customer-editor({ customerId: customer._id })"><i class="fa fa-pencil"></i></a>
                     <a href="" dw-really="Êtes-vous sûr de vouloir supprimer ce client ?" dw-really-click="vm.remove(customer._id)"><i class="fa fa-trash-o"></i></a>
                     <a href="#/invoices?orderBy='_id'&orderByDirection=1&page=0&pageSize=10&customerId={{customer._id}}&back=customers"><i class="fa fa-list"></i></a>

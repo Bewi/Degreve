@@ -17,7 +17,7 @@
             <td>{{ ::invoice.customer.name }}</td>
             <td class="text-right">{{ ::invoice._total | currency:"" }}€</td>
             <td class="text-center">
-                <div class="actions">
+                <div>
                     <a href="#/customers?search={{invoice.customer.name}}&back=factures" ng-disabled="!invoice.customer"><i class="fa fa-group"></i></a>
                     <a ui-sref="invoice-editor({ invoiceId: invoice._id })"><i class="fa" ng-class="{ 'fa-info': !invoice.postponed, 'fa-edit': invoice.postponed }"></i></a>
                 </div>
