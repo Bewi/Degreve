@@ -26,33 +26,32 @@ var electron = require('gulp-electron');
 var src = 'src/';
 var appSrc = 'src/app';
 var libSrc = 'src/libs';
-var cssSrc = 'src/content';
+var contentSrc = 'src/content';
 var serverSrc = 'src/server';
 
 // Destinations
 var dest = 'dist/';
 var libsDest = 'dist/libs';
 var appDest = 'dist/app';
-var cssDest = 'dist/content';
+var contentDest = 'dist/content';
 var serverDest = 'dist/server';
-var shellResourcesDest = 'shell/resources/app';
+var releaseDest = './release';
 
-
-gulp.task('default', function(callback){
+gulp.task('build', function(callback){
   runSequence(
-    'clean-shell-resources',
-    ['bundle-libs-js', 'bundle-js'],
-    'bundle-css',
-    'bundle-html',
-  	'bundle-server',
+    'cleanShell',
+    // ['bundle-libs-js', 'bundle-js'],
+    // 'bundle-css',
+    // 'bundle-html',
+  	// 'bundle-server',
+    'default',
   	'shell',
     'clean',
     callback);
 });
 
-gulp.task('build', function(callback) {
+gulp.task('default', function(callback) {
 	return runSequence(
-    'clean-shell-resources',
 	['bundle-libs-js', 'bundle-js'],
     'bundle-css',
     'bundle-html',
@@ -60,16 +59,8 @@ gulp.task('build', function(callback) {
 	callback);
 });
 
-gulp.task('build-dev', function(callback) {
-    return runSequence(
-        'clean-shell-resources',
-        'copy',
-        callback);
-});
-
 gulp.task('bundle-js', function () {
   var concatOpt = { newLine: ';'};
-
 
   var main = gulp.src([src + 'squirrel.js', src + '/main.js', src + '/package.json'])
 	.pipe(gulp.dest(dest));
@@ -111,20 +102,23 @@ gulp.task('bundle-libs-js', function () {
 gulp.task('bundle-css', function () {
     var appCssFilter = filter('app.css');
 
-    var app = gulp.src(cssSrc + '/app.css')
+    var app = gulp.src(contentSrc + '/app.css')
       .pipe(appCssFilter)
       .pipe(size({showFiles: true}))
       .pipe(minifyCss({ processImport: true, keepSpecialComments: 0 }))
-      .pipe(gulp.dest(cssDest));
+      .pipe(gulp.dest(contentDest));
 
-    var print = gulp.src(cssSrc + '/print.css')
+    var print = gulp.src(contentSrc + '/print.css')
       .pipe(minifyCss({ processImport: true, keepSpecialComments: 0 }))
-      .pipe(gulp.dest(cssDest));
+      .pipe(gulp.dest(contentDest));
 
-    var fonts = gulp.src(cssSrc + '/font-awesome/fonts/*', {base: cssSrc + '/font-awesome/'})
-      .pipe(gulp.dest(cssDest + '/font-awesome'));
+    var fonts = gulp.src(contentSrc + '/font-awesome/fonts/*', {base: contentSrc + '/font-awesome/'})
+      .pipe(gulp.dest(contentDest + '/font-awesome'));
+      
+    var images = gulp.src(contentSrc + '/*.png')
+      .pipe(gulp.dest(contentDest));
 
-    return merge(app, print, fonts);
+    return merge(app, print, fonts, images);
 });
 
 gulp.task('bundle-html', function () {
@@ -167,21 +161,25 @@ gulp.task('bundle-server', function() {
     .pipe(rename('hero.tokens.js'))
     .pipe(gulp.dest(serverDest + '/models'));
 
-  return merge(server, pack, tokens);
+    return merge(server, pack, tokens);
 });
 
 gulp.task('clean', function(cb) {
-  return del.sync('dist');
+    return del.sync('dist');
+});
+
+gulp.task('cleanShell', function() {
+    return del.sync(releaseDest);
 });
 
 gulp.task('shell', function() {
     var packageJson = require('./src/package.json');
     
-    gulp.src("")
+    return gulp.src("")
     .pipe(electron({
         src: './dist',
         packageJson: packageJson,
-        release: './release',
+        release: releaseDest,
         cache: './cache',
         version: 'v0.36.0',
         packaging: false,
@@ -197,13 +195,3 @@ gulp.task('shell', function() {
     }))
     .pipe(gulp.dest(""));
 });
-
-gulp.task('clean-shell-resources', function () {
-   return del.sync(shellResourcesDest + '/**/*');
-});
-   
-gulp.task('copy', function() {
-    return gulp.src(src + '/**/*').pipe(gulp.dest(shellResourcesDest))
-        .pipe(size({showFiles: true}));
-});
-
